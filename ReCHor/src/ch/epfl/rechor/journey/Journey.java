@@ -50,7 +50,7 @@ public record Journey(List<Leg> legs) {
         return Duration.between(legs.getFirst().depTime(), legs.getLast().arrTime());
     }
 
-    public interface Leg {
+    public sealed interface Leg {
 
         public Stop depStop();
 
@@ -123,7 +123,27 @@ public record Journey(List<Leg> legs) {
 
         }
 
-        public record Foot() implements Leg {
+        public record Foot(Stop depStop, LocalDateTime depTime, Stop arrStop, LocalDateTime arrTime) implements Leg {
+
+            public Foot {
+                Preconditions.checkArgument(depTime.isBefore(arrTime));
+                Objects.requireNonNull(depStop);
+                Objects.requireNonNull(depTime);
+                Objects.requireNonNull(arrStop);
+                Objects.requireNonNull(arrTime);
+            }
+
+            @Override
+            public List<IntermediateStop> intermediateStops() {
+                return List.of();
+            }
+
+            public boolean isTransfer() {
+                if ((depStop.name()).equals(arrStop.name())) {
+                    return true;
+                }
+                return false;
+            }
 
             @Override
             public Stop depStop() {
@@ -147,12 +167,6 @@ public record Journey(List<Leg> legs) {
             public LocalDateTime arrTime() {
                 // TODO Auto-generated method stub
                 throw new UnsupportedOperationException("Unimplemented method 'arrTime'");
-            }
-
-            @Override
-            public List<IntermediateStop> intermediateStops() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'intermediateStops'");
             }
 
         }
