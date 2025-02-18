@@ -80,6 +80,14 @@ public record Journey(List<Leg> legs) {
                 String destination) implements Leg {
 
             public Transport {
+                Preconditions.checkArgument(depTime.isBefore(arrTime));
+                Objects.requireNonNull(depStop);
+                Objects.requireNonNull(depTime);
+                Objects.requireNonNull(arrStop);
+                Objects.requireNonNull(arrTime);
+                Objects.requireNonNull(vehicle);
+                Objects.requireNonNull(route);
+                Objects.requireNonNull(destination);
 
             }
 
