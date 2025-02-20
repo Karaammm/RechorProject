@@ -114,6 +114,8 @@ class JourneyTest {
     @Test
     void journeyDepStopWorks() {
         var legs = exampleLegs();
+        System.out.println("Expected: " + legs.getFirst().depStop());
+        System.out.println("Actual: " + new Journey(legs).depStop());
         assertEquals(legs.getFirst().depStop(), new Journey(legs).depStop());
     }
 
