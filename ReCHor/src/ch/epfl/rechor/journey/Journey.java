@@ -8,69 +8,153 @@ import java.util.Objects;
 import ch.epfl.rechor.Preconditions;
 import ch.epfl.rechor.journey.Journey.Leg.IntermediateStop;
 
+/**
+ * A journey
+ * 
+ * @author Karam Fakhouri (374510)
+ */
 public record Journey(List<Leg> legs) {
 
+    /**
+     * Constructs a journey with the list of "legs" given
+     * The legs list is copied to ensure immutability
+     * 
+     * @param legs the list of legs
+     * @throws NullPointerException     if the list is either empty or null
+     * @throws IllegalArgumentException if the arrival stop of the previous leg is
+     *                                  not identical to the departing stop of the
+     *                                  current
+     * @throws IllegalArgumentException if the start time of the current step
+     *                                  precedes the arrival time of the previous
+     *                                  step
+     * @throws IllegalArgumentException if the stages do not alternate between foot
+     *                                  and transport
+     *
+     */
     public Journey {
         legs = List.copyOf(legs);
-        Preconditions.checkArgument(legs == null || legs.isEmpty());
+        Objects.requireNonNull(legs);
+        Preconditions.checkArgument(!(legs.isEmpty()));
+
         for (int i = 1; i < legs.size(); i++) {
             Leg prev = legs.get(i - 1);
             Leg current = legs.get(i);
-
-            // Check that the starting stop is identical to the arrival stop of the previous
-            // one
             Preconditions.checkArgument((prev.arrStop()).equals(current.depStop()));
-
-            // Check thatthe start time does not precede the arrival time of the previous
-            // one
-            Preconditions.checkArgument((current.depTime().isAfter(prev.arrTime())));
-
-            // Check that the stages on foot alternate with those by transport
+            Preconditions.checkArgument(
+                    (current.depTime().isAfter(prev.arrTime())) || current.depTime().equals(prev.arrTime()));
             Preconditions.checkArgument((prev instanceof Leg.Foot) != (current instanceof Leg.Foot));
         }
     }
 
+    /**
+     * Returns the departure stop of this journey
+     * 
+     * @return the departure stop of this journey
+     */
     public Stop depStop() {
-        return legs.getFirst().depStop();
+        return this.legs.getFirst().depStop();
     }
 
+    /**
+     * Returns the arrival stop of this journey
+     * 
+     * @return the arrival stop of this journey
+     */
     public Stop arrStop() {
         return legs.getLast().arrStop();
     }
 
+    /**
+     * Returns the local departure time of this journey
+     * 
+     * @return the local departure time of this journey
+     */
     public LocalDateTime depTime() {
         return legs.getFirst().depTime();
     }
 
+    /**
+     * Returns the local arrival time of this journey
+     * 
+     * @return the local arrival time of this journey
+     */
     public LocalDateTime arrTime() {
         return legs.getLast().arrTime();
     }
 
+    /**
+     * Returns the duration of this journey
+     * 
+     * @return the duration of this journey
+     */
     public Duration duration() {
         return Duration.between(legs.getFirst().depTime(), legs.getLast().arrTime());
     }
 
+    /**
+     * A "leg" or a step of a journey
+     * 
+     * @author Karam Fakhouri (374510)
+     */
     public sealed interface Leg {
 
+        /**
+         * Returns the departure stop of this leg
+         * 
+         * @return the departure stop of this leg
+         */
         public Stop depStop();
 
+        /**
+         * Returns the departure time of this leg
+         * 
+         * @return the departure time of this leg
+         */
         public LocalDateTime depTime();
 
+        /**
+         * Returns the arrival stop of this leg
+         * 
+         * @return the arrival stop of this leg
+         */
         public Stop arrStop();
 
+        /**
+         * Returns the arrival time of this leg
+         * 
+         * @return the arrival time of this leg
+         */
         public LocalDateTime arrTime();
 
+        /**
+         * returns the list of stops throughout the leg
+         * 
+         * @return the list of stops throughout the leg
+         */
         public List<IntermediateStop> intermediateStops();
 
+        /**
+         * returns the duration of the leg
+         * 
+         * @return the duration of the leg
+         */
         default Duration duration() {
             return Duration.between(depTime(), arrTime());
         }
 
+        /**
+         * An intermediate stop
+         * 
+         * @author Karam Fakhouri (374510)
+         * 
+         * @param stop    current stop
+         * @param arrTime
+         */
         public record IntermediateStop(Stop stop, LocalDateTime arrTime, LocalDateTime depTime) {
 
             public IntermediateStop {
                 Objects.requireNonNull(stop);
-                Preconditions.checkArgument(depTime.isBefore(arrTime));
+                Preconditions.checkArgument(depTime.isAfter(arrTime) || depTime.isEqual(arrTime));
             }
 
         }
@@ -80,45 +164,20 @@ public record Journey(List<Leg> legs) {
                 String destination) implements Leg {
 
             public Transport {
-                Preconditions.checkArgument(depTime.isBefore(arrTime));
                 Objects.requireNonNull(depStop);
                 Objects.requireNonNull(depTime);
                 Objects.requireNonNull(arrStop);
                 Objects.requireNonNull(arrTime);
+                Preconditions.checkArgument(depTime.isBefore(arrTime) || depTime.isEqual(arrTime));
                 Objects.requireNonNull(vehicle);
                 Objects.requireNonNull(route);
                 Objects.requireNonNull(destination);
+                intermediateStops = List.copyOf(intermediateStops);
 
             }
 
-            @Override
-            public Stop depStop() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'depStop'");
-            }
-
-            @Override
-            public LocalDateTime depTime() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'depTime'");
-            }
-
-            @Override
-            public Stop arrStop() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'arrStop'");
-            }
-
-            @Override
-            public LocalDateTime arrTime() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'arrTime'");
-            }
-
-            @Override
             public List<IntermediateStop> intermediateStops() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'intermediateStops'");
+                return intermediateStops;
             }
 
         }
@@ -126,11 +185,11 @@ public record Journey(List<Leg> legs) {
         public record Foot(Stop depStop, LocalDateTime depTime, Stop arrStop, LocalDateTime arrTime) implements Leg {
 
             public Foot {
-                Preconditions.checkArgument(depTime.isBefore(arrTime));
                 Objects.requireNonNull(depStop);
                 Objects.requireNonNull(depTime);
                 Objects.requireNonNull(arrStop);
                 Objects.requireNonNull(arrTime);
+                Preconditions.checkArgument(depTime.isBefore(arrTime) || depTime.isEqual(arrTime));
             }
 
             @Override
@@ -143,30 +202,6 @@ public record Journey(List<Leg> legs) {
                     return true;
                 }
                 return false;
-            }
-
-            @Override
-            public Stop depStop() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'depStop'");
-            }
-
-            @Override
-            public LocalDateTime depTime() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'depTime'");
-            }
-
-            @Override
-            public Stop arrStop() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'arrStop'");
-            }
-
-            @Override
-            public LocalDateTime arrTime() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'arrTime'");
             }
 
         }

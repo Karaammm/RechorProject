@@ -9,7 +9,7 @@ public enum Vehicle {
     BUS,
     FERRY,
     AERIAL_LIFT,
-    FENICULAR;
+    FUNICULAR;
 
     public static final List<Vehicle> ALL = List.of(values());
 }
