@@ -11,12 +11,23 @@ import java.time.temporal.ChronoField;
 import ch.epfl.rechor.journey.Journey;
 import ch.epfl.rechor.journey.Stop;
 
+/**
+ * Formatter for representing different types of data
+ * 
+ * @author Karam Fakhouri (374510)
+ */
 public final class FormatterFr {
 
     private FormatterFr() {
 
     }
 
+    /**
+     * Formats the given duration to the form **h**min
+     * 
+     * @param duration given duration to be formatted
+     * @return String of the formatted duration
+     */
     public static String formatDuration(Duration duration) {
         long totalMins = duration.toMinutes();
         long hours = totalMins / 60;
@@ -29,6 +40,12 @@ public final class FormatterFr {
         }
     }
 
+    /**
+     * Formats given dateTime
+     * 
+     * @param dateTime given dateTime to be formatted
+     * @return String of the formatted datetime
+     */
     public static String formatTime(LocalDateTime dateTime) {
         DateTimeFormatter fmt = new DateTimeFormatterBuilder()
                 .appendValue(ChronoField.HOUR_OF_DAY)
@@ -39,6 +56,12 @@ public final class FormatterFr {
 
     }
 
+    /**
+     * Formats the platform name (if it exists)
+     * 
+     * @param stop current stop
+     * @return String with the formatted platform name
+     */
     public static String formatPlatformName(Stop stop) {
         if (stop.platformName() == null || stop.platformName().isEmpty()) {
             return "";
@@ -49,6 +72,12 @@ public final class FormatterFr {
         return "quai " + stop.platformName();
     }
 
+    /**
+     * Formats the current Foot leg
+     * 
+     * @param footLeg current leg
+     * @return String formatted for a foot step
+     */
     public static String formatLeg(Journey.Leg.Foot footLeg) {
         long duration = Duration.between(footLeg.depTime(), footLeg.arrTime()).toMinutes();
         if (footLeg.isTransfer()) {
@@ -57,6 +86,12 @@ public final class FormatterFr {
         return "trajet à pied (" + duration + " min)";
     }
 
+    /**
+     * Formats the current transport leg
+     * 
+     * @param Leg current leg
+     * @return String formatted for a transport leg
+     */
     public static String formatLeg(Journey.Leg.Transport Leg) {
         StringBuilder sb = new StringBuilder();
 
@@ -78,6 +113,12 @@ public final class FormatterFr {
         return sb.toString();
     }
 
+    /**
+     * Formats the direction and line of the leg
+     * 
+     * @param transportLeg current leg
+     * @return String of the formatted route destination
+     */
     public static String formatRouteDestination(Journey.Leg.Transport transportLeg) {
         return transportLeg.route() + " Direction " + transportLeg.destination();
     }

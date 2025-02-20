@@ -2,6 +2,11 @@ package ch.epfl.rechor.journey;
 
 import java.util.List;
 
+/**
+ * All types of vehicles
+ * 
+ * @author Karam Fakhouri (374510)
+ */
 public enum Vehicle {
     TRAM,
     METRO,
@@ -11,5 +16,8 @@ public enum Vehicle {
     AERIAL_LIFT,
     FUNICULAR;
 
+    /**
+     * An immutable list containing all vehicles
+     */
     public static final List<Vehicle> ALL = List.of(values());
 }

@@ -148,10 +148,23 @@ public record Journey(List<Leg> legs) {
          * @author Karam Fakhouri (374510)
          * 
          * @param stop    current stop
-         * @param arrTime
+         * @param arrTime arrival time of this stage
+         * @param depTime departure time of this stage
          */
         public record IntermediateStop(Stop stop, LocalDateTime arrTime, LocalDateTime depTime) {
 
+            /**
+             * Compact constructor of the intermediate stop
+             * 
+             * @param stop    current stop (must be nonNull)
+             * @param arrTime arrival time (must be before or the same as the departure
+             *                time)
+             * @param depTime departure time (must be after or the same as the arrival
+             *                time)
+             * @throws NullPointerException     if stop is null
+             * @throws IllegalArgumentException if departure time is strictly before the
+             *                                  arrival time
+             */
             public IntermediateStop {
                 Objects.requireNonNull(stop);
                 Preconditions.checkArgument(depTime.isAfter(arrTime) || depTime.isEqual(arrTime));
@@ -159,10 +172,45 @@ public record Journey(List<Leg> legs) {
 
         }
 
+        /**
+         * A step performed in public transport
+         * 
+         * @author Karam Fakhouri (374510)
+         * 
+         */
         public record Transport(Stop depStop, LocalDateTime depTime, Stop arrStop, LocalDateTime arrTime,
                 List<IntermediateStop> intermediateStops, Vehicle vehicle, String route,
                 String destination) implements Leg {
 
+            /**
+             * Compact constructor of the intermediate stop
+             * Copies intermediateStops to ensure immutability
+             * 
+             * @param depStop           departure stop (must be nonNull)
+             * @param depTime           departure time (must be nonNull and before/same as
+             *                          the arrival
+             *                          time)
+             * @param arrStop           arrival stop (must be nonNull)
+             * @param arrTime           arrival time (must be nonNull and after/same as the
+             *                          departure
+             *                          time)
+             * @param intermediateStops any intermediate
+             *                          stop during this stage
+             * @param vehicle           the type of vehicle used for this stage
+             * @param route             the name of the line on which the vehicle used for
+             *                          this
+             *                          stage operates
+             * @param destination       the name of the final destinatio of the vehicle used
+             *                          for
+             *                          this stage
+             * 
+             * @throws NullPointerException     if
+             *                                  depStop, depTime, arrStop, arrTime, vehicle,
+             *                                  route,
+             *                                  or destination is null
+             * @throws IllegalArgumentException if departure time is strictly before the
+             *                                  arrival time
+             */
             public Transport {
                 Objects.requireNonNull(depStop);
                 Objects.requireNonNull(depTime);
@@ -176,14 +224,37 @@ public record Journey(List<Leg> legs) {
 
             }
 
+            /**
+             * @return any intermediate steps
+             */
             public List<IntermediateStop> intermediateStops() {
                 return intermediateStops;
             }
 
         }
 
+        /**
+         * A step performed by walking or changing
+         * 
+         * * @author Karam Fakhouri (374510)
+         */
         public record Foot(Stop depStop, LocalDateTime depTime, Stop arrStop, LocalDateTime arrTime) implements Leg {
 
+            /**
+             * 
+             * Compact constructor of the foot stage
+             * 
+             * @param depStop departure stop (must be nonNull)
+             * @param depTime departure time (must be nonNull and before/same as
+             *                the arrival
+             *                time)
+             * @param arrStop arrival stop (must be nonNull)
+             * @param arrTime arrival time (must be nonNull and after/same as the
+             *                departure
+             *                time)
+             * @throws NullPointerException     if any of the parameters are null
+             * @throws IllegalArgumentException if departure time is after arrival time
+             */
             public Foot {
                 Objects.requireNonNull(depStop);
                 Objects.requireNonNull(depTime);
@@ -192,11 +263,21 @@ public record Journey(List<Leg> legs) {
                 Preconditions.checkArgument(depTime.isBefore(arrTime) || depTime.isEqual(arrTime));
             }
 
+            /**
+             * Returns an empty list
+             * 
+             * @return empty list, as there are no stops in a walking stage
+             */
             @Override
             public List<IntermediateStop> intermediateStops() {
                 return List.of();
             }
 
+            /**
+             * Returns true if the Foot is a change and not a walking stage
+             * 
+             * @return true if the Foot is a change and not a walking stage
+             */
             public boolean isTransfer() {
                 if ((depStop.name()).equals(arrStop.name())) {
                     return true;
