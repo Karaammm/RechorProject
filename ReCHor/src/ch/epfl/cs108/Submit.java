@@ -30,12 +30,13 @@ public final class Submit {
     // CONFIGURATION
     // -------------
     // Jeton du premier membre du groupe
-    private static final String TOKEN_1 = "";
-    // Jeton du second membre (identique au premier pour les personnes travaillant seules)
-    private static final String TOKEN_2 = "";
-    // Noms des éventuels fichiers Java additionnels à inclure (p.ex. "MyClass.java")
-    private static final List<String> ADDITIONAL_FILES =
-            List.of();
+    private static final String TOKEN_1 = "ieVuak9s";
+    // Jeton du second membre (identique au premier pour les personnes travaillant
+    // seules)
+    private static final String TOKEN_2 = "ieVuak9s";
+    // Noms des éventuels fichiers Java additionnels à inclure (p.ex.
+    // "MyClass.java")
+    private static final List<String> ADDITIONAL_FILES = List.of();
     // -------------
 
     private static final String ZIP_ENTRY_NAME_PREFIX = "CS108/";
@@ -45,10 +46,9 @@ public final class Submit {
     private static final URI baseUri = URI.create("https://cs108.epfl.ch/");
 
     private static final String BASE32_ALPHABET = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
-    private static final Pattern SUBMISSION_ID_RX =
-            Pattern.compile(
-                    String.join("-",
-                            Collections.nCopies(4, "(?:[%s]{4})".formatted(BASE32_ALPHABET))));
+    private static final Pattern SUBMISSION_ID_RX = Pattern.compile(
+            String.join("-",
+                    Collections.nCopies(4, "(?:[%s]{4})".formatted(BASE32_ALPHABET))));
 
     public static void main(String[] args) {
         var token1 = args.length >= 1 ? args[0] : TOKEN_1;
@@ -78,9 +78,12 @@ public final class Submit {
             }
 
             var fileList = Stream.concat(
-                            getFileList(httpClient).stream(),
-                            ADDITIONAL_FILES.stream().map(Path::of))
+                    getFileList(httpClient).stream(),
+                    ADDITIONAL_FILES.stream().map(Path::of))
                     .toList();
+            for (Path file : fileList) {
+                System.out.println(file);
+            }
             var paths = filesToSubmit(projectRoot, p -> fileList.stream().anyMatch(p::equals));
             if (paths.isEmpty()) {
                 System.err.println("""
@@ -107,13 +110,13 @@ public final class Submit {
                     backupPath = submissionsDir.resolve(backupName + "_" + subId + ".zip");
                     Files.move(oldBackupPath, backupPath);
                     printStream.printf("""
-                                    Votre rendu a bien été reçu par le serveur et stocké sous le nom :
-                                      %s
-                                    Il est composé des fichiers suivants :
-                                      %s
-                                    Votre rendu sera prochainement validé et le résultat de cette
-                                    validation vous sera communiqué par e-mail, à votre adresse de l'EPFL.
-                                    """,
+                            Votre rendu a bien été reçu par le serveur et stocké sous le nom :
+                              %s
+                            Il est composé des fichiers suivants :
+                              %s
+                            Votre rendu sera prochainement validé et le résultat de cette
+                            validation vous sera communiqué par e-mail, à votre adresse de l'EPFL.
+                            """,
                             subId,
                             paths.stream().map(Object::toString).collect(Collectors.joining("\n  ")));
                 }
@@ -174,8 +177,8 @@ public final class Submit {
     }
 
     private static HttpResponse<String> submitZip(HttpClient httpClient,
-                                                  String submissionToken,
-                                                  byte[] zipArchive)
+            String submissionToken,
+            byte[] zipArchive)
             throws IOException, InterruptedException {
         var httpRequest = HttpRequest.newBuilder(baseUri.resolve("api/submissions"))
                 .POST(HttpRequest.BodyPublishers.ofByteArray(zipArchive))
