@@ -1,4 +1,4 @@
-package ch.epfl.rechor.journey;
+package ch.epfl.rechor;
 
 import java.security.cert.CRL;
 import java.time.LocalDateTime;
@@ -6,8 +6,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.util.ArrayList;
-
-import ch.epfl.rechor.Preconditions;
 
 public final class IcalBuilder {
     public enum Component {
@@ -29,21 +27,24 @@ public final class IcalBuilder {
     }
 
     private StringBuilder builder = new StringBuilder();
-    private static final String CLRF = "\r\n";
+    private static final String CRLF = "\r\n";
     private ArrayList<Component> components = new ArrayList<Component>();
 
     public IcalBuilder add(Name name, String value) {
-        StringBuilder line = new StringBuilder(name.toString() + ":" + value);
+        StringBuilder line = new StringBuilder(name.toString()).append(":").append(value);
         if (line.length() <= 75) {
-            builder.append(line).append(CLRF);
+            builder.append(line).append(CRLF);
         } else {
             builder.append(line, 0, 75);
+            // .append(CRLF);
             int i = 75;
             while (i < line.length()) {
-                int end = Math.min(i + 75, line.length());
-                builder.append(" ").append(line, i, end).append(CLRF);
+                int end = Math.min(i + 74, line.length());
+                builder.append(line, i, end);
                 i = end;
             }
+            builder.append(CRLF);
+
         }
         return this;
     }
@@ -58,20 +59,21 @@ public final class IcalBuilder {
                 .appendValue(ChronoField.MINUTE_OF_HOUR, 2)
                 .appendValue(ChronoField.SECOND_OF_MINUTE, 2)
                 .toFormatter();
-        builder.append(line.format(dateTime));
+        builder.append(name.toString()).append(":").append(line.format(dateTime)).append(CRLF);
 
         return this;
     }
 
     public IcalBuilder begin(Component component) {
-        StringBuilder line = new StringBuilder("BEGIN" + component.name());
+        StringBuilder line = new StringBuilder("BEGIN:" + component.name());
         components.add(component);
-        builder.append(line + CLRF);
+        builder.append(line).append(CRLF);
         return this;
     }
 
     public IcalBuilder end() {
         Preconditions.checkArgument(!components.isEmpty());
+        builder.append("END:").append(components.get(components.size() - 1)).append(CRLF);
         components.remove(components.size() - 1);
         return this;
     }
