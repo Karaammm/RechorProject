@@ -355,4 +355,10 @@ class JourneyTest {
         assertFalse(new Journey.Leg.Foot(s2, dT, s3, dT.plusMinutes(5)).isTransfer());
         assertFalse(new Journey.Leg.Foot(s3, dT, s1, dT.plusMinutes(5)).isTransfer());
     }
+
+    @Test
+    void icalConverterWorks() {
+        Journey journey = new Journey(exampleLegs());
+        System.out.println(JourneyIcalConverter.toIcalendar(journey));
+    }
 }
