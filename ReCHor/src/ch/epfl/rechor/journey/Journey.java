@@ -32,8 +32,8 @@ public record Journey(List<Leg> legs) {
      *
      */
     public Journey {
-        legs = List.copyOf(legs);
         Objects.requireNonNull(legs);
+        legs = List.copyOf(legs);
         Preconditions.checkArgument(!(legs.isEmpty()));
 
         for (int i = 1; i < legs.size(); i++) {
