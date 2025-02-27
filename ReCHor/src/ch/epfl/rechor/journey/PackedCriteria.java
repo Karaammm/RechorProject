@@ -9,14 +9,14 @@ public abstract class PackedCriteria {
     public static long pack(int arrMins, int changes, int payload) {
         Preconditions.checkArgument(changes >> 8 == 0);
         Preconditions.checkArgument(arrMins >> 12 == 0);
-        long result = 0;
         long longPayload = Integer.toUnsignedLong(payload);
-        result = result | arrMins << 39 | changes << 32 | longPayload;
-        return result;
+        long arrMinsLong = Integer.toUnsignedLong(arrMins) << 40;
+        long changesLong = Integer.toUnsignedLong(changes) << 32;
+        return arrMinsLong | changesLong | longPayload;
     }
 
     public static boolean hasDepMins(long criteria) {
-        if (criteria << 51 == 0) {
+        if (criteria >>> 51 == 0) {
             return false;
         }
         return true;
@@ -24,14 +24,12 @@ public abstract class PackedCriteria {
 
     public static int depMins(long criteria) {
         Preconditions.checkArgument(hasDepMins(criteria));
-        int result = ((int) criteria >> 51) + SHIFT;
-        return result;
+        int stored = (int) ((criteria >>> 51) & 0xFFF);
+        return 4095 - stored;
     }
 
     public static int arrMins(long criteria) {
-        long mask = ((1L << 12) - 1) << 39;
-        int result = (int) (criteria & mask) + 240;
-        return result;
+        return (int) ((criteria >> 39) & 0xFFF) + 240;
     }
 
     public static int changes(long criteria) {
