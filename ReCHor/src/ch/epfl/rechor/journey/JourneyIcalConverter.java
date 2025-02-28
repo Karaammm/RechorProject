@@ -13,7 +13,19 @@ import ch.epfl.rechor.IcalBuilder.Component;
 import ch.epfl.rechor.IcalBuilder.Name;
 import ch.epfl.rechor.journey.Journey.Leg;
 
+/**
+ * Journey to iCalendar converter
+ *
+ * @author Karam Fakhouri (374510)
+ * @author Ibrahim Khokher(361860)
+ */
 public abstract class JourneyIcalConverter {
+
+    /**
+     *
+     * @param journey The journey to be converted
+     * @return returns a String in iCalendar format that represents the journey
+     */
     public static String toIcalendar(Journey journey) {
         IcalBuilder builder = new IcalBuilder();
         builder.begin(Component.VCALENDAR);
