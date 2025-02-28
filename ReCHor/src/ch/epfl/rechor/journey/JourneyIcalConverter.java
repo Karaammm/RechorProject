@@ -38,17 +38,6 @@ public abstract class JourneyIcalConverter {
         builder.end();
         builder.end();
 
-        String result = builder.build();
-        File file = new File("ical.txt");
-        try {
-            if (file.createNewFile()) {
-                FileWriter fileWriter = new FileWriter("ical.txt");
-                fileWriter.write(result);
-                fileWriter.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
+        return builder.toString();
     }
 }
