@@ -38,9 +38,9 @@ public final class IcalBuilder {
             builder.append(line, 0, 75);
             int i = 75;
             while (i < line.length()) {
-                int end = Math.min(i + 74, line.length());
-                builder.append(line, i, end);
-                i = end;
+                builder.append(CRLF).append(" ");
+                builder.append(line, i, Math.min(i + 75, line.length()));
+                i += 75;
             }
             builder.append(CRLF);
 
