@@ -20,7 +20,8 @@ public class MyPackedCriteriaTest {
     private int arrMins2 = 380;
     private int changes2 = 2;
     private int payload2 = 315948;
-    private long crit3 = 2251799813685248l;
+    private long crit3 = (1l << 51);
+    private long crit4 = 0;
 
     @Test
     void packWorksForNormalInput() {
@@ -58,7 +59,11 @@ public class MyPackedCriteriaTest {
     @Test
     void depMinsWorks() {
         System.out.println(Long.toBinaryString(crit3));
-        assertEquals(241, PackedCriteria.depMins(crit3));
+        assertEquals(4334, PackedCriteria.depMins(crit3));
     }
 
+    @Test
+    void withDepMinsWorks() {
+        assertEquals(320, PackedCriteria.depMins(PackedCriteria.withDepMins(crit4, depMins1)));
+    }
 }
