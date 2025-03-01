@@ -2,10 +2,25 @@ package ch.epfl.rechor.journey;
 
 import ch.epfl.rechor.Preconditions;
 
+/**
+ * Methods for packing and returning values from bits
+ * 
+ * @author Karam Fakhouri (374510)
+ */
 public abstract class PackedCriteria {
 
     private static int SHIFT = 240;
 
+    /**
+     * Packs arrival minutes, changes, and payload into a 64 bit digit
+     * 
+     * @param arrMins arrival minutes
+     * @param changes number of changes
+     * @param payload payload
+     * @return long with the given params embedded
+     * @throws IllegalArgumentException if the changes dont fit in 7 bits or the
+     *                                  arrival minutes are not valid
+     */
     public static long pack(int arrMins, int changes, int payload) {
         Preconditions.checkArgument((changes >> 7 == 0) && (arrMins >= -240) && (arrMins < 48 * 60));
         int shiftedArr = arrMins + SHIFT;
@@ -15,10 +30,22 @@ public abstract class PackedCriteria {
         return arrMinsLong | changesLong | longPayload;
     }
 
+    /**
+     * Returns true if the criteria includes departure minutes
+     * 
+     * @param criteria provided criteria
+     * @return boolean
+     */
     public static boolean hasDepMins(long criteria) {
         return (criteria >>> 51) != 0;
     }
 
+    /**
+     * Returns the departure minutes after midnight
+     * 
+     * @param criteria provided criteria
+     * @return mins of departure since midnight
+     */
     public static int depMins(long criteria) {
         Preconditions.checkArgument(hasDepMins(criteria));
         int stored = (int) ((criteria >> 51) & 0xFFF);
