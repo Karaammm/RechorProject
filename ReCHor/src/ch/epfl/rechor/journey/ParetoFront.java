@@ -32,7 +32,12 @@ public final class ParetoFront {
     }
 
     public void forEach(LongConsumer action){
-        EMPTY.forEach(value -> action.accept(value));
+        ParetoFront paretoFront = new ParetoFront(packedCriteria);
+        paretoFront.forEach(value -> action.accept(value));
     }
 
+    public String toString(){
+        ParetoFront paretoFront = new ParetoFront(packedCriteria);
+        paretoFront.forEach(value -> System.out.println(value));
+    }
 }
