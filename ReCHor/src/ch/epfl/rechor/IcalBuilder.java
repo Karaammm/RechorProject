@@ -44,21 +44,22 @@ public final class IcalBuilder {
 
     /**
      *
-     * @param name Name
+     * @param name  Name
      * @param value Value
      * @return returns the updated line after each addition of a value
      */
     public IcalBuilder add(Name name, String value) {
         StringBuilder line = new StringBuilder(name.toString()).append(":").append(value);
-        if (line.length() <= 75) {
+        if (line.length() <= 74) {
             builder.append(line);
+            builder.append(CRLF);
         } else {
-            builder.append(line, 0, 75);
-            int i = 75;
+            builder.append(line, 0, 74);
+            int i = 74;
             while (i < line.length()) {
                 builder.append(CRLF).append(" ");
-                builder.append(line, i, Math.min(i + 75, line.length()));
-                i += 75;
+                builder.append(line, i, Math.min(i + 74, line.length()));
+                i += 74;
             }
             builder.append(CRLF);
 
@@ -68,9 +69,10 @@ public final class IcalBuilder {
 
     /**
      *
-     * @param name Name
+     * @param name     Name
      * @param dateTime date
-     * @return returns the updated line after each addition of the date in string format
+     * @return returns the updated line after each addition of the date in string
+     *         format
      */
     public IcalBuilder add(Name name, LocalDateTime dateTime) {
         DateTimeFormatter line = new DateTimeFormatterBuilder()
@@ -101,7 +103,8 @@ public final class IcalBuilder {
 
     /**
      *
-     * @return terminates the last component that was previously started with BEGIN but not
+     * @return terminates the last component that was previously started with BEGIN
+     *         but not
      *         ended with END
      * @throws NullPointerException if the component is empty
      */
@@ -122,5 +125,5 @@ public final class IcalBuilder {
         return builder.toString();
     }
 
-    //check
+    // check
 }

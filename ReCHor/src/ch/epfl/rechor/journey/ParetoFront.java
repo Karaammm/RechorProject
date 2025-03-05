@@ -13,31 +13,31 @@ public final class ParetoFront {
     private final long[] packedCriteria;
     ParetoFront EMPTY = new ParetoFront(new long[0]);
 
-    private ParetoFront(long[] packedCriteria){
+    private ParetoFront(long[] packedCriteria) {
         this.packedCriteria = packedCriteria;
     }
 
-    public int size(){
+    public int size() {
         return packedCriteria.length;
     }
 
-    public long get(int arrMins, int changes){
-        for(long l : packedCriteria){
+    public long get(int arrMins, int changes) {
+        for (long l : packedCriteria) {
             long element = PackedCriteria.pack(arrMins, changes, PackedCriteria.payload(l));
-            if(element == l){
+            if (element == l) {
                 return l;
             }
         }
         throw new NoSuchElementException();
     }
 
-    public void forEach(LongConsumer action){
+    public void forEach(LongConsumer action) {
         ParetoFront paretoFront = new ParetoFront(packedCriteria);
         paretoFront.forEach(value -> action.accept(value));
     }
 
-    public String toString(){
-        ParetoFront paretoFront = new ParetoFront(packedCriteria);
-        paretoFront.forEach(value -> System.out.println(value));
-    }
+    // public String toStrin g(){
+    //     ParetoFront paretoFront = new ParetoFront(packedCriteria);
+    //     paretoFront.forEach(value -> System.out.println(value));
+    // }
 }

@@ -51,7 +51,7 @@ public abstract class PackedCriteria {
      */
     public static int depMins(long criteria) {
         Preconditions.checkArgument(hasDepMins(criteria));
-        int stored = (int) ((criteria >> 51) & 0xFFF);
+        int stored = (int) (criteria >>> 51);
         return 0xFFF - stored + 240;
     }
 

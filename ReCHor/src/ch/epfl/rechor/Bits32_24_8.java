@@ -11,7 +11,7 @@ public abstract class Bits32_24_8 {
     /**
      *
      * @param bits24 24-bit vector
-     * @param bits8 8-bit vector
+     * @param bits8  8-bit vector
      * @return returns the packed value of the bits
      * @throws IllegalArgumentException if both bits are not the required length
      */
@@ -28,7 +28,7 @@ public abstract class Bits32_24_8 {
      * @return returns the value of the first 24 bits
      */
     public static int unpack24(int bits32) {
-        return bits32 >> 8;
+        return bits32 >>> 8;
     }
 
     /**
@@ -37,7 +37,7 @@ public abstract class Bits32_24_8 {
      * @return returns the value of the last 8 bits
      */
     public static int unpack8(int bits32) {
-        int mask = 255;
+        int mask = 0xFF;
         return bits32 & mask;
     }
 }
