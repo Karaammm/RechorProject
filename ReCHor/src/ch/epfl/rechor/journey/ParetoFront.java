@@ -157,11 +157,24 @@ public final class ParetoFront {
         public boolean fullyDominates(Builder that, int depMins){
             boolean dominatesCheck = false;
             for(int i = 0; i <= that.size; i++){
-                that.frontier[i] = PackedCriteria.withDepMins(that.frontier[i],depMins);
+                long withDepMins = PackedCriteria.withDepMins(that.frontier[i],depMins);
                 for(long l : this.frontier){
-                    if(PackedCriteria)
+                    if(PackedCriteria.dominatesOrIsEqual(withDepMins,l)){
+                        dominatesCheck = true;
+                    }
                 }
             }
+            return dominatesCheck;
+        }
+
+        public void forEach(LongConsumer action){
+            for(int i = 0; i < size; i++){
+                action.accept(frontier[i]);
+            }
+        }
+
+        public ParetoFront build(){
+            return new ParetoFront(Arrays.copyOf(frontier, size));
         }
 
     }
