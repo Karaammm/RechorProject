@@ -13,7 +13,7 @@ public interface Transfers extends Indexed{
      * @return the index of the starting station
      * @throws IndexOutOfBoundsException if the index is invalid
      */
-    int depStationID(int id);
+    int depStationId(int id);
 
     /**
      *

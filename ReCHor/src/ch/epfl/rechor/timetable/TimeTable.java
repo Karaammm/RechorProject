@@ -7,7 +7,7 @@ import java.time.LocalDate;
  *
  * @author Ibrahim Khokher (361860)
  */
-public interface Timetable {
+public interface TimeTable {
 
     /**
      *

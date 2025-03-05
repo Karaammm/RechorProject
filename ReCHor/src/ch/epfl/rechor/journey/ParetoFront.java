@@ -12,7 +12,7 @@ import java.util.function.LongConsumer;
 public final class ParetoFront {
 
     private final long[] packedCriteria;
-    ParetoFront EMPTY = new ParetoFront(new long[0]);
+    public static final ParetoFront EMPTY = new ParetoFront(new long[0]);
 
     private ParetoFront(long[] packedCriteria){
         this.packedCriteria = packedCriteria;
@@ -43,7 +43,7 @@ public final class ParetoFront {
 //
 //    }
 
-    public class Builder{
+    public static class Builder{
         private long[] frontier;
         private int size;
 
@@ -104,6 +104,11 @@ public final class ParetoFront {
             size++;
 
             return this;
+        }
+
+        public Builder add(int arrMins, int changes, int payload){
+            long packedTuple = PackedCriteria.pack(arrMins, changes, payload);
+            return add(packedTuple);
         }
 
         public Builder addAll(Builder that){
