@@ -89,7 +89,7 @@ public abstract class PackedCriteria {
      *
      * @param criteria1 first packaged criteria
      * @param criteria2 second packaged criteria
-     * @return checks if the first packaged criteria domainates or is equal to the
+     * @return checks if the first packaged criteria dominates or is equal to the
      *         second
      * @throws IllegalArgumentException if one of the criteria has a start time and
      *                                  the other doesn't
