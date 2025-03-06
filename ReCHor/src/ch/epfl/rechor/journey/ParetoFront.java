@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.function.LongConsumer;
 
+import ch.epfl.rechor.FormatterFr;
+
 /**
  * The Pareto Frontier
  *
@@ -39,9 +41,22 @@ public final class ParetoFront {
     }
 
     public String toString() {
-        ParetoFront paretoFront = new ParetoFront(packedCriteria);
-        paretoFront.forEach(value -> String.valueOf(value));
-        return " ";
+        StringBuilder str = new StringBuilder();
+        int counter = 0;
+        for (long tuple : packedCriteria) {
+            str.append(counter).append(")").append(" \r\n");
+            if (PackedCriteria.hasDepMins(tuple)) {
+                str.append("Departure: ").append(PackedCriteria.depMins(tuple)).append("---");
+            }
+            str.append("Arrival: ")
+                    .append(PackedCriteria.arrMins(tuple))
+                    .append("---").append("Changes: ")
+                    .append(PackedCriteria.changes(tuple))
+                    .append("---")
+                    .append("\r\n");
+            counter++;
+        }
+        return str.toString();
     }
 
     public static class Builder {
@@ -50,7 +65,7 @@ public final class ParetoFront {
 
         public Builder() {
             this.frontier = new long[2];
-            this.size = frontier.length;
+            this.size = 0;
         }
 
         public Builder(Builder that) {
@@ -74,11 +89,10 @@ public final class ParetoFront {
             // Find insertion position and count dominated elements
             while (pos1 < size) {
                 long current = frontier[pos1];
-
+                System.out.println(current + " , " + packedTuple);
                 if (PackedCriteria.dominatesOrIsEqual(current, packedTuple)) {
                     return this; // An existing tuple dominates, so do nothing
                 }
-
                 if (PackedCriteria.dominatesOrIsEqual(packedTuple, current)) {
                     countDominated++;
                 } else if (packedTuple < current) {
@@ -97,11 +111,15 @@ public final class ParetoFront {
 
             // If any dominated tuples exist, overwrite and shift others
             int remaining = size - (pos1 + countDominated);
-            System.arraycopy(frontier, pos1 + countDominated, frontier, pos1 + 1, remaining);
+            System.out.println(remaining);
+            if (remaining > 0) {
+                System.arraycopy(frontier, pos1 + countDominated, frontier, pos1 + 1, remaining);
+            }
 
             // Insert the new tuple
             frontier[pos1] = packedTuple;
             size -= countDominated;
+            System.out.println(size);
             size++;
 
             return this;
@@ -163,10 +181,11 @@ public final class ParetoFront {
 
         public boolean fullyDominates(Builder that, int depMins) {
             boolean dominatesCheck = false;
-            for (int i = 0; i <= that.size; i++) {
+            for (int i = 0; i < that.size; i++) {
                 long withDepMins = PackedCriteria.withDepMins(that.frontier[i], depMins);
                 for (long l : this.frontier) {
-                    if (PackedCriteria.dominatesOrIsEqual(withDepMins, l)) {
+                    long lWithDepMins = PackedCriteria.withDepMins(l, depMins);
+                    if (PackedCriteria.dominatesOrIsEqual(withDepMins, lWithDepMins)) {
                         dominatesCheck = true;
                     }
                 }
@@ -182,6 +201,10 @@ public final class ParetoFront {
 
         public ParetoFront build() {
             return new ParetoFront(Arrays.copyOf(frontier, size));
+        }
+
+        public String toString() {
+            return this.build().toString();
         }
 
     }
