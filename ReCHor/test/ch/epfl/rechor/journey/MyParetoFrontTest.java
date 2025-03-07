@@ -1,15 +1,15 @@
 package ch.epfl.rechor.journey;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+import java.util.NoSuchElementException;
 
 public class MyParetoFrontTest {
     ParetoFront.Builder builder = new ParetoFront.Builder();
     ParetoFront.Builder builder2 = new ParetoFront.Builder();
-    long t1 = PackedCriteria.pack(720, 3, 0);
-    long t2 = PackedCriteria.pack(720, 4, 0);
+    long t1 = PackedCriteria.pack(720, 3, 1427124);
+    long t2 = PackedCriteria.pack(720, 4, 331312);
     long t3 = PackedCriteria.pack(721, 2, 0);
     long t4 = PackedCriteria.pack(722, 1, 0);
     long t5 = PackedCriteria.pack(723, 0, 0);
@@ -137,5 +137,21 @@ public class MyParetoFrontTest {
         builder.add(t3);
         ParetoFront prtFrnt = builder.build();
         assertEquals(2, prtFrnt.size());
+    }
+
+    @Test
+    void getWorksForNonEmpty() {
+        builder.add(t1);
+        builder.add(t3);
+        ParetoFront prtFrnt = builder.build();
+        assertEquals(t1, prtFrnt.get(720, 3));
+        assertEquals(t3, prtFrnt.get(721, 2));
+    }
+
+    @Test
+    void getThrowsWhenNotFound() {
+        builder.add(t1);
+        ParetoFront prtFrnt = builder.build();
+        assertThrows(NoSuchElementException.class, () -> prtFrnt.get(999, 999));
     }
 }

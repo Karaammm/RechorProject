@@ -75,8 +75,6 @@ public final class ParetoFront {
         }
 
         public Builder clear() {
-            long[] newfrontier = new long[1];
-            frontier = newfrontier;
             size = 0;
             return this;
         }
