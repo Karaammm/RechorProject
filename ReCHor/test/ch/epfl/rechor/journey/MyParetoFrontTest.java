@@ -152,6 +152,8 @@ public class MyParetoFrontTest {
     void getThrowsWhenNotFound() {
         builder.add(t1);
         ParetoFront prtFrnt = builder.build();
-        assertThrows(NoSuchElementException.class, () -> prtFrnt.get(999, 999));
+        assertThrows(NoSuchElementException.class, () -> {
+            prtFrnt.get(721, 127);
+        });
     }
 }
