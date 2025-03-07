@@ -91,12 +91,16 @@ public final class ParetoFront {
             boolean[] keepList = new boolean[size];
             int numKept = 0;
             boolean needToInsertPacked = false;
+            boolean isDominated = false;
             for (int i = 0; i < size; i++) {
                 keepList[i] = !PackedCriteria.dominatesOrIsEqual(packedTuple, frontier[i]);
                 needToInsertPacked = needToInsertPacked || !PackedCriteria.dominatesOrIsEqual(frontier[i], packedTuple);
+                isDominated = isDominated || PackedCriteria.dominatesOrIsEqual(frontier[i], packedTuple);
                 numKept += booleanToInt(keepList[i]);
             }
-
+            if (isDominated) {
+                return this;
+            }
             int newSize = numKept + booleanToInt(needToInsertPacked);
             long[] newFrontier = new long[newSize];
 

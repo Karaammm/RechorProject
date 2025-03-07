@@ -13,6 +13,7 @@ public class MyParetoFrontTest {
     long t4 = PackedCriteria.pack(722, 1, 0);
     long t5 = PackedCriteria.pack(723, 0, 0);
     long t6 = PackedCriteria.pack(724, 1, 0);
+    long t7 = PackedCriteria.pack(721, 0, 0);
 
     @Test
     void builderIsEmptyInitially() {
@@ -33,6 +34,10 @@ public class MyParetoFrontTest {
         System.out.println(builder);
         builder.add(t5);
         System.out.println(builder);
+        // builder.add(t7);
+        // System.out.println(builder);
+        // builder.add(721, 1, 0);
+        // System.out.println(builder);
     }
 
     @Test
