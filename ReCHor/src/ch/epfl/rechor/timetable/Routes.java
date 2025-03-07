@@ -3,7 +3,7 @@ package ch.epfl.rechor.timetable;
 import ch.epfl.rechor.journey.Vehicle;
 
 /**
- * Represents the indexed public transport lines
+ * Public transport lines
  * 
  * @author Karam Fakhouri (374510)
  */

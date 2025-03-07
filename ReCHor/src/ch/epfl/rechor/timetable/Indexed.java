@@ -1,7 +1,7 @@
 package ch.epfl.rechor.timetable;
 
 /**
- * Interface representing all indexed data
+ * All indexed data
  * 
  * @author Karam Fakhouri (374510)
  */

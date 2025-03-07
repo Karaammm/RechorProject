@@ -1,7 +1,7 @@
 package ch.epfl.rechor.timetable;
 
 /**
- * Represents the indexed tracks/platforms
+ * Public transport tracks/platforms
  * 
  * @author Karam Fakhouri (374510)
  */

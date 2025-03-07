@@ -1,7 +1,7 @@
 package ch.epfl.rechor.timetable;
 
 /**
- * Represents alternative names of stations
+ * Alternative names of stations
  * 
  * @author Karam Fakhouri (374510)
  */

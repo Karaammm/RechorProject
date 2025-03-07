@@ -71,7 +71,8 @@ class JourneyIcalConverterTest {
         var unfoldedActual = actual.replaceAll("\r\n ", "");
         var context = new ArrayList<String>();
         var requiredNames = new HashSet<>(
-                Set.of("VERSION", "PRODID", "UID", "DTSTAMP", "DTSTART", "SUMMARY", "DESCRIPTION"));
+                Set.of("VERSION", "PRODID", "UID", "DTSTAMP", "DTSTART", "SUMMARY",
+                        "DESCRIPTION"));
 
         for (var line : unfoldedActual.split("\r\n")) {
             var colonLoc = line.indexOf(':');
@@ -80,7 +81,7 @@ class JourneyIcalConverterTest {
             requiredNames.remove(name);
             switch (name) {
                 case "BEGIN" ->
-                        context.addLast(value);
+                    context.addLast(value);
                 case "END" -> {
                     assertFalse(context.isEmpty());
                     context.removeLast();
@@ -120,10 +121,11 @@ class JourneyIcalConverterTest {
                 case "DESCRIPTION" -> {
                     assertEquals(
                             "16h13 Ecublens VD, EPFL → Renens VD, gare (arr. 16h19)\\n" +
-                            "trajet à pied (3 min)\\n" +
-                            "16h26 Renens VD (voie 4) → Lausanne (arr. 16h33 voie 5)\\n" +
-                            "changement (5 min)\\n" +
-                            "16h40 Lausanne (voie 1) → Romont FR (arr. 17h13 voie 2)", value);
+                                    "trajet à pied (3 min)\\n" +
+                                    "16h26 Renens VD (voie 4) → Lausanne (arr. 16h33 voie 5)\\n" +
+                                    "changement (5 min)\\n" +
+                                    "16h40 Lausanne (voie 1) → Romont FR (arr. 17h13 voie 2)",
+                            value);
                     assertEquals(veventContext, context);
                 }
             }

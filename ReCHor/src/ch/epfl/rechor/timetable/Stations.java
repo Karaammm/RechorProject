@@ -1,7 +1,7 @@
 package ch.epfl.rechor.timetable;
 
 /**
- * Represents indexed stations
+ * Public transport stations
  * 
  * @author Karam Fakhouri (374510)
  */
