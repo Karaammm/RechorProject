@@ -1,7 +1,7 @@
 package ch.epfl.rechor.journey;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -65,10 +65,25 @@ public class MyParetoFrontTest {
     }
 
     @Test
+    void addAllWorksForOneEmptyBuilder() {
+        builder.add(PackedCriteria.withDepMins(t1, 0));
+        builder.add(PackedCriteria.withDepMins(t3, 0));
+        builder2.addAll(builder);
+        assertEquals(builder.toString(), builder2.toString());
+    }
+
+    @Test
+    void addAllWorksForBothBuildersEmpty() {
+        assertEquals(builder.toString(), builder2.toString());
+    }
+
+    @Test
     void clearWorks() {
         builder.add(t1);
-        assertTrue(!builder.isEmpty());
+        builder.add(t2);
+        assertFalse(builder.isEmpty());
         builder.clear();
+        System.out.println(builder);
         assertTrue(builder.isEmpty());
     }
 
@@ -85,17 +100,29 @@ public class MyParetoFrontTest {
     void fullyDominatesWorks() {
         builder.add(PackedCriteria.withDepMins(t1, 0));
         builder.add(PackedCriteria.withDepMins(t4, 0));
-        builder2.add(t2);
-        builder2.add(t6);
+        builder2.add(PackedCriteria.withDepMins(t2, 0));
+        builder2.add(PackedCriteria.withDepMins(t6, 0));
         // For debugging, uncomment the prints
         System.out.println(builder);
         System.out.println(builder2);
         assertTrue(builder.fullyDominates(builder2, 0));
+        assertFalse(builder2.fullyDominates(builder, 0));
     }
 
     @Test
     void fullyDominatesEmptyBuilder() {
+        builder.add(PackedCriteria.withDepMins(t1, 0));
+        builder.add(PackedCriteria.withDepMins(t3, 0));
+        builder.add(PackedCriteria.withDepMins(t4, 0));
+        assertTrue(builder.fullyDominates(builder2, 0));
+    }
 
+    @Test
+    void fullyDominatesWorksForDiffEmptyBuilder() {
+        builder.add(PackedCriteria.withDepMins(t1, 0));
+        builder.add(PackedCriteria.withDepMins(t3, 0));
+        builder.add(PackedCriteria.withDepMins(t4, 0));
+        assertFalse(builder2.fullyDominates(builder, 0));
     }
 
     @Test

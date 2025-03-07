@@ -75,6 +75,8 @@ public final class ParetoFront {
         }
 
         public Builder clear() {
+            long[] newfrontier = new long[1];
+            frontier = newfrontier;
             size = 0;
             return this;
         }
@@ -147,6 +149,12 @@ public final class ParetoFront {
                 for (int j = 0; j < this.size; j++) {
                     dominatedList[i] = dominatedList[i]
                             || PackedCriteria.dominatesOrIsEqual(this.frontier[j], thatWithDepMins);
+                    if (dominatedList[i] == true) {
+                        continue;
+                    }
+                }
+                if (dominatedList[i] == false) {
+                    return false;
                 }
                 dominatedCount += booleanToInt(dominatedList[i]);
             }
