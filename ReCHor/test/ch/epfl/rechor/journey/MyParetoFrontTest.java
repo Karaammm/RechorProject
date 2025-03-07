@@ -83,8 +83,8 @@ public class MyParetoFrontTest {
 
     @Test
     void fullyDominatesWorks() {
-        builder.add(t1);
-        builder.add(t4);
+        builder.add(PackedCriteria.withDepMins(t1, 0));
+        builder.add(PackedCriteria.withDepMins(t4, 0));
         builder2.add(t2);
         builder2.add(t6);
         // For debugging, uncomment the prints
