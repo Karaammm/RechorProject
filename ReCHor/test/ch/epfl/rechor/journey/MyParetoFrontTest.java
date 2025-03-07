@@ -22,10 +22,15 @@ public class MyParetoFrontTest {
     @Test
     void addLongWorks() {
         builder.add(t1);
+        System.out.println(builder);
         builder.add(t2);
+        System.out.println(builder);
         builder.add(t6);
+        System.out.println(builder);
         builder.add(t3);
+        System.out.println(builder);
         builder.add(t4);
+        System.out.println(builder);
         builder.add(t5);
         System.out.println(builder);
     }
@@ -76,4 +81,16 @@ public class MyParetoFrontTest {
         assertEquals(2, prtFrnt.size());
     }
 
+    @Test
+    void testing() {
+        long[] list1 = new long[9];
+        for (int i = 0; i <= 7; i++) {
+            list1[i] = i + 1;
+            // System.out.println(list1[i]);
+        }
+        System.arraycopy(list1, 3, list1, 3 + 1, 8 - 3);
+        for (long i : list1) {
+            System.out.println(i);
+        }
+    }
 }
