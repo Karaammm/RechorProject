@@ -1,10 +1,8 @@
 package ch.epfl.rechor.journey;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.function.LongConsumer;
-import ch.epfl.rechor.Preconditions;
 
 /**
  * The Pareto Frontier
