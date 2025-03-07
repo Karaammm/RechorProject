@@ -132,66 +132,27 @@ public final class ParetoFront {
         }
 
         public Builder addAll(Builder that) {
-            if (that.isEmpty()) {
-                return this;
-            } else if (this.isEmpty()) {
-                this.frontier = Arrays.copyOf(that.frontier, that.size);
-                this.size = that.size;
-                return this;
-            } else {
-                long[] combFrontier = new long[this.size + that.size];
-                int i = 0, j = 0, k = 0;
-
-                while (i < this.size && j < that.size) {
-                    long t1 = this.frontier[i];
-                    long t2 = that.frontier[j];
-
-                    if (PackedCriteria.dominatesOrIsEqual(t1, t2)) {
-                        // t1 dominates or equals t2, skip t2
-                        j++;
-                    } else if (PackedCriteria.dominatesOrIsEqual(t2, t1)) {
-                        // t2 dominates t1, take t2 instead
-                        i++;
-                        combFrontier[k++] = t2;
-                        j++;
-                    } else {
-                        // Insert the smaller one in lexicographic order
-                        if (t1 < t2) {
-                            combFrontier[k++] = t1;
-                            i++;
-                        } else {
-                            combFrontier[k++] = t2;
-                            j++;
-                        }
-                    }
-                }
-
-                // Copy remaining elements
-                while (i < this.size)
-                    combFrontier[k++] = this.frontier[i++];
-                while (j < that.size)
-                    combFrontier[k++] = that.frontier[j++];
-
-                // Update this frontier
-                this.frontier = Arrays.copyOf(combFrontier, k);
-                this.size = k;
-
+            if (that.size == 0) {
                 return this;
             }
+            for (long tuple : that.frontier) {
+                this.add(tuple);
+            }
+            return this;
         }
 
         public boolean fullyDominates(Builder that, int depMins) {
-            boolean dominatesCheck = false;
+            boolean[] dominatedList = new boolean[that.size];
+            int dominatedCount = 0;
             for (int i = 0; i < that.size; i++) {
-                long withDepMins = PackedCriteria.withDepMins(that.frontier[i], depMins);
-                for (long l : this.frontier) {
-                    long lWithDepMins = PackedCriteria.withDepMins(l, depMins);
-                    if (PackedCriteria.dominatesOrIsEqual(withDepMins, lWithDepMins)) {
-                        dominatesCheck = true;
-                    }
+                long thatWithDepMins = PackedCriteria.withDepMins(that.frontier[i], depMins);
+                for (int j = 0; j < this.size; j++) {
+                    dominatedList[i] = dominatedList[i]
+                            || PackedCriteria.dominatesOrIsEqual(this.frontier[j], thatWithDepMins);
                 }
+                dominatedCount += booleanToInt(dominatedList[i]);
             }
-            return dominatesCheck;
+            return that.size == dominatedCount;
         }
 
         public void forEach(LongConsumer action) {
