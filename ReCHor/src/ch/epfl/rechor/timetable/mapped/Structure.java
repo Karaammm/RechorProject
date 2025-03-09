@@ -40,6 +40,9 @@ public final class Structure {
     }
 
     public int offset(int fieldIndex, int elementIndex) {
+        if (fieldIndex < 0 || fieldIndex >= fields.length) {
+            throw new IndexOutOfBoundsException(fieldIndex);
+        }
         return (elementIndex * totalSize()) + fieldOffset(fieldIndex);
     }
 
@@ -52,15 +55,18 @@ public final class Structure {
     }
 
     private int size(Field field) {
-        int size = 0;
-        switch (field.type) {
-            case FieldType.U8 ->
-                size = 1;
-            case FieldType.U16 ->
-                size = 2;
-            case FieldType.S32 ->
-                size = 4;
+        return switch (field.type) {
+            case FieldType.U8 -> 1;
+            case FieldType.U16 -> 2;
+            case FieldType.S32 -> 4;
+        };
+    }
+
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        for (Field field : fields) {
+            str.append(field.index).append(" : ").append(field.type).append("\r\n");
         }
-        return size;
+        return str.toString();
     }
 }
