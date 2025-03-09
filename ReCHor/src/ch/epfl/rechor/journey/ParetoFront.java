@@ -92,8 +92,10 @@ public final class ParetoFront {
             boolean isDominated = false;
             for (int i = 0; i < size; i++) {
                 keepList[i] = !PackedCriteria.dominatesOrIsEqual(packedTuple, frontier[i]);
-                needToInsertPacked = needToInsertPacked || !PackedCriteria.dominatesOrIsEqual(frontier[i], packedTuple);
-                isDominated = isDominated || PackedCriteria.dominatesOrIsEqual(frontier[i], packedTuple);
+                needToInsertPacked = needToInsertPacked ||
+                        !PackedCriteria.dominatesOrIsEqual(frontier[i], packedTuple);
+                isDominated = isDominated || PackedCriteria.dominatesOrIsEqual(frontier[i],
+                        packedTuple);
                 numKept += booleanToInt(keepList[i]);
             }
             if (isDominated) {
