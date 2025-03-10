@@ -25,8 +25,7 @@ public final class ParetoFront {
 
     public long get(int arrMins, int changes) {
         for (long l : packedCriteria) {
-            long element = PackedCriteria.pack(arrMins, changes, PackedCriteria.payload(l));
-            if (element == l) {
+            if (PackedCriteria.arrMins(l) == arrMins && PackedCriteria.changes(l) == changes) {
                 return l;
             }
         }
@@ -34,8 +33,9 @@ public final class ParetoFront {
     }
 
     public void forEach(LongConsumer action) {
-        ParetoFront paretoFront = new ParetoFront(packedCriteria);
-        paretoFront.forEach(value -> action.accept(value));
+        for (long value : packedCriteria) {
+            action.accept(value);
+        }
     }
 
     public String toString() {

@@ -22,6 +22,11 @@ public class MyParetoFrontTest {
     }
 
     @Test
+    void paretoEmptyIsEmpty() {
+        assertEquals(0, ParetoFront.EMPTY.size());
+    }
+
+    @Test
     void addLongWorks() {
         builder.add(t1);
         System.out.println(builder);
