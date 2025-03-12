@@ -86,7 +86,7 @@ public interface TimeTable {
      * @return the name of the track/platform or null if it is a station
      */
     default String platformName(int stopId){
-        return isPlatformId(stopId) ? platforms().name(stopId) : null;
+        return isPlatformId(stopId) ? platforms().name(stopId - stations().size()) : null;
     }
 
 }
