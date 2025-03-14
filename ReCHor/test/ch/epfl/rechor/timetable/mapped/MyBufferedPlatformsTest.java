@@ -7,10 +7,11 @@ import java.util.List;
 
 public class MyBufferedPlatformsTest {
 
-    private BufferedPlatforms platforms;
 
 
-    void setup() {
+
+    BufferedPlatforms setup() {
+
         List<String> stringTable = List.of("Platform A", "Platform B", "Platform C");
 
         // Allocate buffer (2 bytes per field, 2 fields per entry, 3 entries)
@@ -27,8 +28,10 @@ public class MyBufferedPlatformsTest {
 
         buffer.flip(); // Reset position for reading
 
-        platforms = new BufferedPlatforms(stringTable, buffer);
+        return new BufferedPlatforms(stringTable, buffer);
     }
+
+    BufferedPlatforms  platforms = setup();
 
     @Test
     public void testName() {

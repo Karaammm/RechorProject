@@ -10,10 +10,9 @@ import java.util.List;
 
 public class MyBufferedStationAliasesTest {
 
-    private BufferedStationAliases stationAliases;
 
-    @BeforeEach
-    void setup() {
+
+    BufferedStationAliases setup() {
         List<String> stringTable = List.of("Alias A", "Alias B", "Station X", "Station Y");
 
         // Allocate buffer (2 bytes per field, 2 fields per entry, 2 entries)
@@ -27,8 +26,10 @@ public class MyBufferedStationAliasesTest {
 
         buffer.flip(); // Reset position for reading
 
-        stationAliases = new BufferedStationAliases(stringTable, buffer);
+        return new BufferedStationAliases(stringTable, buffer);
     }
+
+    BufferedStationAliases stationAliases = setup();
 
     @Test
     void testAlias() {
