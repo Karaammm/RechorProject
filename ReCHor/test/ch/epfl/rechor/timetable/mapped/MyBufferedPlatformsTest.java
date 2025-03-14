@@ -7,9 +7,6 @@ import java.util.List;
 
 public class MyBufferedPlatformsTest {
 
-
-
-
     BufferedPlatforms setup() {
 
         List<String> stringTable = List.of("Platform A", "Platform B", "Platform C");
@@ -31,7 +28,7 @@ public class MyBufferedPlatformsTest {
         return new BufferedPlatforms(stringTable, buffer);
     }
 
-    BufferedPlatforms  platforms = setup();
+    BufferedPlatforms platforms = setup();
 
     @Test
     public void testName() {
@@ -55,10 +52,9 @@ public class MyBufferedPlatformsTest {
         assertEquals(3, platforms.size());
     }
 
-//    @Test
-//    public void testInvalidId() {
-//        setup();
-//        assertThrows(IndexOutOfBoundsException.class, () -> platforms.name(5));
-//        assertThrows(IndexOutOfBoundsException.class, () -> platforms.stationId(5));
-//    }
+    @Test
+    public void testInvalidId() {
+        assertThrows(IndexOutOfBoundsException.class, () -> platforms.name(5));
+        assertThrows(IndexOutOfBoundsException.class, () -> platforms.stationId(5));
+    }
 }

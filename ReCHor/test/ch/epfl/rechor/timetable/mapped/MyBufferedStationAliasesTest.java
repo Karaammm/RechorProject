@@ -10,8 +10,6 @@ import java.util.List;
 
 public class MyBufferedStationAliasesTest {
 
-
-
     BufferedStationAliases setup() {
         List<String> stringTable = List.of("Alias A", "Alias B", "Station X", "Station Y");
 
@@ -48,9 +46,9 @@ public class MyBufferedStationAliasesTest {
         assertEquals(2, stationAliases.size());
     }
 
-//    @Test
-//    void testInvalidId() {
-//        assertThrows(IndexOutOfBoundsException.class, () -> stationAliases.alias(5));
-//        assertThrows(IndexOutOfBoundsException.class, () -> stationAliases.stationName(5));
-//    }
+    @Test
+    void testInvalidId() {
+        assertThrows(IndexOutOfBoundsException.class, () -> stationAliases.alias(5));
+        assertThrows(IndexOutOfBoundsException.class, () -> stationAliases.stationName(5));
+    }
 }
