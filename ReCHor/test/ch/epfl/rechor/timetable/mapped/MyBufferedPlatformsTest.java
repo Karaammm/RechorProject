@@ -32,7 +32,6 @@ public class MyBufferedPlatformsTest {
 
     @Test
     public void testName() {
-        setup();
         assertEquals("Platform A", platforms.name(0));
         assertEquals("Platform B", platforms.name(1));
         assertEquals("Platform C", platforms.name(2));
@@ -40,7 +39,6 @@ public class MyBufferedPlatformsTest {
 
     @Test
     public void testStationId() {
-        setup();
         assertEquals(100, platforms.stationId(0));
         assertEquals(101, platforms.stationId(1));
         assertEquals(102, platforms.stationId(2));
@@ -48,7 +46,6 @@ public class MyBufferedPlatformsTest {
 
     @Test
     public void testSize() {
-        setup();
         assertEquals(3, platforms.size());
     }
 
