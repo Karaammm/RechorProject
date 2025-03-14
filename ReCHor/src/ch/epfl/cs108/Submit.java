@@ -29,11 +29,11 @@ import static java.net.HttpURLConnection.*;
 public final class Submit {
     // CONFIGURATION
     // -------------
-    // Jeton du premier membre du groupe
-    private static final String TOKEN_1 = "Ohngae9o";
+    // Jeton du premier membre du groupe (Karam)
+    private static final String TOKEN_1 = "sa0geiMa";
     // Jeton du second membre (identique au premier pour les personnes travaillant
-    // seules)
-    private static final String TOKEN_2 = "Of2fah4e";
+    // seules) (Ibrahim)
+    private static final String TOKEN_2 = "ojahZee4";
     // Noms des éventuels fichiers Java additionnels à inclure (p.ex.
     // "MyClass.java")
     private static final List<String> ADDITIONAL_FILES = List.of();
