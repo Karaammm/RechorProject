@@ -2,6 +2,7 @@ package ch.epfl.rechor.timetable.mapped;
 
 import java.nio.ByteBuffer;
 import java.util.List;
+import java.util.function.ToDoubleBiFunction;
 
 import ch.epfl.rechor.timetable.Stations;
 
@@ -14,11 +15,10 @@ import ch.epfl.rechor.timetable.Stations;
 public final class BufferedStations implements Stations {
 
     private final List<String> stringTable;
-    private ByteBuffer buffer;
-    private static final int RECORD_SIZE = 10;
-    private static final int NAME_ID_OFFSET = 0;
-    private static final int LONGITUDE_OFFSET = 2;
-    private static final int LATITUDE_OFFSET = 6;
+    private StructuredBuffer buffer;
+    private static final int NAME_ID = 0;
+    private static final int LON = 1;
+    private static final int LAT = 2;
     private static final double TO_DEGREES = (StrictMath.scalb((double) 1, -32) * 360.0);
 
     /**
@@ -30,7 +30,8 @@ public final class BufferedStations implements Stations {
      */
     public BufferedStations(List<String> stringTable, ByteBuffer buffer) {
         this.stringTable = stringTable;
-        this.buffer = buffer;
+        this.buffer = new StructuredBuffer(new Structure(Structure.field(NAME_ID, Structure.FieldType.U16),
+                Structure.field(LON, Structure.FieldType.S32), Structure.field(LAT, Structure.FieldType.S32)), buffer);
     }
 
     /**
@@ -40,7 +41,7 @@ public final class BufferedStations implements Stations {
      */
     @Override
     public int size() {
-        return buffer.capacity() / RECORD_SIZE;
+        return buffer.size();
     }
 
     /**
@@ -56,9 +57,8 @@ public final class BufferedStations implements Stations {
         if (id < 0 || id >= size()) {
             throw new IndexOutOfBoundsException();
         }
-        int offset = id * RECORD_SIZE + NAME_ID_OFFSET;
-        int nameIndex = Short.toUnsignedInt(buffer.getShort(offset));
-        return stringTable.get(nameIndex);
+        int stringIndex = buffer.getU16(NAME_ID, id);
+        return stringTable.get(stringIndex);
     }
 
     /**
@@ -75,8 +75,7 @@ public final class BufferedStations implements Stations {
         if (id < 0 || id >= size()) {
             throw new IndexOutOfBoundsException();
         }
-        int offsettedIndex = id * RECORD_SIZE + LONGITUDE_OFFSET;
-        return buffer.getInt(offsettedIndex) * TO_DEGREES;
+        return buffer.getS32(LON, id) * TO_DEGREES;
     }
 
     /**
@@ -93,24 +92,6 @@ public final class BufferedStations implements Stations {
         if (id < 0 || id >= size()) {
             throw new IndexOutOfBoundsException();
         }
-        int offsettedIndex = id * RECORD_SIZE + LATITUDE_OFFSET;
-        return buffer.getInt(offsettedIndex) * TO_DEGREES;
-    }
-
-    public String toString() {
-        StringBuilder str = new StringBuilder();
-        for (int i = 0; i < stringTable.size(); i++) {
-            str.append(i).append(" | ").append(stringTable.get(i)).append("\r\n");
-        }
-        buffer = buffer.rewind();
-        for (int i = 0; i < size(); i++) {
-            str.append(String.valueOf(buffer.getShort()))
-                    .append(" | ")
-                    .append(String.valueOf(buffer.getInt()))
-                    .append(" | ")
-                    .append(String.valueOf(buffer.getInt()))
-                    .append("\r\n");
-        }
-        return str.toString();
+        return buffer.getS32(LAT, id) * TO_DEGREES;
     }
 }
