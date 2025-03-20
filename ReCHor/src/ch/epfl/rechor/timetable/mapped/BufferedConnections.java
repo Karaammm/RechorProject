@@ -46,7 +46,7 @@ public final class BufferedConnections implements Connections {
 
     @Override
     public int depStopId(int id) {
-        if(id < 0 || id > size()){
+        if(id < 0 || id >= size()){
             throw new IndexOutOfBoundsException();
         }
         return structuredBuffer.getU16(DEP_STOP_ID, id);
@@ -54,7 +54,7 @@ public final class BufferedConnections implements Connections {
 
     @Override
     public int depMins(int id) {
-        if(id < 0 || id > size()){
+        if(id < 0 || id >= size()){
             throw new IndexOutOfBoundsException();
         }
         return structuredBuffer.getU16(DEP_MINUTES, id);
@@ -62,7 +62,7 @@ public final class BufferedConnections implements Connections {
 
     @Override
     public int arrStopId(int id) {
-        if(id < 0 || id > size()){
+        if(id < 0 || id >= size()){
             throw new IndexOutOfBoundsException();
         }
         return structuredBuffer.getU16(ARR_STOP_ID, id);
@@ -70,7 +70,7 @@ public final class BufferedConnections implements Connections {
 
     @Override
     public int arrMins(int id) {
-        if(id < 0 || id > size()){
+        if(id < 0 || id >= size()){
             throw new IndexOutOfBoundsException();
         }
         return structuredBuffer.getU16(ARR_MINUTES, id);
@@ -78,7 +78,7 @@ public final class BufferedConnections implements Connections {
 
     @Override
     public int tripId(int id) {
-        if(id < 0 || id > size()){
+        if(id < 0 || id >= size()){
             throw new IndexOutOfBoundsException();
         }
         return structuredBuffer.getS32(TRIP_POS_ID, id) >> 8; // Assuming the trip ID is packed in the higher 24 bits
@@ -86,7 +86,7 @@ public final class BufferedConnections implements Connections {
 
     @Override
     public int tripPos(int id) {
-        if(id < 0 || id > size()){
+        if(id < 0 || id >= size()){
             throw new IndexOutOfBoundsException();
         }
         return structuredBuffer.getS32(TRIP_POS_ID, id) & 0xFF; // Assuming the position is stored in the lower 8 bits
@@ -94,7 +94,7 @@ public final class BufferedConnections implements Connections {
 
     @Override
     public int nextConnectionId(int id) {
-        if(id < 0 || id > size()){
+        if(id < 0 || id >= size()){
             throw new IndexOutOfBoundsException();
         }
         return succStructuredBuffer.getS32(NEXT_CONNECTION_ID, id);
