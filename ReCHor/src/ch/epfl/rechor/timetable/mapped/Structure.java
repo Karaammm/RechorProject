@@ -50,6 +50,7 @@ public final class Structure {
      * @throws IllegalArgumentException if the field indices are not given in order
      */
     public Structure(Field... fields) {
+        Preconditions.checkArgument(fields.length > 0 && fields[0].index == 0);
         for (int i = 1; i < fields.length; i++) {
             Preconditions.checkArgument(fields[i - 1].index < fields[i].index);
         }
