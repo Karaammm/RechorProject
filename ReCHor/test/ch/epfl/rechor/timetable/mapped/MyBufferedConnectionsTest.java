@@ -115,7 +115,7 @@ class MyBufferedConnectionsTest {
         BufferedConnections connections = new BufferedConnections(connectionBuffer, successorBuffer);
         assertEquals(0, connections.tripPos(0));
         assertEquals(1, connections.tripPos(1));
-        assertEquals(255, connections.tripId(2));
+        assertEquals(255, connections.tripPos(2));
         assertEquals(50, connections.tripPos(3));
     }
 

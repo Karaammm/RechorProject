@@ -6,15 +6,17 @@ import java.nio.ByteBuffer;
 
 /**
  * Implementation of the Connections interface for accessing flattened timetable data.
+ *
+ * @author Ibrahim Khokher (361860)
  */
 public final class BufferedConnections implements Connections {
 
     // Constants for the fields in the connection structure
     private static final int DEP_STOP_ID = 0;
-    private static final int DEP_MINUTES = 2;
-    private static final int ARR_STOP_ID = 4;
-    private static final int ARR_MINUTES = 6;
-    private static final int TRIP_POS_ID = 8;
+    private static final int DEP_MINUTES = 1;
+    private static final int ARR_STOP_ID = 2;
+    private static final int ARR_MINUTES = 3;
+    private static final int TRIP_POS_ID = 4;
 
     // Constant for the 'Next Connection' field in the auxiliary table
     private static final int NEXT_CONNECTION_ID = 0;
@@ -81,7 +83,7 @@ public final class BufferedConnections implements Connections {
         if(id < 0 || id >= size()){
             throw new IndexOutOfBoundsException();
         }
-        return structuredBuffer.getS32(TRIP_POS_ID, id) >> 8; // Assuming the trip ID is packed in the higher 24 bits
+        return structuredBuffer.getS32(TRIP_POS_ID, id) >> 8;
     }
 
     @Override
@@ -89,7 +91,7 @@ public final class BufferedConnections implements Connections {
         if(id < 0 || id >= size()){
             throw new IndexOutOfBoundsException();
         }
-        return structuredBuffer.getS32(TRIP_POS_ID, id) & 0xFF; // Assuming the position is stored in the lower 8 bits
+        return structuredBuffer.getS32(TRIP_POS_ID, id) & 0xFF;
     }
 
     @Override
