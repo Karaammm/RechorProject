@@ -15,7 +15,7 @@ public final class BufferedRoutes implements Routes {
     public BufferedRoutes(List<String> stringTable, ByteBuffer buffer) {
         this.stringTable = stringTable;
         this.buffer = new StructuredBuffer(new Structure(Structure.field(NAME_ID, Structure.FieldType.U16),
-                Structure.field(KIND, Structure.FieldType.U16)), buffer);
+                Structure.field(KIND, Structure.FieldType.U8)), buffer);
     }
 
     @Override
@@ -28,7 +28,7 @@ public final class BufferedRoutes implements Routes {
         if (id < 0 || id >= size()) {
             throw new IndexOutOfBoundsException();
         }
-        int vehicleIndex = buffer.getU16(KIND, id);
+        int vehicleIndex = buffer.getU8(KIND, id);
         return Vehicle.values()[vehicleIndex];
     }
 

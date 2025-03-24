@@ -16,8 +16,7 @@ class BufferedRoutesTest {
                 .asReadOnlyBuffer();
     }
 
-    private static final ByteBuffer ROUTES =
-            byteBuffer("00 03 00 00 04 06 00 05 03");
+    private static final ByteBuffer ROUTES = byteBuffer("00 03 00 00 04 06 00 05 03");
 
     private static final List<String> STRING_TABLE = List.of(
             "Lausanne",
