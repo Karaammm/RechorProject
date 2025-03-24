@@ -67,7 +67,7 @@ public class BufferedTransfers implements Transfers {
 
     @Override
     public int depStationId(int id) {
-        if (id < 0 || id > size()) {
+        if (id < 0 || id >= size()) {
             throw new IndexOutOfBoundsException();
         }
 
@@ -76,7 +76,7 @@ public class BufferedTransfers implements Transfers {
 
     @Override
     public int minutes(int id) {
-        if (id < 0 || id > size()) {
+        if (id < 0 || id >= size()) {
             throw new IndexOutOfBoundsException();
         }
 
@@ -85,7 +85,7 @@ public class BufferedTransfers implements Transfers {
 
     @Override
     public int arrivingAt(int stationId) {
-        if (stationId < 0 || stationId > size()) {
+        if (stationId < 0 || stationId >= size()) {
             throw new IndexOutOfBoundsException();
         }
         return arrivingAtTable[stationId];
