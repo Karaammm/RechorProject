@@ -3,6 +3,7 @@ package ch.epfl.rechor.timetable.mapped;
 import java.nio.ByteBuffer;
 import java.util.List;
 
+import ch.epfl.rechor.Preconditions;
 import ch.epfl.rechor.journey.Vehicle;
 import ch.epfl.rechor.timetable.Routes;
 
@@ -25,18 +26,14 @@ public final class BufferedRoutes implements Routes {
 
     @Override
     public Vehicle vehicle(int id) {
-        if (id < 0 || id >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
+        Preconditions.checkIndex(size(), id);
         int vehicleIndex = buffer.getU8(KIND, id);
         return Vehicle.values()[vehicleIndex];
     }
 
     @Override
     public String name(int id) {
-        if (id < 0 || id >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
+        Preconditions.checkIndex(size(), id);
         int stringIndex = buffer.getU16(NAME_ID, id);
         return stringTable.get(stringIndex);
     }

@@ -42,7 +42,7 @@ public interface TimeTable {
     /**
      *
      * @param date the day
-     * @return the indexed races on the active schedule of the given day
+     * @return the indexed trips on the active schedule of the given day
      */
     Trips tripsFor(LocalDate date);
 
@@ -58,7 +58,7 @@ public interface TimeTable {
      * @param stopId the stop index
      * @return if the given stop index is a station index
      */
-    default boolean isStationId(int stopId){
+    default boolean isStationId(int stopId) {
         return stopId < stations().size();
     }
 
@@ -67,7 +67,7 @@ public interface TimeTable {
      * @param stopId the stop index
      * @return if the given stop index is a platform/track index
      */
-    default boolean isPlatformId(int stopId){
+    default boolean isPlatformId(int stopId) {
         return stopId >= stations().size();
     }
 
@@ -76,7 +76,7 @@ public interface TimeTable {
      * @param stopId the stop index
      * @return the station index of the given stop index
      */
-    default int stationId(int stopId){
+    default int stationId(int stopId) {
         return isStationId(stopId) ? stopId : stopId - stations().size();
     }
 
@@ -85,7 +85,7 @@ public interface TimeTable {
      * @param stopId the stop index
      * @return the name of the track/platform or null if it is a station
      */
-    default String platformName(int stopId){
+    default String platformName(int stopId) {
         return isPlatformId(stopId) ? platforms().name(stopId - stations().size()) : null;
     }
 

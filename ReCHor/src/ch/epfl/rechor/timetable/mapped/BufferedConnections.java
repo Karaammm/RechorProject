@@ -1,5 +1,6 @@
 package ch.epfl.rechor.timetable.mapped;
 
+import ch.epfl.rechor.Preconditions;
 import ch.epfl.rechor.timetable.Connections;
 import java.nio.ByteBuffer;
 
@@ -48,57 +49,43 @@ public final class BufferedConnections implements Connections {
 
     @Override
     public int depStopId(int id) {
-        if (id < 0 || id >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
+        Preconditions.checkIndex(size(), id);
         return structuredBuffer.getU16(DEP_STOP_ID, id);
     }
 
     @Override
     public int depMins(int id) {
-        if (id < 0 || id >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
+        Preconditions.checkIndex(size(), id);
         return structuredBuffer.getU16(DEP_MINUTES, id);
     }
 
     @Override
     public int arrStopId(int id) {
-        if (id < 0 || id >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
+        Preconditions.checkIndex(size(), id);
         return structuredBuffer.getU16(ARR_STOP_ID, id);
     }
 
     @Override
     public int arrMins(int id) {
-        if (id < 0 || id >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
+        Preconditions.checkIndex(size(), id);
         return structuredBuffer.getU16(ARR_MINUTES, id);
     }
 
     @Override
     public int tripId(int id) {
-        if (id < 0 || id >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
+        Preconditions.checkIndex(size(), id);
         return structuredBuffer.getS32(TRIP_POS_ID, id) >> 8;
     }
 
     @Override
     public int tripPos(int id) {
-        if (id < 0 || id >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
+        Preconditions.checkIndex(size(), id);
         return structuredBuffer.getS32(TRIP_POS_ID, id) & 0xFF;
     }
 
     @Override
     public int nextConnectionId(int id) {
-        if (id < 0 || id >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
+        Preconditions.checkIndex(size(), id);
         return succStructuredBuffer.getS32(NEXT_CONNECTION_ID, id);
     }
 

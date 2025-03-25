@@ -1,20 +1,62 @@
 package ch.epfl.rechor.journey;
 
+import ch.epfl.rechor.Preconditions;
+import ch.epfl.rechor.timetable.Connections;
 import ch.epfl.rechor.timetable.TimeTable;
+import ch.epfl.rechor.timetable.Trips;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
-public record Profile(TimeTable timeTable, LocalDate date, int arrStationId, List<ParetoFront> stationFront){
+/**
+ * @author Karam Fakhouri (374510)
+ * 
+ *         A profile
+ */
+public record Profile(TimeTable timeTable, LocalDate date, int arrStationId, List<ParetoFront> stationFront) {
+    /**
+     * Ensures immutability
+     * 
+     * @param timeTable
+     * @param date
+     * @param arrStationId
+     * @param stationFront
+     */
+    public Profile {
+        stationFront = List.copyOf(stationFront);
+    }
 
+    /**
+     * @return the connections corresponding to the profile
+     */
+    public Connections connections() {
+        return timeTable.connectionsFor(date);
+    }
 
+    /**
+     * @return the trips corresponding to the profile
+     */
+    public Trips trips() {
+        return timeTable.tripsFor(date);
+    }
 
+    /**
+     * 
+     * @param stationId given index
+     * @return Pareto frontier for the station with the given index
+     * @throws IndexOutOfBoundsException if the index is invalid
+     */
+    public ParetoFront forStation(int stationId) {
+        Preconditions.checkIndex(stationFront.size(), stationId);
+        return stationFront.get(stationId);
+    }
 
-
-
-
-
+    /**
+     * @author Ibrahim Khokher (361860)
+     * 
+     * 
+     */
     public static final class Builder {
 
         TimeTable timeTable;
@@ -24,13 +66,13 @@ public record Profile(TimeTable timeTable, LocalDate date, int arrStationId, Lis
         private ParetoFront.Builder[] stationBuilders;
         private ParetoFront.Builder[] tripBuilders;
 
-//        private boolean setForStationHappen = false;
-//        private boolean setForTripHappen = false;
+        // private boolean setForStationHappen = false;
+        // private boolean setForTripHappen = false;
 
         int stationNum;
         int tripNum;
 
-        public Builder(TimeTable timeTable, LocalDate date, int arrStationId){
+        public Builder(TimeTable timeTable, LocalDate date, int arrStationId) {
             this.timeTable = timeTable;
             this.date = date;
             this.arrStationId = arrStationId;
@@ -42,11 +84,11 @@ public record Profile(TimeTable timeTable, LocalDate date, int arrStationId, Lis
             if (stationId < 0 || stationId >= stationBuilders.length) {
                 throw new IndexOutOfBoundsException();
             }
-//            if(setForStationHappen){
-//                return stationBuilders[stationId];
-//            }else{
-//                return null;
-//            }
+            // if(setForStationHappen){
+            // return stationBuilders[stationId];
+            // }else{
+            // return null;
+            // }
             return stationBuilders[stationId];
         }
 
@@ -54,7 +96,7 @@ public record Profile(TimeTable timeTable, LocalDate date, int arrStationId, Lis
             if (stationId < 0 || stationId >= stationBuilders.length) {
                 throw new IndexOutOfBoundsException();
             }
-//            setForStationHappen = true;
+            // setForStationHappen = true;
             stationBuilders[stationId] = builder;
         }
 
@@ -62,11 +104,11 @@ public record Profile(TimeTable timeTable, LocalDate date, int arrStationId, Lis
             if (tripId < 0 || tripId >= tripBuilders.length) {
                 throw new IndexOutOfBoundsException();
             }
-//            if(setForTripHappen){
-//                return tripBuilders[tripId];
-//            }else{
-//                return null;
-//            }
+            // if(setForTripHappen){
+            // return tripBuilders[tripId];
+            // }else{
+            // return null;
+            // }
             return tripBuilders[tripId];
         }
 
@@ -74,13 +116,13 @@ public record Profile(TimeTable timeTable, LocalDate date, int arrStationId, Lis
             if (tripId < 0 || tripId >= tripBuilders.length) {
                 throw new IndexOutOfBoundsException();
             }
-//            setForTripHappen = true;
+            // setForTripHappen = true;
             tripBuilders[tripId] = builder;
         }
 
         public Profile build() {
-            List<ParetoFront> stationFrontiers = Arrays.stream(stationBuilders).map(builder ->
-                            builder != null ? builder.build() : ParetoFront.EMPTY).toList();
+            List<ParetoFront> stationFrontiers = Arrays.stream(stationBuilders)
+                    .map(builder -> builder != null ? builder.build() : ParetoFront.EMPTY).toList();
             return new Profile(timeTable, date, arrStationId, stationFrontiers);
         }
     }

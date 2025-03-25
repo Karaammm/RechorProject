@@ -1,5 +1,6 @@
 package ch.epfl.rechor.timetable.mapped;
 
+import ch.epfl.rechor.Preconditions;
 import ch.epfl.rechor.timetable.StationAliases;
 import java.nio.ByteBuffer;
 import java.util.List;
@@ -19,17 +20,13 @@ public final class BufferedStationAliases implements StationAliases {
 
     @Override
     public String alias(int id) {
-        if(id < 0 || id  >=  size()){
-            throw new IndexOutOfBoundsException();
-        }
+        Preconditions.checkIndex(size(), id);
         return stringTable.get(buffer.getU16(ALIAS_ID, id));
     }
 
     @Override
     public String stationName(int id) {
-        if(id < 0 || id  >=  size()){
-            throw new IndexOutOfBoundsException();
-        }
+        Preconditions.checkIndex(size(), id);
         return stringTable.get(buffer.getU16(STATION_NAME_ID, id));
     }
 
