@@ -81,9 +81,7 @@ public record Profile(TimeTable timeTable, LocalDate date, int arrStationId, Lis
         }
 
         public ParetoFront.Builder forStation(int stationId) {
-            if (stationId < 0 || stationId >= stationBuilders.length) {
-                throw new IndexOutOfBoundsException();
-            }
+            Preconditions.checkIndex(stationBuilders.length, stationId);
             // if(setForStationHappen){
             // return stationBuilders[stationId];
             // }else{
@@ -93,17 +91,13 @@ public record Profile(TimeTable timeTable, LocalDate date, int arrStationId, Lis
         }
 
         public void setForStation(int stationId, ParetoFront.Builder builder) {
-            if (stationId < 0 || stationId >= stationBuilders.length) {
-                throw new IndexOutOfBoundsException();
-            }
+            Preconditions.checkIndex(stationBuilders.length, stationId);
             // setForStationHappen = true;
             stationBuilders[stationId] = builder;
         }
 
         public ParetoFront.Builder forTrip(int tripId) {
-            if (tripId < 0 || tripId >= tripBuilders.length) {
-                throw new IndexOutOfBoundsException();
-            }
+            Preconditions.checkIndex(tripBuilders.length, tripId);
             // if(setForTripHappen){
             // return tripBuilders[tripId];
             // }else{
@@ -113,9 +107,7 @@ public record Profile(TimeTable timeTable, LocalDate date, int arrStationId, Lis
         }
 
         public void setForTrip(int tripId, ParetoFront.Builder builder) {
-            if (tripId < 0 || tripId >= tripBuilders.length) {
-                throw new IndexOutOfBoundsException();
-            }
+            Preconditions.checkIndex(tripBuilders.length, tripId);
             // setForTripHappen = true;
             tripBuilders[tripId] = builder;
         }
