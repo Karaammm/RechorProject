@@ -60,7 +60,7 @@ public class MyBufferedRoutesTest {
     @Test
     public void testVehicleTypes() {
         BufferedRoutes routes = new BufferedRoutes(stringTable, buffer);
-        assertEquals(Vehicle.METRO, routes.vehicle(0)); // Vehicle index 1 = TRAM
+        assertEquals(Vehicle.TRAM, routes.vehicle(0)); // Vehicle index 1 = TRAM
         assertEquals(Vehicle.BUS, routes.vehicle(1)); // Vehicle index 2 = BUS
         assertEquals(Vehicle.FERRY, routes.vehicle(2)); // Vehicle index 4 = FERRY
     }
@@ -69,6 +69,6 @@ public class MyBufferedRoutesTest {
     public void testInvalidIndices() {
         BufferedRoutes routes = new BufferedRoutes(stringTable, buffer);
         assertThrows(IndexOutOfBoundsException.class, () -> routes.name(-1));
-        assertThrows(IndexOutOfBoundsException.class, () -> routes.vehicle(3));
+        assertThrows(IndexOutOfBoundsException.class, () -> routes.vehicle(4));
     }
 }

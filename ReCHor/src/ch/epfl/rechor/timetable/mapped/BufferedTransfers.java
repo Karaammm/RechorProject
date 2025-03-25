@@ -1,6 +1,7 @@
 package ch.epfl.rechor.timetable.mapped;
 
 import ch.epfl.rechor.PackedRange;
+import ch.epfl.rechor.Preconditions;
 import ch.epfl.rechor.timetable.Transfers;
 
 import java.nio.ByteBuffer;
@@ -67,27 +68,20 @@ public class BufferedTransfers implements Transfers {
 
     @Override
     public int depStationId(int id) {
-        if (id < 0 || id >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
-
+        Preconditions.checkIndex(size(), id);
         return structuredBuffer.getU16(DEP_STATION_ID, id);
     }
 
     @Override
     public int minutes(int id) {
-        if (id < 0 || id >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
+        Preconditions.checkIndex(size(), id);
 
         return structuredBuffer.getU8(TRANSFER_MINUTES, id);
     }
 
     @Override
     public int arrivingAt(int stationId) {
-        if (stationId < 0 || stationId >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
+        Preconditions.checkIndex(size(), stationId);
         return arrivingAtTable[stationId];
     }
 

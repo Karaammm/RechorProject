@@ -21,7 +21,10 @@ import ch.epfl.rechor.timetable.Transfers;
 import ch.epfl.rechor.timetable.Trips;
 
 /**
- * A public transport timetable whose (flattened) data is stored in files
+ * @author Karam Fakhouri(374510)
+ * 
+ *         A public transport timetable whose (flattened) data is stored in
+ *         files
  */
 public class FileTimeTable implements TimeTable {
     private final Path directory;

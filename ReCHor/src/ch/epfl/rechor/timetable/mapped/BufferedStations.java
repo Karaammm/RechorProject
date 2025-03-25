@@ -2,6 +2,8 @@ package ch.epfl.rechor.timetable.mapped;
 
 import java.nio.ByteBuffer;
 import java.util.List;
+
+import ch.epfl.rechor.Preconditions;
 import ch.epfl.rechor.timetable.Stations;
 
 /**
@@ -52,9 +54,7 @@ public final class BufferedStations implements Stations {
      */
     @Override
     public String name(int id) {
-        if (id < 0 || id >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
+        Preconditions.checkIndex(size(), id);
         int stringIndex = buffer.getU16(NAME_ID, id);
         return stringTable.get(stringIndex);
     }
@@ -70,9 +70,7 @@ public final class BufferedStations implements Stations {
      */
     @Override
     public double longitude(int id) {
-        if (id < 0 || id >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
+        Preconditions.checkIndex(size(), id);
         return buffer.getS32(LON, id) * TO_DEGREES;
     }
 
@@ -87,9 +85,7 @@ public final class BufferedStations implements Stations {
      */
     @Override
     public double latitude(int id) {
-        if (id < 0 || id >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
+        Preconditions.checkIndex(size(), id);
         return buffer.getS32(LAT, id) * TO_DEGREES;
     }
 }

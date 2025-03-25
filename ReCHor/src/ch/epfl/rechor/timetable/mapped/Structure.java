@@ -81,9 +81,7 @@ public final class Structure {
      *                                   greater than the length of the list
      */
     public int offset(int fieldIndex, int elementIndex) {
-        if (fieldIndex < 0 || fieldIndex >= fields.length) {
-            throw new IndexOutOfBoundsException(fieldIndex);
-        }
+        Preconditions.checkIndex(fields.length, fieldIndex);
         return (elementIndex * totalSize()) + fieldOffset(fieldIndex);
     }
 

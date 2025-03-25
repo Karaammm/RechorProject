@@ -3,6 +3,7 @@ package ch.epfl.rechor.timetable.mapped;
 import java.nio.ByteBuffer;
 import java.util.List;
 
+import ch.epfl.rechor.Preconditions;
 import ch.epfl.rechor.timetable.Trips;
 
 public final class BufferedTrips implements Trips {
@@ -25,17 +26,13 @@ public final class BufferedTrips implements Trips {
 
     @Override
     public int routeId(int id) {
-        if (id < 0 || id >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
+        Preconditions.checkIndex(size(), id);
         return buffer.getU16(ROUTE_ID, id);
     }
 
     @Override
     public String destination(int id) {
-        if (id < 0 || id >= size()) {
-            throw new IndexOutOfBoundsException();
-        }
+        Preconditions.checkIndex(size(), id);
         return stringTable.get(buffer.getU16(DESTINATION_ID, id));
 
     }
