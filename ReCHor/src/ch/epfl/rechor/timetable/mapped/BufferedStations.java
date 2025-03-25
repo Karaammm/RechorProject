@@ -2,8 +2,6 @@ package ch.epfl.rechor.timetable.mapped;
 
 import java.nio.ByteBuffer;
 import java.util.List;
-import java.util.function.ToDoubleBiFunction;
-
 import ch.epfl.rechor.timetable.Stations;
 
 /**

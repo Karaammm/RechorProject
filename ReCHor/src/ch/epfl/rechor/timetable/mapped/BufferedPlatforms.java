@@ -1,6 +1,5 @@
 package ch.epfl.rechor.timetable.mapped;
 
-import ch.epfl.rechor.Preconditions;
 import ch.epfl.rechor.timetable.Platforms;
 import java.nio.ByteBuffer;
 import java.util.List;
@@ -11,7 +10,6 @@ public class BufferedPlatforms implements Platforms {
     private static final int STATION_ID = 1;
     private List<String> stringTable;
     private StructuredBuffer buffer;
-
 
     public BufferedPlatforms(List<String> stringTable, ByteBuffer buffer) {
         this.stringTable = stringTable;
