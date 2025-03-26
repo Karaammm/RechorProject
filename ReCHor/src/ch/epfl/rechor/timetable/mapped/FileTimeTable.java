@@ -68,7 +68,7 @@ public class FileTimeTable implements TimeTable {
     public static TimeTable in(Path directory) throws IOException {
         Path stringsPath = directory.resolve("strings.txt");
         Path stationsPath = directory.resolve("stations.bin");
-        Path stationAliasesPath = directory.resolve("stations-aliases.bin");
+        Path stationAliasesPath = directory.resolve("station-aliases.bin");
         Path platformsPath = directory.resolve("platforms.bin");
         Path routesPath = directory.resolve("routes.bin");
         Path transfersPath = directory.resolve("transfers.bin");
@@ -94,7 +94,8 @@ public class FileTimeTable implements TimeTable {
      */
     private static ByteBuffer map(Path path) throws IOException {
         try (FileChannel channel = FileChannel.open(path)) {
-            return channel.map(MapMode.READ_ONLY, 0, channel.size());
+            ByteBuffer buffer = channel.map(MapMode.READ_ONLY, 0, channel.size());
+            return buffer;
         }
     }
 
