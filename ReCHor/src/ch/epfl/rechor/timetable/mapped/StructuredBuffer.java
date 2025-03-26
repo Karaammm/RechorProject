@@ -62,7 +62,6 @@ public class StructuredBuffer {
      */
     public int getU16(int fieldIndex, int elementIndex) {
         int offset = structure.offset(fieldIndex, elementIndex);
-        System.out.println(offset);
         return Short.toUnsignedInt(buffer.getShort(offset));
     }
 
