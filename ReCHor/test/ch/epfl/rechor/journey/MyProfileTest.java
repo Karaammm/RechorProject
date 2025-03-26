@@ -57,10 +57,16 @@ public class MyProfileTest {
         assertEquals(timeTable.tripsFor(date).routeId(arrStationId), profile.trips().routeId(arrStationId));
     }
 
-    // @Test
+    @Test
     void forStationThrowsCorrectly() throws IOException {
         // should throw IOOBE, but throws null pointer because builder isnt completed
         // yet
+        setup();
+
+        // should print the paretos, but prints nothing
+        for (ParetoFront pareto : builder.paretos()) {
+            System.out.println(pareto);
+        }
         assertThrows(IndexOutOfBoundsException.class, () -> {
             profile.forStation(arrStationId);
         });

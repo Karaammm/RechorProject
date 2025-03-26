@@ -118,6 +118,12 @@ public record Profile(TimeTable timeTable, LocalDate date, int arrStationId, Lis
             return new Profile(timeTable, date, arrStationId, stationFrontiers);
         }
 
+        // for testing, remove later
+        public List<ParetoFront> paretos() {
+            return Arrays.stream(stationBuilders)
+                    .map(builder -> builder != null ? builder.build() : ParetoFront.EMPTY).toList();
+        }
+
     }
 
 }
