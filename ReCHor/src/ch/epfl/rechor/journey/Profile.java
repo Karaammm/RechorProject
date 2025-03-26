@@ -117,6 +117,7 @@ public record Profile(TimeTable timeTable, LocalDate date, int arrStationId, Lis
                     .map(builder -> builder != null ? builder.build() : ParetoFront.EMPTY).toList();
             return new Profile(timeTable, date, arrStationId, stationFrontiers);
         }
+
     }
 
 }
