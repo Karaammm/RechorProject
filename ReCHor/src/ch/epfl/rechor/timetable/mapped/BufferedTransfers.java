@@ -6,14 +6,25 @@ import ch.epfl.rechor.timetable.Transfers;
 
 import java.nio.ByteBuffer;
 
+/**
+ * Implementation of the Transfers interface for accessing flattened timetable
+ * data.
+ *
+ * @author Ibrahim Khokher (361860)
+ */
 public class BufferedTransfers implements Transfers {
 
-    // Constants for the fields in the transfer structure
+
+    /**
+     * Constants for the fields in the transfer structure
+     */
     private static final int DEP_STATION_ID = 0;
     private static final int ARR_STATION_ID = 1;
     private static final int TRANSFER_MINUTES = 2;
 
-    // Buffers for transfer data
+    /**
+     * Buffers for transfer data
+     */
     private final StructuredBuffer structuredBuffer;
     private final int[] arrivingAtTable;
 
@@ -66,12 +77,24 @@ public class BufferedTransfers implements Transfers {
         }
     }
 
+    /**
+     *
+     * @param id the index change
+     * @return the index of the starting station
+     * @throws IndexOutOfBoundsException if the index is invalid
+     */
     @Override
     public int depStationId(int id) {
         Preconditions.checkIndex(size(), id);
         return structuredBuffer.getU16(DEP_STATION_ID, id);
     }
 
+    /**
+     *
+     * @param id the index change
+     * @return the duration
+     * @throws IndexOutOfBoundsException if the index is invalid
+     */
     @Override
     public int minutes(int id) {
         Preconditions.checkIndex(size(), id);
@@ -79,12 +102,25 @@ public class BufferedTransfers implements Transfers {
         return structuredBuffer.getU8(TRANSFER_MINUTES, id);
     }
 
+    /**
+     *
+     * @param stationId the index of the arrival station
+     * @return the packed interval of the index of changes
+     * @throws IndexOutOfBoundsException if the index is invalid
+     */
     @Override
     public int arrivingAt(int stationId) {
         Preconditions.checkIndex(size(), stationId);
         return arrivingAtTable[stationId];
     }
 
+    /**
+     *
+     * @param depStationId departure station
+     * @param arrStationId arrival station
+     * @return the duration in minutes of the change between the two stations
+     * @throws IndexOutOfBoundsException if the index is invalid
+     */
     @Override
     public int minutesBetween(int depStationId, int arrStationId) {
         if (depStationId < 0 || arrStationId < 0) {
@@ -100,6 +136,11 @@ public class BufferedTransfers implements Transfers {
 
     }
 
+    /**
+     * Returns the number of elements of said data
+     *
+     * @return number of elements
+     */
     @Override
     public int size() {
         return structuredBuffer.size();

@@ -3,166 +3,154 @@ package ch.epfl.rechor.journey;
 import ch.epfl.rechor.timetable.Connections;
 import ch.epfl.rechor.timetable.TimeTable;
 import ch.epfl.rechor.timetable.Trips;
-
-import java.awt.event.PaintEvent;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 /**
- * test
+ * Extracting Journeys
+ *
+ * @author Ibrahim Khokher(361860)
  */
 public final class JourneyExtractor {
 
-    private JourneyExtractor(){}
+    /**
+     * Private constructor to make so it can't initialise
+     */
+    private JourneyExtractor() {}
 
-    public static List<Journey> journeys(Profile profile, int depStationId){
+    /**
+     *
+     * @param profile given profile
+     * @param depStationId if of departure station
+     * @return List of Journeys from a given profile and a departure point
+     */
+    public static List<Journey> journeys(Profile profile, int depStationId) {
         List<Journey> journeys = new ArrayList<>();
         ParetoFront paretoFront = profile.forStation(depStationId);
         TimeTable timetable = profile.timeTable();
         int finalArrivalStationId = profile.arrStationId();
-
         Trips trips = timetable.tripsFor(profile.date());
         Connections connections = profile.connections();
 
-        paretoFront.forEach((long criteria) -> {
+        paretoFront.forEach(criteria -> {
             List<Journey.Leg> legs = new ArrayList<>();
-
             int arrMins = PackedCriteria.arrMins(criteria);
             int changes = PackedCriteria.changes(criteria);
             int payload = PackedCriteria.payload(criteria);
             int depMins = PackedCriteria.hasDepMins(criteria) ? PackedCriteria.depMins(criteria) : 0;
 
-           int firstStation = depStationId;
-           int isFirst = 0;
+            int currentStation = depStationId;
+            boolean isFirstLeg = true;
 
-            while(payload != 0){
-                int firstConnectionId  = payload >> 8;
-                int numOfPasses = payload & 0x000000FF;
+            while (payload != 0) {
+                int firstConnectionId = payload >> 8;
+                int numOfPasses = payload & 0xFF;
 
-                if (firstConnectionId != firstStation && isFirst == 0) {
-                    String platformName = timetable.isPlatformId(firstStation) ? timetable.platformName(firstStation) : "";
-                    String platformNameS = timetable.isPlatformId(firstConnectionId) ? timetable.platformName(firstConnectionId) : "";
-
-                    int timeBetween = depMins + timetable.transfers().minutesBetween(firstStation, firstConnectionId);
-
-                    Journey.Leg.Foot foot = new Journey.Leg.Foot(
-                            new Stop(
-                                    timetable.stations().name(firstStation),
-                                    platformName,
-                                    timetable.stations().longitude(firstStation),
-                                    timetable.stations().latitude(firstStation)
-                            ),
-                            profile.date().atTime(depMins / 60, depMins % 60),
-                            new Stop(
-                                    timetable.stations().name(firstConnectionId),
-                                    platformNameS,
-                                    timetable.stations().longitude(firstConnectionId),
-                                    timetable.stations().latitude(firstConnectionId)
-                            ),
-                            profile.date().atTime(timeBetween / 60, timeBetween % 60)
-                    );
-
-
-                    firstStation = firstConnectionId;
-                    legs.add(foot);
-                    isFirst++;
+                if (isFirstLeg && firstConnectionId != currentStation) {
+                    legs.add(createFootLeg(timetable, profile.date(), currentStation, firstConnectionId, depMins));
+                    currentStation = firstConnectionId;
+                    isFirstLeg = false;
                 }
 
-                int intermediateArrivalStationId = 0;
-
-                while(changes != 0){
+                while (changes > 0) {
                     List<Journey.Leg.IntermediateStop> intermediateStops = new ArrayList<>();
+                    int intermediateStopId = 0;
 
-                    int nextStationID = connections.nextConnectionId(firstConnectionId);
+                    for(int i = 0; i <= numOfPasses; i++){
+                        intermediateStopId = connections.nextConnectionId(firstConnectionId);
+
+                        LocalDateTime arrtime = profile.date().atTime((depMins + timetable.transfers().minutesBetween(firstConnectionId, intermediateStopId)) / 60, (depMins + timetable.transfers().minutesBetween(firstConnectionId, intermediateStopId)) % 60);
+                        Journey.Leg.IntermediateStop intstop = new Journey.Leg.IntermediateStop(createStop(timetable, intermediateStopId), arrtime, profile.date().atTime(connections.depMins(firstConnectionId) / 60, connections.depMins(firstConnectionId) % 60));
+                        intermediateStops.add(intstop);
+                    }
+
+                    int nextStationId = intermediateStopId;
                     int nextArrivalTime = connections.arrMins(firstConnectionId);
 
-                    String platformName = timetable.isPlatformId(firstConnectionId) ? timetable.platformName(firstConnectionId) : "";
-                    String secondPlatformName = timetable.isPlatformId(nextStationID) ? timetable.platformName(nextStationID) : "";
-
-                    if(firstConnectionId != nextStationID){
-                        Journey.Leg.Transport transport = new Journey.Leg.Transport(
-                                new Stop(
-                                        timetable.stations().name(firstConnectionId),
-                                        platformName,
-                                        timetable.stations().longitude(firstConnectionId),
-                                        timetable.stations().latitude(firstConnectionId)
-                                ),
-                                profile.date().atTime(connections.depMins(firstConnectionId) / 60, connections.depMins(firstConnectionId) & 60),
-                                new Stop(
-                                        timetable.stations().name(nextStationID),
-                                        secondPlatformName,
-                                        timetable.stations().longitude(nextStationID),
-                                        timetable.stations().latitude(nextStationID)
-                                ),
-                                profile.date().atTime(nextArrivalTime / 60, nextArrivalTime % 60),
-                                intermediateStops,
-                                timetable.routes().vehicle(firstConnectionId),
-                                timetable.routes().toString(),
-                                trips.destination(firstConnectionId)
-                        );
-                        changes -= 1;
-                        legs.add(transport);
+                    if(nextStationId == firstConnectionId){
+                        legs.add(createFootLeg(timetable, profile.date(),firstConnectionId, firstConnectionId, depMins));
                     }else{
-                        Journey.Leg.Foot foot = new Journey.Leg.Foot(
-                                new Stop(
-                                        timetable.stations().name(firstConnectionId),
-                                        platformName,
-                                        timetable.stations().longitude(firstConnectionId),
-                                        timetable.stations().latitude(firstConnectionId)
-                                ),
-                                profile.date().atTime(connections.depMins(firstConnectionId) / 60, connections.depMins(firstConnectionId) & 60),
-                                new Stop(
-                                        timetable.stations().name(nextStationID),
-                                        secondPlatformName,
-                                        timetable.stations().longitude(nextStationID),
-                                        timetable.stations().latitude(nextStationID)
-                                ),
-                                profile.date().atTime(nextArrivalTime / 60, nextArrivalTime % 60)
-                        );
 
-                        legs.add(foot);
+                        legs.add(createTransportLeg(timetable, profile.date(), connections, intermediateStops, firstConnectionId, nextStationId, trips));
+
                     }
-                    changes -= 1;
-                    long updatedFront = paretoFront.get(finalArrivalStationId, changes);
-                    firstConnectionId = nextStationID;
+
+                    firstConnectionId = nextStationId;
                     depMins = nextArrivalTime;
-                    nextStationID = connections.nextConnectionId(firstConnectionId);
-                    nextArrivalTime = PackedCriteria.arrMins(updatedFront);
+                    changes--;
                 }
-
-                if(intermediateArrivalStationId != finalArrivalStationId){
-                    String platformName = timetable.isPlatformId(intermediateArrivalStationId) ? timetable.platformName(intermediateArrivalStationId) : "";
-
-                    Journey.Leg.Foot foot = new Journey.Leg.Foot(
-                            new Stop(
-                                    timetable.stations().name(intermediateArrivalStationId),
-                                    platformName,
-                                    timetable.stations().longitude(intermediateArrivalStationId),
-                                    timetable.stations().latitude(intermediateArrivalStationId)
-                            ),
-                            profile.date().atTime(arrMins / 60, arrMins % 60),
-                            new Stop(
-                                    timetable.stations().name(finalArrivalStationId),
-                                    "",
-                                    timetable.stations().longitude(finalArrivalStationId),
-                                    timetable.stations().latitude(finalArrivalStationId)
-                            ),
-                            profile.date().atTime(arrMins / 60, arrMins % 60)
-                    );
-                    legs.add(foot);
-                }
-
-
             }
+
+            if (currentStation != finalArrivalStationId) {
+                legs.add(createFootLeg(timetable, profile.date(), currentStation, finalArrivalStationId, arrMins));
+            }
+
             journeys.add(new Journey(legs));
         });
 
         journeys.sort(Comparator.comparing(Journey::depTime).thenComparing(Journey::arrTime));
-
         return journeys;
     }
 
+    /**
+     * Helper method to create a walking leg
+     * @param timetable given timetable
+     * @param date given date
+     * @param from departure station id
+     * @param to arrival station id
+     * @param depMins departure time
+     * @return an instance of a walking leg
+     */
+    private static Journey.Leg.Foot createFootLeg(TimeTable timetable, LocalDate date, int from, int to, int depMins) {
+        return new Journey.Leg.Foot(
+                createStop(timetable, from),
+                date.atTime(depMins / 60, depMins % 60),
+                createStop(timetable, to),
+                date.atTime((depMins + timetable.transfers().minutesBetween(from, to)) / 60,
+                        (depMins + timetable.transfers().minutesBetween(from, to)) % 60)
+        );
+    }
 
+    /**
+     * Helper method to create a transport leg
+     * @param timetable given timetable
+     * @param date given date
+     * @param connections given connections
+     * @param intermediateStops list of intermediate stops
+     * @param from departure station id
+     * @param to arrival station id
+     * @return an instance of a transport leg
+     */
+    private static Journey.Leg.Transport createTransportLeg(TimeTable timetable, LocalDate date, Connections connections,
+                                                            List<Journey.Leg.IntermediateStop> intermediateStops,
+                                                            int from, int to, Trips trips) {
+        return new Journey.Leg.Transport(
+                createStop(timetable, from),
+                date.atTime(connections.depMins(from) / 60, connections.depMins(from) % 60),
+                createStop(timetable, to),
+                date.atTime(connections.arrMins(from) / 60, connections.arrMins(from) % 60),
+                intermediateStops,
+                timetable.routes().vehicle(from),
+                timetable.routes().toString(),
+                trips.destination(from)
+        );
+    }
+
+    /**
+     * Helper method to create an instance of a stop
+     * @param timetable given timetable
+     * @param stationId given id of a station
+     * @return an instance of a stop
+     */
+    private static Stop createStop(TimeTable timetable, int stationId) {
+        return new Stop(
+                timetable.stations().name(stationId),
+                timetable.isPlatformId(stationId) ? timetable.platformName(stationId) : "",
+                timetable.stations().longitude(stationId),
+                timetable.stations().latitude(stationId)
+        );
+    }
 }
