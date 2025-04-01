@@ -25,38 +25,22 @@ import ch.epfl.rechor.timetable.Trips;
  * 
  *         A public transport timetable whose (flattened) data is stored in
  *         files
+ *
+ *
+ *        Private constructor for FileTimeTable, is only called when in() method is
+ *       called
+ *
+ *      @param directory      the path to the folder containing the time data files
+ *      @param stringTable    the table of character strings
+ *      @param stations       the stations
+ *      @param stationAliases alternative names of stations
+ *      @param platforms      the tracks/platform
+ *      @param routes         the lines
+ *      @param transfers      the changes
+ *
  */
-public class FileTimeTable implements TimeTable {
-    private final Path directory;
-    private final List<String> stringTable;
-    private final Stations stations;
-    private final StationAliases stationAliases;
-    private final Platforms platforms;
-    private final Routes routes;
-    private final Transfers transfers;
+public record FileTimeTable(Path directory, List<String> stringTable, Stations stations, StationAliases stationAliases, Platforms platforms, Routes routes, Transfers transfers) implements TimeTable{
 
-    /**
-     * Private constructor for FileTimeTable, is only called when in() method is
-     * called
-     * 
-     * @param directory      the path to the folder containing the time data files
-     * @param stringTable    the table of character strings
-     * @param stations       the stations
-     * @param stationAliases alternative names of stations
-     * @param platforms      the tracks/platform
-     * @param routes         the lines
-     * @param transfers      the changes
-     */
-    private FileTimeTable(Path directory, List<String> stringTable, Stations stations, StationAliases stationAliases,
-            Platforms platforms, Routes routes, Transfers transfers) {
-        this.directory = directory;
-        this.stringTable = stringTable;
-        this.stations = stations;
-        this.stationAliases = stationAliases;
-        this.platforms = platforms;
-        this.routes = routes;
-        this.transfers = transfers;
-    }
 
     /**
      * 
