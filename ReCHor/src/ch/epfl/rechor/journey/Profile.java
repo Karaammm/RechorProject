@@ -66,62 +66,49 @@ public record Profile(TimeTable timeTable, LocalDate date, int arrStationId, Lis
         private ParetoFront.Builder[] stationBuilders;
         private ParetoFront.Builder[] tripBuilders;
 
-        // private boolean setForStationHappen = false;
-        // private boolean setForTripHappen = false;
+        private boolean[] stationSet;
+        private boolean[] tripSet;
 
-        int stationNum;
-        int tripNum;
+
 
         public Builder(TimeTable timeTable, LocalDate date, int arrStationId) {
             this.timeTable = timeTable;
             this.date = date;
             this.arrStationId = arrStationId;
+            int stationNum = timeTable.stations().size();
+            int tripNum = timeTable.tripsFor(date).size();
             this.stationBuilders = new ParetoFront.Builder[stationNum];
             this.tripBuilders = new ParetoFront.Builder[tripNum];
+            this.stationSet = new boolean[stationNum];
+            this.tripSet = new boolean[tripNum];
         }
 
         public ParetoFront.Builder forStation(int stationId) {
             Preconditions.checkIndex(stationBuilders.length, stationId);
-            // if(setForStationHappen){
-            // return stationBuilders[stationId];
-            // }else{
-            // return null;
-            // }
-            return stationBuilders[stationId];
+            return stationSet[stationId] ? stationBuilders[stationId] : null;
         }
 
         public void setForStation(int stationId, ParetoFront.Builder builder) {
             Preconditions.checkIndex(stationBuilders.length, stationId);
-            // setForStationHappen = true;
             stationBuilders[stationId] = builder;
+            stationSet[stationId] = true;
         }
 
         public ParetoFront.Builder forTrip(int tripId) {
             Preconditions.checkIndex(tripBuilders.length, tripId);
-            // if(setForTripHappen){
-            // return tripBuilders[tripId];
-            // }else{
-            // return null;
-            // }
-            return tripBuilders[tripId];
+            return tripSet[tripId] ? tripBuilders[tripId] : null;
         }
 
         public void setForTrip(int tripId, ParetoFront.Builder builder) {
             Preconditions.checkIndex(tripBuilders.length, tripId);
-            // setForTripHappen = true;
             tripBuilders[tripId] = builder;
+            tripSet[tripId] = true;
         }
 
         public Profile build() {
             List<ParetoFront> stationFrontiers = Arrays.stream(stationBuilders)
                     .map(builder -> builder != null ? builder.build() : ParetoFront.EMPTY).toList();
             return new Profile(timeTable, date, arrStationId, stationFrontiers);
-        }
-
-        // for testing, remove later
-        public List<ParetoFront> paretos() {
-            return Arrays.stream(stationBuilders)
-                    .map(builder -> builder != null ? builder.build() : ParetoFront.EMPTY).toList();
         }
 
     }
