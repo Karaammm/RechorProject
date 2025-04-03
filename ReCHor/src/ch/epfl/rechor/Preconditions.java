@@ -27,7 +27,7 @@ public final class Preconditions {
      * @param index index
      */
     public static void checkIndex(int size, int index) {
-        if (index >= size || index < 0) {
+        if ( index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
     }

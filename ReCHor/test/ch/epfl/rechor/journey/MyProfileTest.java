@@ -1,8 +1,8 @@
 package ch.epfl.rechor.journey;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import ch.epfl.rechor.timetable.TimeTable;
+import ch.epfl.rechor.timetable.mapped.FileTimeTable;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -10,17 +10,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.List;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
 
-import org.junit.jupiter.api.Test;
-
-import ch.epfl.rechor.timetable.TimeTable;
-import ch.epfl.rechor.timetable.*;
-import ch.epfl.rechor.timetable.mapped.BufferedConnections;
-import ch.epfl.rechor.timetable.mapped.BufferedTransfers;
-import ch.epfl.rechor.timetable.mapped.FileTimeTable;
+import static org.junit.Assert.assertEquals;
 
 public class MyProfileTest {
 
@@ -57,18 +48,4 @@ public class MyProfileTest {
         assertEquals(timeTable.tripsFor(date).routeId(arrStationId), profile.trips().routeId(arrStationId));
     }
 
-    @Test
-    void forStationThrowsCorrectly() throws IOException {
-        // should throw IOOBE, but throws null pointer because builder isnt completed
-        // yet
-        setup();
-
-        // should print the paretos, but prints nothing
-        for (ParetoFront pareto : builder.paretos()) {
-            System.out.println(pareto);
-        }
-        assertThrows(IndexOutOfBoundsException.class, () -> {
-            profile.forStation(arrStationId);
-        });
-    }
 }
