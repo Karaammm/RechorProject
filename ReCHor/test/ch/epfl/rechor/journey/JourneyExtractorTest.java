@@ -27,6 +27,7 @@ class JourneyExtractorTest {
         var timeTable = FileTimeTable.in(testPath("timetable"));
         var date = LocalDate.of(2025, Month.MARCH, 18);
         var arrStationId = stationId(timeTable, "Gruyères");
+
         var path = testPath("profile_" + date + "_" + arrStationId + ".txt");
         try (BufferedReader r = Files.newBufferedReader(path)) {
             var profileB = new Profile.Builder(timeTable, date, arrStationId);

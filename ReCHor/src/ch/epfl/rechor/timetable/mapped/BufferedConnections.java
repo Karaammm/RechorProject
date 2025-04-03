@@ -115,7 +115,8 @@ public final class BufferedConnections implements Connections {
     @Override
     public int tripId(int id) {
         Preconditions.checkIndex(size(), id);
-        return structuredBuffer.getS32(TRIP_POS_ID, id) >> 8;
+        return structuredBuffer.getS32(TRIP_POS_ID, id) >>> 8;
+
     }
 
     /**

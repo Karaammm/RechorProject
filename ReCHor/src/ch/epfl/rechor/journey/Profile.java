@@ -6,18 +6,18 @@ import ch.epfl.rechor.timetable.TimeTable;
 import ch.epfl.rechor.timetable.Trips;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * @author Karam Fakhouri (374510)
- *
+ * 
  *         A profile
  */
 public record Profile(TimeTable timeTable, LocalDate date, int arrStationId, List<ParetoFront> stationFront) {
     /**
      * Ensures immutability
-     *
+     * 
      * @param timeTable
      * @param date
      * @param arrStationId
@@ -42,7 +42,7 @@ public record Profile(TimeTable timeTable, LocalDate date, int arrStationId, Lis
     }
 
     /**
-     *
+     * 
      * @param stationId given index
      * @return Pareto frontier for the station with the given index
      * @throws IndexOutOfBoundsException if the index is invalid
@@ -53,9 +53,9 @@ public record Profile(TimeTable timeTable, LocalDate date, int arrStationId, Lis
     }
 
     /**
-     * @author Karam Fakhouri (374510)
-     *
-     *
+     * @author Ibrahim Khokher (361860)
+     * 
+     * 
      */
     public static final class Builder {
 
@@ -65,61 +65,52 @@ public record Profile(TimeTable timeTable, LocalDate date, int arrStationId, Lis
 
         private ParetoFront.Builder[] stationBuilders;
         private ParetoFront.Builder[] tripBuilders;
-        private int stationBuildersLength;
 
-        private boolean[] setForStationList;
-        private boolean[] setForTripList;
+        private boolean[] stationSet;
+        private boolean[] tripSet;
+
+
 
         public Builder(TimeTable timeTable, LocalDate date, int arrStationId) {
             this.timeTable = timeTable;
             this.date = date;
             this.arrStationId = arrStationId;
-            this.stationBuilders = new ParetoFront.Builder[timeTable.stations().size()];
-            stationBuildersLength = stationBuilders.length;
-            setForStationList = new boolean[timeTable.stations().size()];
-            this.tripBuilders = new ParetoFront.Builder[timeTable.tripsFor(date).size()];
-            setForTripList = new boolean[timeTable.tripsFor(date).size()];
+            int stationNum = timeTable.stations().size();
+            int tripNum = timeTable.tripsFor(date).size();
+            this.stationBuilders = new ParetoFront.Builder[stationNum];
+            this.tripBuilders = new ParetoFront.Builder[tripNum];
+            this.stationSet = new boolean[stationNum];
+            this.tripSet = new boolean[tripNum];
         }
 
         public ParetoFront.Builder forStation(int stationId) {
-            Preconditions.checkIndex(stationBuildersLength, stationId);
-            if (!setForStationList[stationId]) {
-                return null;
-            }
-            return stationBuilders[stationId];
+            Preconditions.checkIndex(stationBuilders.length, stationId);
+            return stationSet[stationId] ? stationBuilders[stationId] : null;
         }
 
         public void setForStation(int stationId, ParetoFront.Builder builder) {
-            Preconditions.checkIndex(stationBuildersLength, stationId);
-            setForStationList[stationId] = true;
+            Preconditions.checkIndex(stationBuilders.length, stationId);
             stationBuilders[stationId] = builder;
+            stationSet[stationId] = true;
         }
 
         public ParetoFront.Builder forTrip(int tripId) {
             Preconditions.checkIndex(tripBuilders.length, tripId);
-            if (!setForTripList[tripId]) {
-                return null;
-            }
-            return tripBuilders[tripId];
+            return tripSet[tripId] ? tripBuilders[tripId] : null;
         }
 
         public void setForTrip(int tripId, ParetoFront.Builder builder) {
             Preconditions.checkIndex(tripBuilders.length, tripId);
-            setForTripList[tripId] = true;
             tripBuilders[tripId] = builder;
+            tripSet[tripId] = true;
         }
 
         public Profile build() {
-            List<ParetoFront> paretoFrontiers = new ArrayList<>(stationBuildersLength);
-            for (int i = 0; i < stationBuildersLength; i++) {
-                if (stationBuilders[i] == null) {
-                    paretoFrontiers.add(i, ParetoFront.EMPTY);
-                } else {
-                    paretoFrontiers.add(i, stationBuilders[i].build());
-                }
-            }
-            return new Profile(timeTable, date, arrStationId, paretoFrontiers);
+            List<ParetoFront> stationFrontiers = Arrays.stream(stationBuilders)
+                    .map(builder -> builder != null ? builder.build() : ParetoFront.EMPTY).toList();
+            return new Profile(timeTable, date, arrStationId, stationFrontiers);
         }
+
     }
 
 }
