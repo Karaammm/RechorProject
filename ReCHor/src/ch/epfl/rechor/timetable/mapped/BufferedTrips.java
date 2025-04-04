@@ -1,14 +1,13 @@
 package ch.epfl.rechor.timetable.mapped;
 
-import java.nio.ByteBuffer;
-import java.util.List;
-
 import ch.epfl.rechor.Preconditions;
 import ch.epfl.rechor.timetable.Trips;
 
+import java.nio.ByteBuffer;
+import java.util.List;
+
 /**
  * @author Karam Fakhouri (374510)
- * 
  *         Class that provides access to a table of trips represented in a
  *         flattened manner
  */
@@ -16,8 +15,8 @@ public final class BufferedTrips implements Trips {
 
     private static final int ROUTE_ID = 0;
     private static final int DESTINATION_ID = 1;
-    private List<String> stringTable;
-    private StructuredBuffer buffer;
+    private final List<String> stringTable;
+    private final StructuredBuffer buffer;
 
     /**
      * 
@@ -27,8 +26,9 @@ public final class BufferedTrips implements Trips {
      */
     public BufferedTrips(List<String> stringTable, ByteBuffer buffer) {
         this.stringTable = stringTable;
-        this.buffer = new StructuredBuffer(new Structure(Structure.field(ROUTE_ID, Structure.FieldType.U16),
-                Structure.field(DESTINATION_ID, Structure.FieldType.U16)), buffer);
+        this.buffer = new StructuredBuffer(
+            new Structure(Structure.field(ROUTE_ID, Structure.FieldType.U16),
+                          Structure.field(DESTINATION_ID, Structure.FieldType.U16)), buffer);
     }
 
     /**
@@ -41,7 +41,7 @@ public final class BufferedTrips implements Trips {
     }
 
     /**
-     * @returnthe index of the row to which the given index trip belongs
+     * @return the index of the row to which the given index trip belongs
      */
     @Override
     public int routeId(int id) {

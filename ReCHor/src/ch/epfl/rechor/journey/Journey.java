@@ -1,12 +1,11 @@
 package ch.epfl.rechor.journey;
 
+import ch.epfl.rechor.Preconditions;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-
-import ch.epfl.rechor.Preconditions;
-import ch.epfl.rechor.journey.Journey.Leg.IntermediateStop;
 
 /**
  * A journey
@@ -40,9 +39,10 @@ public record Journey(List<Leg> legs) {
             Leg prev = legs.get(i - 1);
             Leg current = legs.get(i);
             Preconditions.checkArgument((prev.arrStop()).equals(current.depStop()));
-            Preconditions.checkArgument(
-                    (current.depTime().isAfter(prev.arrTime())) || current.depTime().equals(prev.arrTime()));
-            Preconditions.checkArgument((prev instanceof Leg.Foot) != (current instanceof Leg.Foot));
+            Preconditions.checkArgument((current.depTime().isAfter(prev.arrTime()))
+                                            || current.depTime().equals(prev.arrTime()));
+            Preconditions.checkArgument((prev instanceof Leg.Foot)
+                                            != (current instanceof Leg.Foot));
         }
     }
 
@@ -167,7 +167,8 @@ public record Journey(List<Leg> legs) {
              */
             public IntermediateStop {
                 Objects.requireNonNull(stop);
-                Preconditions.checkArgument(depTime.isAfter(arrTime) || depTime.isEqual(arrTime));
+                Preconditions.checkArgument(depTime.isAfter(arrTime)
+                                                || depTime.isEqual(arrTime));
             }
 
         }
@@ -216,7 +217,8 @@ public record Journey(List<Leg> legs) {
                 Objects.requireNonNull(depTime);
                 Objects.requireNonNull(arrStop);
                 Objects.requireNonNull(arrTime);
-                Preconditions.checkArgument(depTime.isBefore(arrTime) || depTime.isEqual(arrTime));
+                Preconditions.checkArgument(depTime.isBefore(arrTime)
+                                                || depTime.isEqual(arrTime));
                 Objects.requireNonNull(vehicle);
                 Objects.requireNonNull(route);
                 Objects.requireNonNull(destination);
@@ -238,7 +240,8 @@ public record Journey(List<Leg> legs) {
          * 
          * * @author Karam Fakhouri (374510)
          */
-        public record Foot(Stop depStop, LocalDateTime depTime, Stop arrStop, LocalDateTime arrTime) implements Leg {
+        public record Foot(Stop depStop, LocalDateTime depTime, Stop arrStop,
+                           LocalDateTime arrTime) implements Leg {
 
             /**
              * 
@@ -260,7 +263,8 @@ public record Journey(List<Leg> legs) {
                 Objects.requireNonNull(depTime);
                 Objects.requireNonNull(arrStop);
                 Objects.requireNonNull(arrTime);
-                Preconditions.checkArgument(depTime.isBefore(arrTime) || depTime.isEqual(arrTime));
+                Preconditions.checkArgument(depTime.isBefore(arrTime)
+                                                || depTime.isEqual(arrTime));
             }
 
             /**

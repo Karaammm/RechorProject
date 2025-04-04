@@ -1,8 +1,8 @@
 package ch.epfl.rechor.timetable.mapped;
 
-import java.nio.ByteBuffer;
-
 import ch.epfl.rechor.Preconditions;
+
+import java.nio.ByteBuffer;
 
 /**
  * @author Karam Fakhouri (374510)
@@ -12,8 +12,8 @@ import ch.epfl.rechor.Preconditions;
  */
 public class StructuredBuffer {
 
-    private Structure structure;
-    private ByteBuffer buffer;
+    private final Structure structure;
+    private final ByteBuffer buffer;
 
     /**
      * Constructor a structured array whose elements have the given structure, and

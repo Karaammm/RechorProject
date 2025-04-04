@@ -3,7 +3,7 @@ package ch.epfl.rechor.journey;
 import java.util.List;
 
 /**
- * All types of vehicles
+ * Types of vehicles
  * 
  * @author Karam Fakhouri (374510)
  */

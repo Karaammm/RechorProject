@@ -55,7 +55,7 @@ public final class ParetoFront {
 
     /**
      *
-     * @param action
+     * @param action to do
      */
     public void forEach(LongConsumer action) {
         for (long value : packedCriteria) {
@@ -64,7 +64,7 @@ public final class ParetoFront {
     }
 
     /**
-     *
+     * Helper method for debugging
      * @return returns a string that showcases the details of each tuple
      */
     public String toString() {
@@ -217,7 +217,7 @@ public final class ParetoFront {
          *
          * @param that instance of the frontier builder
          * @param depMins departure time in minutes
-         * @return
+         * @return true if every tuple in thisBuilder dominates the tuples in thatBuilder
          */
         public boolean fullyDominates(Builder that, int depMins) {
             boolean[] dominatedList = new boolean[that.size];
@@ -227,11 +227,8 @@ public final class ParetoFront {
                 for (int j = 0; j < this.size; j++) {
                     dominatedList[i] = dominatedList[i]
                             || PackedCriteria.dominatesOrIsEqual(this.frontier[j], thatWithDepMins);
-                    if (dominatedList[i] == true) {
-                        continue;
-                    }
                 }
-                if (dominatedList[i] == false) {
+                if (!dominatedList[i]) {
                     return false;
                 }
                 dominatedCount += booleanToInt(dominatedList[i]);
@@ -241,7 +238,7 @@ public final class ParetoFront {
 
         /**
          *
-         * @param action
+         * @param action to do
          */
         public void forEach(LongConsumer action) {
             for (int i = 0; i < size; i++) {

@@ -1,6 +1,5 @@
 package ch.epfl.rechor;
 
-import java.security.cert.CRL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -19,7 +18,7 @@ public final class IcalBuilder {
      */
     public enum Component {
         VCALENDAR,
-        VEVENT;
+        VEVENT
     }
 
     /**
@@ -35,12 +34,12 @@ public final class IcalBuilder {
         DTSTART,
         DTEND,
         SUMMARY,
-        DESCRIPTION;
+        DESCRIPTION
     }
 
-    private StringBuilder builder = new StringBuilder();
+    private final StringBuilder builder = new StringBuilder();
     private static final String CRLF = "\r\n";
-    private ArrayList<Component> components = new ArrayList<Component>();
+    private final ArrayList<Component> components = new ArrayList<>();
 
     /**
      *
@@ -95,7 +94,7 @@ public final class IcalBuilder {
      * @return adds a new line with BEGIN with the value of the given component
      */
     public IcalBuilder begin(Component component) {
-        StringBuilder line = new StringBuilder("BEGIN:" + component.name());
+        String line = "BEGIN:" + component.name();
         components.add(component);
         builder.append(line).append(CRLF);
         return this;
@@ -110,8 +109,8 @@ public final class IcalBuilder {
      */
     public IcalBuilder end() {
         Preconditions.checkArgument(!components.isEmpty());
-        builder.append("END:").append(components.get(components.size() - 1)).append(CRLF);
-        components.remove(components.size() - 1);
+        builder.append("END:").append(components.getLast()).append(CRLF);
+        components.removeLast();
         return this;
     }
 

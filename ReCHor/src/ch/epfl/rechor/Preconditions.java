@@ -12,7 +12,7 @@ public final class Preconditions {
     /**
      * Method for checking argument
      * 
-     * @param shouldBeTrue
+     * @param shouldBeTrue boolean to check
      */
     public static void checkArgument(boolean shouldBeTrue) {
         if (!shouldBeTrue) {

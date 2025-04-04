@@ -1,8 +1,8 @@
 package ch.epfl.rechor.timetable.mapped;
 
-import java.util.Objects;
-
 import ch.epfl.rechor.Preconditions;
+
+import java.util.Objects;
 
 /**
  * @author Karam Fakhouri(374510)
@@ -16,7 +16,7 @@ public final class Structure {
     public enum FieldType {
         U8,
         U16,
-        S32;
+        S32
     }
 
     /**
@@ -60,7 +60,7 @@ public final class Structure {
     /**
      * Returns the number of bytes in the structure
      * 
-     * @return
+     * @return number of bytes in the structure
      */
     public int totalSize() {
         int size = 0;

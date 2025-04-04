@@ -20,8 +20,8 @@ public final class BufferedStationAliases implements StationAliases {
     /**
      * Buffers for connection data and successor connections
      */
-    private List<String> stringTable;
-    private StructuredBuffer buffer;
+    private final List<String> stringTable;
+    private final StructuredBuffer buffer;
 
     /**
      * Constructs a BufferedStationAliases object with access to the flattened

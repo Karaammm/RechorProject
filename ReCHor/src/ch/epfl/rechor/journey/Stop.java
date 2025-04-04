@@ -1,8 +1,8 @@
 package ch.epfl.rechor.journey;
 
-import java.util.Objects;
-
 import ch.epfl.rechor.Preconditions;
+
+import java.util.Objects;
 
 /**
  * A public transport stop
@@ -14,10 +14,10 @@ public record Stop(String name, String platformName, double longitude, double la
     /**
      * Constructs a stop
      * 
-     * @param name         name of the stop
-     * @param platformName name of the platform, if it exists
-     * @param longitude    longitude coordinate of the stop
-     * @param latitude     latitude coordinate of the stop
+     * @param name of the stop
+     * @param platformName of the platform, if it exists
+     * @param longitude longitude coordinate of the stop
+     * @param latitude latitude coordinate of the stop
      */
     public Stop {
         Objects.requireNonNull(name);

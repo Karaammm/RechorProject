@@ -14,14 +14,15 @@ import java.util.List;
  * 
  *         A profile
  */
-public record Profile(TimeTable timeTable, LocalDate date, int arrStationId, List<ParetoFront> stationFront) {
+public record Profile(TimeTable timeTable, LocalDate date, int arrStationId,
+                      List<ParetoFront> stationFront) {
     /**
      * Ensures immutability
      * 
-     * @param timeTable
-     * @param date
-     * @param arrStationId
-     * @param stationFront
+     * @param timeTable of public transport
+     * @param date of the connections
+     * @param arrStationId arrival station ID
+     * @param stationFront list of ParetoFrontiers for all the stations
      */
     public Profile {
         stationFront = List.copyOf(stationFront);
@@ -63,11 +64,11 @@ public record Profile(TimeTable timeTable, LocalDate date, int arrStationId, Lis
         LocalDate date;
         int arrStationId;
 
-        private ParetoFront.Builder[] stationBuilders;
-        private ParetoFront.Builder[] tripBuilders;
+        private final ParetoFront.Builder[] stationBuilders;
+        private final ParetoFront.Builder[] tripBuilders;
 
-        private boolean[] stationSet;
-        private boolean[] tripSet;
+        private final boolean[] stationSet;
+        private final boolean[] tripSet;
 
 
 
@@ -107,7 +108,8 @@ public record Profile(TimeTable timeTable, LocalDate date, int arrStationId, Lis
 
         public Profile build() {
             List<ParetoFront> stationFrontiers = Arrays.stream(stationBuilders)
-                    .map(builder -> builder != null ? builder.build() : ParetoFront.EMPTY).toList();
+                    .map(builder -> builder != null ? builder.build()
+                        : ParetoFront.EMPTY).toList();
             return new Profile(timeTable, date, arrStationId, stationFrontiers);
         }
 
