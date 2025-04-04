@@ -110,7 +110,7 @@ public abstract class JourneyExtractor {
         int numOfStops = Bits32_24_8.unpack8(PackedCriteria.payload(criteria));
         int lastStopId = finalStopId(profile, connectionId, numOfStops);
         int arrStationId = profile.timeTable().stationId(lastStopId);
-        Stop arrStop = buildStop(profile, arrStationId);
+        Stop arrStop = buildStop(profile.timeTable(), arrStationId);
 
         int depMins = profile.connections().depMins(connectionId);
         int arrMins = profile.connections().arrMins(connectionId);
@@ -150,6 +150,8 @@ public abstract class JourneyExtractor {
             legs.add(buildFootLeg(profile, depStationId, depMins, stationId));
             System.out.println("first is foot leg");
         }
+        legs.add(buildTransport(profile,connectionId, criteria));
+
         while(changes >= 0){
             // here we check if the last leg is foot or not, and add a transport/foot leg
             // accordingly. Then we consult the pareto front with the same arrival minutes
@@ -158,6 +160,7 @@ public abstract class JourneyExtractor {
         }
         // now we check if the finalstation is the same as the arrivalstation and add a
         // foot leg accordingly
+
 
         return new Journey(legs);
     }
