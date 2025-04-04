@@ -24,7 +24,6 @@ public abstract class JourneyExtractor {
     public static List<Journey> journeys(Profile profile, int depStationId) {
         List<Journey> journeys = new ArrayList<>();
         ParetoFront pf = profile.forStation(depStationId);
-        int counter = 0;
         pf.forEach((long criteria) -> {
             journeys.add(buildJourney(profile, criteria, depStationId));
             System.out.println("journey added");
@@ -130,8 +129,8 @@ public abstract class JourneyExtractor {
         String route = profile.timeTable().routes().name(routeId);
         String destination = profile.trips().destination(tripId);
 
-        nextCriteria = profile.forStation(arrStationId).get(arrMins, PackedCriteria.changes(criteria) - 1);
-        nextDepId = arrStationId;
+        //nextCriteria = profile.forStation(arrStationId).get(arrMins, PackedCriteria.changes(criteria) - 1);
+        //nextDepId = arrStationId;
 
         return new Journey.Leg.Transport(depStop, depTime, arrStop, arrTime,
                                          intermediateStops, vehicle, route, destination);
@@ -155,7 +154,6 @@ public abstract class JourneyExtractor {
             legs.add(buildTransport(profile, connectionId, criteria));
             changes--;
         }
-        legs.add(buildTransport(profile, connectionId, criteria));
 
         while(changes >= 0){
             if(lastLegIsFoot || legs.isEmpty()) {
@@ -167,7 +165,7 @@ public abstract class JourneyExtractor {
                 System.out.println("foot added");
                 lastLegIsFoot = true;
             }
-                changes--;
+            changes--;
 
         }
         //adjust criteria

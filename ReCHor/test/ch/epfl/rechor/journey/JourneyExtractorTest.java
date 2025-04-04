@@ -15,6 +15,7 @@ import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 class JourneyExtractorTest {
     static Path testPath(String path) {
         var maybeTestDataDir = System.getenv("RECHOR_TEST_DATA_DIR");
