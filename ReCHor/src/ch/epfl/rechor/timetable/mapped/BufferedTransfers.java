@@ -5,6 +5,7 @@ import ch.epfl.rechor.Preconditions;
 import ch.epfl.rechor.timetable.Transfers;
 
 import java.nio.ByteBuffer;
+import java.util.NoSuchElementException;
 
 /**
  * Implementation of the Transfers interface for accessing flattened timetable
@@ -36,45 +37,36 @@ public class BufferedTransfers implements Transfers {
      */
     public BufferedTransfers(ByteBuffer buffer) {
         Structure transferStructure = new Structure(
-                Structure.field(DEP_STATION_ID, Structure.FieldType.U16),
-                Structure.field(ARR_STATION_ID, Structure.FieldType.U16),
-                Structure.field(TRANSFER_MINUTES, Structure.FieldType.U8)
-
+            Structure.field(DEP_STATION_ID, Structure.FieldType.U16),
+            Structure.field(ARR_STATION_ID, Structure.FieldType.U16),
+            Structure.field(TRANSFER_MINUTES, Structure.FieldType.U8)
         );
         this.structuredBuffer = new StructuredBuffer(transferStructure, buffer);
 
         int totalChanges = structuredBuffer.size();
+        if (totalChanges == 0) {
+            this.arrivingAtTable = new int[0];
+            return;
+        }
         int maxStationId = -1;
         for (int i = 0; i < totalChanges; i++) {
-            int arrStation = structuredBuffer.getU16(ARR_STATION_ID, i);
-            if (arrStation > maxStationId) {
-                maxStationId = arrStation;
-            }
+            maxStationId = Math.max(maxStationId, structuredBuffer.getU16(ARR_STATION_ID, i));
         }
 
         this.arrivingAtTable = new int[maxStationId + 1];
+        int firstIndex = 0;
+        int currentArrStation = structuredBuffer.getU16(ARR_STATION_ID, 0);
 
-        int[] firstIndex = new int[maxStationId + 1];
-        int[] lastIndex = new int[maxStationId + 1];
-        for (int i = 0; i <= maxStationId; i++) {
-            firstIndex[i] = -1;
-            lastIndex[i] = -1;
-        }
-        for (int i = 0; i < totalChanges; i++) {
+        for (int i = 1; i < totalChanges; i++) {
             int arrStation = structuredBuffer.getU16(ARR_STATION_ID, i);
-            if (firstIndex[arrStation] == -1) {
-                firstIndex[arrStation] = i;
-            }
-            lastIndex[arrStation] = i;
-        }
 
-        for (int i = 0; i <= maxStationId; i++) {
-            if (firstIndex[i] != -1) {
-                arrivingAtTable[i] = PackedRange.pack(firstIndex[i], lastIndex[i] + 1);
-            } else {
-                arrivingAtTable[i] = 0;
+            if (arrStation != currentArrStation) {
+                arrivingAtTable[currentArrStation] = PackedRange.pack(firstIndex, i);
+                firstIndex = i;
+                currentArrStation = arrStation;
             }
         }
+        arrivingAtTable[currentArrStation] = PackedRange.pack(firstIndex, totalChanges);
     }
 
     /**
@@ -110,7 +102,7 @@ public class BufferedTransfers implements Transfers {
      */
     @Override
     public int arrivingAt(int stationId) {
-        Preconditions.checkIndex(size(), stationId);
+        Preconditions.checkIndex(arrivingAtTable.length, stationId);
         return arrivingAtTable[stationId];
     }
 
@@ -126,14 +118,22 @@ public class BufferedTransfers implements Transfers {
         if (depStationId < 0 || arrStationId < 0) {
             throw new IndexOutOfBoundsException();
         }
-        for (int i = 0; i < size(); i++) {
-            if (structuredBuffer.getU16(DEP_STATION_ID, i) == depStationId &&
-                    structuredBuffer.getU16(ARR_STATION_ID, i) == arrStationId) {
+
+        int packedRange = arrivingAt(arrStationId);
+        if (packedRange == 0) {
+            throw new NoSuchElementException();
+        }
+
+        int startIndex = PackedRange.startInclusive(packedRange);
+        int endIndex = PackedRange.endExclusive(packedRange);
+
+        for (int i = startIndex; i < endIndex; i++) {
+            if (structuredBuffer.getU16(DEP_STATION_ID, i) == depStationId) {
                 return structuredBuffer.getU8(TRANSFER_MINUTES, i);
             }
         }
-        throw new IndexOutOfBoundsException();
 
+        throw new NoSuchElementException();
     }
 
     /**

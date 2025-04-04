@@ -53,6 +53,8 @@ public abstract class JourneyExtractor {
         Stop arrStop = buildStop(profile.timeTable(), arrStopId);
         LocalDateTime depTime = initialiseDateTime(profile,depMins);
         //this is almost always throwing an IndexOutOfBoundsException
+        System.out.println("depStopId:" + depStopId);
+        System.out.println("arrStopId:" + arrStopId);
         int minsBetween = profile.timeTable().transfers().minutesBetween(depStopId,arrStopId);
         LocalDateTime arrTime = depTime.plusMinutes(minsBetween);
         return new Journey.Leg.Foot(depStop, depTime, arrStop, arrTime);
@@ -103,29 +105,27 @@ public abstract class JourneyExtractor {
     //helper method to build a transport leg
     private static Journey.Leg.Transport buildTransport(Profile profile, int connectionId,
                                                         long criteria) {
+        int depStopId = profile.connections().depStopId(connectionId);
+        Stop depStop = buildStop(profile.timeTable(), depStopId);
+        int numOfStops = Bits32_24_8.unpack8(PackedCriteria.payload(criteria));
+        int lastStopId = finalStopId(profile, connectionId, numOfStops);
+        int arrStationId = profile.timeTable().stationId(lastStopId);
+        Stop arrStop = buildStop(profile, arrStationId);
 
+        int depMins = profile.connections().depMins(connectionId);
+        int arrMins = profile.connections().arrMins(connectionId);
+        LocalDateTime depTime = initialiseDateTime(profile, depMins);
+        LocalDateTime arrTime = initialiseDateTime(profile, arrMins);
 
-//        Stop depStop = buildStop(profile, depStationId);
-//        int numOfStops = Bits32_24_8.unpack8(PackedCriteria.payload(criteria));
-//        int lastStopId = finalStopId(profile, connectionId, numOfStops);
-//        int arrStationId = stationOf(profile, lastStopId, false);
-//        Stop arrStop = buildStop(profile, arrStationId);
-//
-//        int depMins = profile.connections().depMins(connectionId);
-//        int arrMins = profile.connections().arrMins(connectionId);
-//        LocalDateTime depTime = initialiseDateTime(profile, depMins);
-//        LocalDateTime arrTime = initialiseDateTime(profile, arrMins);
-//
-//        List<Journey.Leg.IntermediateStop> intermediateStops;
-//        intermediateStops = buildIntermediateStops(profile, connectionId, numOfStops);
-//        int tripId = profile.connections().tripId(connectionId);
-//        int routeId = profile.trips().routeId(tripId);
-//        Vehicle vehicle = profile.timeTable().routes().vehicle(routeId);
-//        String route = profile.timeTable().routes().name(routeId);
-//        String destination = profile.trips().destination(tripId);
-//        return new Journey.Leg.Transport(depStop, depTime, arrStop, arrTime,
-//                                         intermediateStops, vehicle, route, destination);
-        return null;
+        List<Journey.Leg.IntermediateStop> intermediateStops;
+        intermediateStops = buildIntermediateStops(profile, connectionId, numOfStops);
+        int tripId = profile.connections().tripId(connectionId);
+        int routeId = profile.trips().routeId(tripId);
+        Vehicle vehicle = profile.timeTable().routes().vehicle(routeId);
+        String route = profile.timeTable().routes().name(routeId);
+        String destination = profile.trips().destination(tripId);
+        return new Journey.Leg.Transport(depStop, depTime, arrStop, arrTime,
+                                         intermediateStops, vehicle, route, destination);
     }
 
     private static Journey buildJourney(Profile profile, Long criteria,
@@ -146,11 +146,9 @@ public abstract class JourneyExtractor {
         boolean lastLegIsFoot = false;
 
         // sometimes the if statement doesnt work correctly? idk why that happens
-        if(stationId == realDepStationId && stopId != depStopId) {
-            legs.add(buildFootLeg(profile, depStopId, depMins, stopId));
+        if(depStationId != stationId) {
+            legs.add(buildFootLeg(profile, depStationId, depMins, stationId));
             System.out.println("first is foot leg");
-            lastLegIsFoot = true;
-            //here we add a transport leg right after
         }
         while(changes >= 0){
             // here we check if the last leg is foot or not, and add a transport/foot leg

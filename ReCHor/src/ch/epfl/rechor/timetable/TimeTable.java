@@ -77,7 +77,7 @@ public interface TimeTable {
      * @return the station index of the given stop index
      */
     default int stationId(int stopId) {
-        return isStationId(stopId) ? stopId : stopId - stations().size();
+        return isStationId(stopId) ? stopId : platforms().stationId(stopId - stations().size()) ;
     }
 
     /**
