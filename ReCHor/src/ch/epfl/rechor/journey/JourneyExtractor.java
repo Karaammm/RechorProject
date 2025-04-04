@@ -14,6 +14,8 @@ import java.util.List;
  */
 public abstract class JourneyExtractor {
 
+    static long nextCriteria;
+    static int nextDepId;
     /**
      * @param profile      given profile
      * @param depStationId ID of departure station
@@ -112,6 +114,7 @@ public abstract class JourneyExtractor {
         int arrStationId = timeTable.stationId(lastStopId);
         Stop arrStop = buildStop(timeTable, arrStationId);
 
+
         int depMins = profile.connections().depMins(connectionId);
         int arrMins = profile.connections().arrMins(lastConnectionId);
         LocalDateTime depTime = initialiseDateTime(profile, depMins);
@@ -126,6 +129,10 @@ public abstract class JourneyExtractor {
         Vehicle vehicle = profile.timeTable().routes().vehicle(routeId);
         String route = profile.timeTable().routes().name(routeId);
         String destination = profile.trips().destination(tripId);
+
+        nextCriteria = profile.forStation(arrStationId).get(arrMins, PackedCriteria.changes(criteria) - 1);
+        nextDepId = arrStationId;
+
         return new Journey.Leg.Transport(depStop, depTime, arrStop, arrTime,
                                          intermediateStops, vehicle, route, destination);
     }
@@ -148,6 +155,8 @@ public abstract class JourneyExtractor {
             legs.add(buildTransport(profile, connectionId, criteria));
             changes--;
         }
+        legs.add(buildTransport(profile, connectionId, criteria));
+
         while(changes >= 0){
             if(lastLegIsFoot || legs.isEmpty()) {
                 legs.add(buildTransport(profile, connectionId, criteria));
@@ -159,11 +168,13 @@ public abstract class JourneyExtractor {
                 lastLegIsFoot = true;
             }
                 changes--;
+
         }
         //adjust criteria
 
         // now we check if the finalstation is the same as the arrivalstation and add a
         // foot leg accordingly
+
 
         return new Journey(legs);
     }
