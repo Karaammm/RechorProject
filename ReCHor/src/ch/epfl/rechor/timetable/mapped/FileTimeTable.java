@@ -1,32 +1,22 @@
 package ch.epfl.rechor.timetable.mapped;
 
+import ch.epfl.rechor.timetable.*;
+
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.ByteBuffer;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.List;
 
-import ch.epfl.rechor.timetable.Connections;
-import ch.epfl.rechor.timetable.Platforms;
-import ch.epfl.rechor.timetable.Routes;
-import ch.epfl.rechor.timetable.StationAliases;
-import ch.epfl.rechor.timetable.Stations;
-import ch.epfl.rechor.timetable.TimeTable;
-import ch.epfl.rechor.timetable.Transfers;
-import ch.epfl.rechor.timetable.Trips;
-
 /**
  * @author Karam Fakhouri(374510)
- * 
  *         A public transport timetable whose (flattened) data is stored in
  *         files
- *
- *
  *        Private constructor for FileTimeTable, is only called when in() method is
  *       called
  *
@@ -39,7 +29,9 @@ import ch.epfl.rechor.timetable.Trips;
  *      @param transfers      the changes
  *
  */
-public record FileTimeTable(Path directory, List<String> stringTable, Stations stations, StationAliases stationAliases, Platforms platforms, Routes routes, Transfers transfers) implements TimeTable{
+public record FileTimeTable(Path directory, List<String> stringTable, Stations stations,
+                            StationAliases stationAliases, Platforms platforms,
+                            Routes routes, Transfers transfers) implements TimeTable{
 
 
     /**
@@ -65,8 +57,9 @@ public record FileTimeTable(Path directory, List<String> stringTable, Stations s
         BufferedRoutes bufferedRoutes = new BufferedRoutes(stringTable, map(routesPath));
         BufferedTransfers bufferedTransfers = new BufferedTransfers(map(transfersPath));
 
-        return new FileTimeTable(directory, stringTable, bufferedStations, bufferedStationAliases, bufferedPlatforms,
-                bufferedRoutes, bufferedTransfers);
+        return new FileTimeTable(directory, stringTable, bufferedStations,
+                                 bufferedStationAliases, bufferedPlatforms,
+                                 bufferedRoutes, bufferedTransfers);
     }
 
     /**
@@ -74,12 +67,11 @@ public record FileTimeTable(Path directory, List<String> stringTable, Stations s
      * 
      * @param path the path to the folder containing the wanted file
      * @return bytebuffer with the contents of the file
-     * @throws IOException
+     * @throws IOException if the path is invalid
      */
     private static ByteBuffer map(Path path) throws IOException {
         try (FileChannel channel = FileChannel.open(path)) {
-            ByteBuffer buffer = channel.map(MapMode.READ_ONLY, 0, channel.size());
-            return buffer;
+            return channel.map(MapMode.READ_ONLY, 0, channel.size());
         }
     }
 
@@ -138,8 +130,7 @@ public record FileTimeTable(Path directory, List<String> stringTable, Stations s
         Path daysPath = directory.resolve(date.toString());
         Path tripsPath = daysPath.resolve("trips.bin");
         try {
-            BufferedTrips bufferedTrips = new BufferedTrips(stringTable, map(tripsPath));
-            return bufferedTrips;
+            return new BufferedTrips(stringTable, map(tripsPath));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -156,9 +147,7 @@ public record FileTimeTable(Path directory, List<String> stringTable, Stations s
         Path connectionsPath = daysPath.resolve("connections.bin");
         Path succConnectionsPath = daysPath.resolve("connections-succ.bin");
         try {
-            BufferedConnections bufferedConnections = new BufferedConnections(map(connectionsPath),
-                    map(succConnectionsPath));
-            return bufferedConnections;
+            return new BufferedConnections(map(connectionsPath), map(succConnectionsPath));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

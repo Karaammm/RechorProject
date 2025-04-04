@@ -1,23 +1,22 @@
 package ch.epfl.rechor.timetable.mapped;
 
-import java.nio.ByteBuffer;
-import java.util.List;
-
 import ch.epfl.rechor.Preconditions;
 import ch.epfl.rechor.journey.Vehicle;
 import ch.epfl.rechor.timetable.Routes;
 
+import java.nio.ByteBuffer;
+import java.util.List;
+
 /**
  * @author Karam Fakhouri (374510)
- * 
  *         Class that provides access to a table of routes represented in a
  *         flattened manner
  */
 public final class BufferedRoutes implements Routes {
     private static final int NAME_ID = 0;
     private static final int KIND = 1;
-    private List<String> stringTable;
-    private StructuredBuffer buffer;
+    private final List<String> stringTable;
+    private final StructuredBuffer buffer;
 
     /**
      * 

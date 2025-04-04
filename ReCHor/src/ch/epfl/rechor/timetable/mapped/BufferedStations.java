@@ -1,21 +1,20 @@
 package ch.epfl.rechor.timetable.mapped;
 
-import java.nio.ByteBuffer;
-import java.util.List;
-
 import ch.epfl.rechor.Preconditions;
 import ch.epfl.rechor.timetable.Stations;
 
+import java.nio.ByteBuffer;
+import java.util.List;
+
 /**
  * @author Karam Fakhouri (374510)
- * 
  *         Class that provides access to a table of stations represented in a
  *         flattened manner
  */
 public final class BufferedStations implements Stations {
 
     private final List<String> stringTable;
-    private StructuredBuffer buffer;
+    private final StructuredBuffer buffer;
     private static final int NAME_ID = 0;
     private static final int LON = 1;
     private static final int LAT = 2;
@@ -30,8 +29,10 @@ public final class BufferedStations implements Stations {
      */
     public BufferedStations(List<String> stringTable, ByteBuffer buffer) {
         this.stringTable = stringTable;
-        this.buffer = new StructuredBuffer(new Structure(Structure.field(NAME_ID, Structure.FieldType.U16),
-                Structure.field(LON, Structure.FieldType.S32), Structure.field(LAT, Structure.FieldType.S32)), buffer);
+        this.buffer = new StructuredBuffer(
+            new Structure(Structure.field(NAME_ID, Structure.FieldType.U16),
+                          Structure.field(LON, Structure.FieldType.S32),
+                          Structure.field(LAT, Structure.FieldType.S32)), buffer);
     }
 
     /**

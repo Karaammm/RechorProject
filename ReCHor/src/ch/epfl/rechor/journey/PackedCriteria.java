@@ -10,10 +10,16 @@ import ch.epfl.rechor.Preconditions;
  */
 public abstract class PackedCriteria {
 
-    /**
-     * The origin from which times are calculated
-     */
-    private static int SHIFT = 240;
+
+    //The origin from which times are calculated
+    private final static int SHIFT = 240;
+    private final static int CHANGES_SHIFT = 7;
+    private final static int PAYLOAD_SHIFT = 32;
+    private final static int ARRIVAL_MINUTES_SHIFT = PAYLOAD_SHIFT + CHANGES_SHIFT;
+    private final static int DEPARTURE_MINUTES_SHIFT = 51;
+    private final static int COMPLEMENT_MINUTES_SHIFT = 0xFFF;
+    private final static int MAX_MINS = 2880;
+
 
     /**
      *
@@ -25,11 +31,12 @@ public abstract class PackedCriteria {
      *                                  in 7 bits
      */
     public static long pack(int arrMins, int changes, int payload) {
-        Preconditions.checkArgument((changes >> 7 == 0) && (arrMins >= -240) && (arrMins < 48 * 60));
+        Preconditions.checkArgument((changes >> CHANGES_SHIFT == 0)
+                                        && (arrMins >= -SHIFT) && (arrMins < MAX_MINS));
         int shiftedArr = arrMins + SHIFT;
         long longPayload = Integer.toUnsignedLong(payload);
-        long arrMinsLong = Integer.toUnsignedLong(shiftedArr) << 39;
-        long changesLong = Integer.toUnsignedLong(changes) << 32;
+        long arrMinsLong = Integer.toUnsignedLong(shiftedArr) << ARRIVAL_MINUTES_SHIFT;
+        long changesLong = Integer.toUnsignedLong(changes) << PAYLOAD_SHIFT;
         return arrMinsLong | changesLong | longPayload;
     }
 
@@ -39,7 +46,7 @@ public abstract class PackedCriteria {
      * @return checks if the given value has a departure time
      */
     public static boolean hasDepMins(long criteria) {
-        return (criteria >>> 51) != 0;
+        return (criteria >>> DEPARTURE_MINUTES_SHIFT) != 0;
     }
 
     /**
@@ -51,8 +58,8 @@ public abstract class PackedCriteria {
      */
     public static int depMins(long criteria) {
         Preconditions.checkArgument(hasDepMins(criteria));
-        int stored = (int) (criteria >>> 51);
-        return 0xFFF - stored + 240;
+        int stored = (int) (criteria >>> DEPARTURE_MINUTES_SHIFT);
+        return COMPLEMENT_MINUTES_SHIFT - stored + SHIFT;
     }
 
     /**
@@ -62,7 +69,7 @@ public abstract class PackedCriteria {
      */
     public static int arrMins(long criteria) {
         int mask = (1 << 12) - 1;
-        return (int) ((criteria >> 39) & mask) - 240;
+        return (int) ((criteria >> ARRIVAL_MINUTES_SHIFT) & mask) - SHIFT;
     }
 
     /**
@@ -71,8 +78,8 @@ public abstract class PackedCriteria {
      * @return returns the number of platform changes
      */
     public static int changes(long criteria) {
-        int mask = (1 << 7) - 1;
-        return (int) ((criteria >> 32) & mask);
+        int mask = (1 << CHANGES_SHIFT) - 1;
+        return (int) ((criteria >> PAYLOAD_SHIFT) & mask);
     }
 
     /**
@@ -81,7 +88,7 @@ public abstract class PackedCriteria {
      * @return returns the payload
      */
     public static int payload(long criteria) {
-        long mask = (1l << 32) - 1;
+        long mask = (1L << PAYLOAD_SHIFT) - 1;
         return (int) (criteria & mask);
     }
 
@@ -119,9 +126,9 @@ public abstract class PackedCriteria {
      * @throws IllegalArgumentException if it is an invalid departure time
      */
     public static long withDepMins(long criteria, int depMins1) {
-        Preconditions.checkArgument((depMins1 >= -240) && (depMins1 < 48 * 60));
-        int depMins = 4095 - depMins1 + 240;
-        long depMinsLong = ((long) depMins) << 51;
+        Preconditions.checkArgument((depMins1 >= -SHIFT) && (depMins1 < MAX_MINS));
+        int depMins = COMPLEMENT_MINUTES_SHIFT - depMins1 + SHIFT;
+        long depMinsLong = ((long) depMins) << DEPARTURE_MINUTES_SHIFT;
         return withoutDepMins(criteria) | depMinsLong;
     }
 
@@ -131,7 +138,7 @@ public abstract class PackedCriteria {
      * @return returns the packaged criteria with one more change
      */
     public static long withAdditionalChange(long criteria) {
-        return criteria + (1L << 32);
+        return criteria + (1L << PAYLOAD_SHIFT);
     }
 
     /**
@@ -141,7 +148,7 @@ public abstract class PackedCriteria {
      * @return returns the packaged criteria with the given payload
      */
     public static long withPayload(long criteria, int payload1) {
-        long payloadMask = (1l << 32) - 1;
+        long payloadMask = (1L << PAYLOAD_SHIFT) - 1;
         long withoutPayload = criteria & ~payloadMask;
         return withoutPayload | (Integer.toUnsignedLong(payload1));
     }
