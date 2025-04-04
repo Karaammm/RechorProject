@@ -14,6 +14,8 @@ import java.util.List;
  */
 public abstract class JourneyExtractor {
 
+    static long nextCriteria;
+    static int nextDepId;
     /**
      * @param profile      given profile
      * @param depStationId ID of departure station
@@ -124,6 +126,10 @@ public abstract class JourneyExtractor {
         Vehicle vehicle = profile.timeTable().routes().vehicle(routeId);
         String route = profile.timeTable().routes().name(routeId);
         String destination = profile.trips().destination(tripId);
+
+        nextCriteria = profile.forStation(arrStationId).get(arrMins, PackedCriteria.changes(criteria) - 1);
+        nextDepId = arrStationId;
+
         return new Journey.Leg.Transport(depStop, depTime, arrStop, arrTime,
                                          intermediateStops, vehicle, route, destination);
     }
@@ -150,9 +156,14 @@ public abstract class JourneyExtractor {
             legs.add(buildFootLeg(profile, depStationId, depMins, stationId));
             System.out.println("first is foot leg");
         }
-        legs.add(buildTransport(profile,connectionId, criteria));
+        legs.add(buildTransport(profile, connectionId, criteria));
 
         while(changes >= 0){
+//            int nextDepMins = PackedCriteria.depMins(nextCriteria);
+//            int nextPayload = PackedCriteria.payload(nextCriteria);
+//            int nextConnectionId = Bits32_24_8.unpack24(nextPayload);
+//            int numOfStops = Bits32_24_8.unpack8(nextPayload);
+
             // here we check if the last leg is foot or not, and add a transport/foot leg
             // accordingly. Then we consult the pareto front with the same arrival minutes
             // but one less change and find the next criteria from there.
