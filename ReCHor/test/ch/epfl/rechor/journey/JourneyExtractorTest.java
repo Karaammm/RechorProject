@@ -15,7 +15,6 @@ import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 class JourneyExtractorTest {
     static Path testPath(String path) {
         var maybeTestDataDir = System.getenv("RECHOR_TEST_DATA_DIR");
@@ -25,7 +24,7 @@ class JourneyExtractorTest {
     }
 
     private static Profile readProfile() throws IOException {
-        var timeTable = FileTimeTable.in(testPath("timetable"));
+        var timeTable = FileTimeTable.in(testPath("timetable-12"));
         var date = LocalDate.of(2025, Month.MARCH, 18);
         var arrStationId = stationId(timeTable, "Gruyères");
 

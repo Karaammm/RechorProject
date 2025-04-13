@@ -75,7 +75,6 @@ class IcalBuilderTest {
                 .add(IcalBuilder.Name.DESCRIPTION, description)
                 .build();
 
-        System.out.println(actual);
         for (var line : actual.split(CRLF))
             assertTrue(line.length() <= 75);
 

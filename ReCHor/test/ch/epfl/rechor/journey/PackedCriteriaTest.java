@@ -56,7 +56,7 @@ class PackedCriteriaTest {
 
     @Test
     void packedCriteriaPackWorksWithManyPayloads() {
-        for (var expPayload = 1; expPayload != 0; expPayload <<= 1) {
+        for (var expPayload = 1; expPayload != 0 ; expPayload <<= 1) {
             var p = PackedCriteria.pack(0, 0, expPayload);
             var actPayload = PackedCriteria.payload(p);
             assertEquals(expPayload, actPayload);
@@ -80,13 +80,10 @@ class PackedCriteriaTest {
     void packedCriteriaWithDepMinsWorksForAllValidDepartureTimes() {
         for (var h = -4; h < 48; h += 1) {
             for (var m = 0; m < 60; m += 1) {
-                int expDepMins = h * 60 + m;
-                var p = PackedCriteria.withDepMins(
-                        PackedCriteria.pack(0, 0, 0),
+                var expDepMins = h * 60 + m;
+                var p = PackedCriteria.withDepMins(PackedCriteria.pack(0, 0, 0),
                         expDepMins);
                 var actDepMins = PackedCriteria.depMins(p);
-                System.out.println(Long.toBinaryString(expDepMins));
-                System.out.println(Long.toBinaryString(actDepMins));
                 assertEquals(expDepMins, actDepMins);
             }
         }

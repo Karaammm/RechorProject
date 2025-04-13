@@ -35,8 +35,8 @@ public abstract class PackedCriteria {
                                         && (arrMins >= -SHIFT) && (arrMins < MAX_MINS));
         int shiftedArr = arrMins + SHIFT;
         long longPayload = Integer.toUnsignedLong(payload);
-        long arrMinsLong = Integer.toUnsignedLong(shiftedArr) << ARRIVAL_MINUTES_SHIFT;
-        long changesLong = Integer.toUnsignedLong(changes) << PAYLOAD_SHIFT;
+        long arrMinsLong = (long)(shiftedArr) << ARRIVAL_MINUTES_SHIFT;
+        long changesLong = (long)(changes) << PAYLOAD_SHIFT;
         return arrMinsLong | changesLong | longPayload;
     }
 
@@ -46,7 +46,7 @@ public abstract class PackedCriteria {
      * @return checks if the given value has a departure time
      */
     public static boolean hasDepMins(long criteria) {
-        return (criteria >>> DEPARTURE_MINUTES_SHIFT) != 0;
+        return ((criteria >>> DEPARTURE_MINUTES_SHIFT) & COMPLEMENT_MINUTES_SHIFT )!= 0;
     }
 
     /**
@@ -58,8 +58,8 @@ public abstract class PackedCriteria {
      */
     public static int depMins(long criteria) {
         Preconditions.checkArgument(hasDepMins(criteria));
-        int stored = (int) (criteria >>> DEPARTURE_MINUTES_SHIFT);
-        return COMPLEMENT_MINUTES_SHIFT - stored + SHIFT;
+        int stored = (int) (criteria >> DEPARTURE_MINUTES_SHIFT);
+        return (COMPLEMENT_MINUTES_SHIFT - (COMPLEMENT_MINUTES_SHIFT & stored)) - SHIFT;
     }
 
     /**
@@ -114,8 +114,8 @@ public abstract class PackedCriteria {
      * @return returns the packaged criteria without the departure time
      */
     public static long withoutDepMins(long criteria) {
-        long mask = (1L << 52) - 1;
-        return criteria & mask;
+        long mask =  ((long) COMPLEMENT_MINUTES_SHIFT << DEPARTURE_MINUTES_SHIFT);
+        return criteria & ~mask;
     }
 
     /**
@@ -127,7 +127,7 @@ public abstract class PackedCriteria {
      */
     public static long withDepMins(long criteria, int depMins1) {
         Preconditions.checkArgument((depMins1 >= -SHIFT) && (depMins1 < MAX_MINS));
-        int depMins = COMPLEMENT_MINUTES_SHIFT - depMins1 + SHIFT;
+        int depMins = COMPLEMENT_MINUTES_SHIFT - (depMins1 + SHIFT);
         long depMinsLong = ((long) depMins) << DEPARTURE_MINUTES_SHIFT;
         return withoutDepMins(criteria) | depMinsLong;
     }

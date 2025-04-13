@@ -123,10 +123,8 @@ class ParetoFrontTest {
         var b = new ParetoFront.Builder();
         for (var i = 0; i < 128; i += 1)
             b.add(PackedCriteria.pack(10 + i, 127 - i, i));
-        System.out.println(b);
         var dominator = PackedCriteria.pack(9, 0, 0);
         b.add(dominator);
-        System.out.println(b);
         var f = b.build();
         assertEquals(1, f.size());
         f.forEach(d -> assertEquals(dominator, d));
@@ -253,10 +251,8 @@ class ParetoFrontTest {
             var tupleIt = tuples.iterator();
             while (tupleIt.hasNext()) {
                 var tuple = (long) tupleIt.next();
-                if (PackedCriteria.dominatesOrIsEqual(tuple, newTuple))
-                    return;
-                if (PackedCriteria.dominatesOrIsEqual(newTuple, tuple))
-                    tupleIt.remove();
+                if (PackedCriteria.dominatesOrIsEqual(tuple, newTuple)) return;
+                if (PackedCriteria.dominatesOrIsEqual(newTuple, tuple)) tupleIt.remove();
             }
             tuples.add(newTuple);
         }
@@ -279,8 +275,7 @@ class ParetoFrontTest {
         @Override
         public String toString() {
             var j = new StringJoiner(",", "{", "}");
-            for (var t : tuples)
-                j.add(tupleToString(t));
+            for (var t : tuples) j.add(tupleToString(t));
             return j.toString();
         }
 
