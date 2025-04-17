@@ -152,5 +152,6 @@ class JourneyExtractorTest {
 
             assertTrue(f.isTransfer());
         } else fail();
+
     }
 }
