@@ -97,7 +97,6 @@ public final class StopIndex {
                 score += subqueryScore * multiplier;
             }
         }
-        //System.out.println("Score for" + name + ":" + score);
         return score;
     }
 }
