@@ -41,4 +41,22 @@ public class JourneyGeoJsonConverterTest {
             throw new RuntimeException(e);
         }
     }
+    @Test
+    void converterPassesSomeOtherExamples(){
+        try {
+            TimeTable timeTable = new CachedTimeTable(FileTimeTable.in(Path.of("timetable-16")));
+            Stations stations = timeTable.stations();
+            LocalDate date = LocalDate.of(2025, Month.APRIL, 16);
+            int depStationId = stationId(stations, "Ecublens VD, EPFL");
+            int arrStationId = stationId(stations, "Gruyères");
+            Router router = new Router(timeTable);
+            Profile profile = router.profile(date, arrStationId);
+            List<Journey> journeys = JourneyExtractor.journeys(profile, depStationId);
+            Journey journey1 = journeys.get(4);
+            System.out.println(JourneyIcalConverter.toIcalendar(journey1));
+            System.out.println(JourneyGeoJsonConverter.toGeoJson(journey1));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

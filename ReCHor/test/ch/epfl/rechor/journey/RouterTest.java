@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public class RouterTest {
 
@@ -114,7 +114,7 @@ public class RouterTest {
             int expectedPayload = PackedCriteria.payload(expectedPareto);
             int actualPayload = PackedCriteria.payload(actualPareto);
             assertEquals(Bits32_24_8.unpack24(expectedPayload),Bits32_24_8.unpack24(actualPayload));
-            assertEquals(Bits32_24_8.unpack8(expectedPayload),Bits32_24_8.unpack8(actualPayload));
+            assertEquals(Bits32_24_8.unpack8(expectedPayload), Bits32_24_8.unpack8(actualPayload));
     }
 
     @Test
@@ -136,15 +136,15 @@ public class RouterTest {
     @Test
     void comparingToSBB(){
         try {
-            TimeTable timeTable =  new CachedTimeTable(FileTimeTable.in(Path.of( "timetable-16" )));
+            TimeTable timeTable =  new CachedTimeTable(FileTimeTable.in(Path.of("timetable-16" )));
             Stations stations = timeTable.stations();
-            LocalDate date = LocalDate.of( 2025 , Month.APRIL, 16 );
+            LocalDate date = LocalDate.of(2025 , Month.APRIL, 16 );
             int depStationId = stationId(stations, "Zürich HB" );
             int arrStationId = stationId(stations, "Bussigny" );
             //int arrStationId = 33333;
             Router router = new Router (timeTable);
             Profile profile = router.profile(date, arrStationId);
-            List<Journey> journeys = JourneyExtractor.journeys(profile,depStationId);
+            List<Journey> journeys = JourneyExtractor.journeys(profile, depStationId);
             for (Journey journey : journeys) {
                 System.out.println(JourneyIcalConverter.toIcalendar(journey));
                 System.out.println("Number of legs:" + journey.legs().size());

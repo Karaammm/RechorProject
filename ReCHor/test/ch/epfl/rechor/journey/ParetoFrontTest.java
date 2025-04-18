@@ -294,4 +294,17 @@ class ParetoFrontTest {
                     PackedCriteria.changes(pTuple));
         }
     }
+    @Test
+    void testingDuplicates(){
+        ParetoFront.Builder builder = new ParetoFront.Builder();
+        int arrmins = 1000;
+        int changes = 10;
+        long criteria = PackedCriteria.pack(arrmins,changes,0);
+        long anotherCriteria = PackedCriteria.pack(arrmins + 10, changes - 1, 0);
+        builder.add(criteria);
+        builder.add(anotherCriteria);
+        builder.add(criteria);
+        ParetoFront pareto = builder.build();
+        pareto.forEach(t -> System.out.println(Long.toString(t)));
+    }
 }
