@@ -52,7 +52,7 @@ public class StopIndexTest {
             List<String> stopNames = generateStopNames(stations);
             Map<String, String> altNames = generateAltNames(stations,altStations);
             StopIndex stopIndex = new StopIndex(stopNames,altNames);
-            List<String> results =  stopIndex.stopsMatching("mez vil", 4);
+            List<String> results =  stopIndex.stopsMatching("lo", 12);
             for(String str : results) {
                 System.out.println(str);
             }

@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
+import java.util.StringJoiner;
 
 import static org.junit.Assert.assertEquals;
 
@@ -80,19 +81,27 @@ public class RouterTest {
             Router router = new Router(timeTable);
             Profile profile = router.profile(date, arrStationId);
 
-            File file = new File("profile12_output.txt");
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            for(int i = 0; i < stations.size(); i++){
-                StringBuilder lineBuilder = new StringBuilder();
-                profile.forStation(i).forEach(value -> {
-                    lineBuilder.append(String.format("%x", value)).append(",");
+            //File file = new File("profile12_output.txt");
+            BufferedWriter writer = new BufferedWriter(new FileWriter("profile12_output.txt", false));
+            for(ParetoFront f : profile.stationFront()){
+                StringJoiner lineBuilder = new StringJoiner(",");
+                f.forEach(value -> {
+//                    lineBuilder.append(String.format("%x", value)).append(",");
+                    String hexString = Long.toHexString(value);
+                    lineBuilder.add(hexString);
                 });
-                if (!lineBuilder.isEmpty()) {
-                    lineBuilder.setLength(lineBuilder.length() - 1);
-                }
+//                if (!lineBuilder.isEmpty()) {
+//                    lineBuilder.setLength(lineBuilder.length() - 1);
+//                }
                 writer.write(lineBuilder.toString());
                 writer.newLine();
             }
+//            int stationid = 33358;
+//            List<Journey> journeys = JourneyExtractor.journeys(profile,stationid);
+//            for(int i = 0; i < journeys.size(); i++){
+//                System.out.println(JourneyIcalConverter.toIcalendar(journeys.get(i)));
+//            }
+
 
         } catch (IOException e) {
             System.out.println("blahblah");

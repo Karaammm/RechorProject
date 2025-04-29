@@ -4,6 +4,7 @@ import ch.epfl.rechor.timetable.CachedTimeTable;
 import ch.epfl.rechor.timetable.Stations;
 import ch.epfl.rechor.timetable.TimeTable;
 import ch.epfl.rechor.timetable.mapped.FileTimeTable;
+import javafx.scene.paint.Color;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -58,5 +59,11 @@ public class JourneyGeoJsonConverterTest {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Test
+    void javafxhasbeenadded(){
+        Color c = Color.RED;
+        System.out.println(c.getRed());
     }
 }

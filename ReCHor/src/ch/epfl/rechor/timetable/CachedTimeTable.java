@@ -2,26 +2,23 @@ package ch.epfl.rechor.timetable;
 
 import java.time.LocalDate;
 
+/**
+ * Represents a timetable stored in cache
+ */
 public class CachedTimeTable implements TimeTable{
 
     private final TimeTable delegate;
     private Connections connections;
     private Trips trips;
-    private final Stations stations;
-    private final StationAliases stationAliases;
-    private final Platforms platforms;
-    private final Routes routes;
-    private final Transfers transfers;
     private LocalDate connectionsDate;
     private LocalDate tripsDate;
 
+    /**
+     * Constructor of the cached timeTable
+     * @param table table to cache
+     */
     public CachedTimeTable(TimeTable table){
         delegate = table;
-        stations = table.stations();
-        stationAliases = table.stationAliases();
-        platforms = table.platforms();
-        routes = table.routes();
-        transfers = table.transfers();
         connections = null;
         trips = null;
     }

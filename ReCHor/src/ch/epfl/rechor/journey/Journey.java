@@ -103,35 +103,35 @@ public record Journey(List<Leg> legs) {
          * 
          * @return the departure stop of this leg
          */
-        public Stop depStop();
+        Stop depStop();
 
         /**
          * Returns the departure time of this leg
          * 
          * @return the departure time of this leg
          */
-        public LocalDateTime depTime();
+        LocalDateTime depTime();
 
         /**
          * Returns the arrival stop of this leg
          * 
          * @return the arrival stop of this leg
          */
-        public Stop arrStop();
+        Stop arrStop();
 
         /**
          * Returns the arrival time of this leg
          * 
          * @return the arrival time of this leg
          */
-        public LocalDateTime arrTime();
+        LocalDateTime arrTime();
 
         /**
          * returns the list of stops throughout the leg
          * 
          * @return the list of stops throughout the leg
          */
-        public List<IntermediateStop> intermediateStops();
+        List<IntermediateStop> intermediateStops();
 
         /**
          * returns the duration of the leg
@@ -151,7 +151,7 @@ public record Journey(List<Leg> legs) {
          * @param arrTime arrival time of this stage
          * @param depTime departure time of this stage
          */
-        public record IntermediateStop(Stop stop, LocalDateTime arrTime, LocalDateTime depTime) {
+        record IntermediateStop(Stop stop, LocalDateTime arrTime, LocalDateTime depTime) {
 
             /**
              * Compact constructor of the intermediate stop
@@ -179,7 +179,7 @@ public record Journey(List<Leg> legs) {
          * @author Karam Fakhouri (374510)
          * 
          */
-        public record Transport(Stop depStop, LocalDateTime depTime, Stop arrStop, LocalDateTime arrTime,
+         record Transport(Stop depStop, LocalDateTime depTime, Stop arrStop, LocalDateTime arrTime,
                 List<IntermediateStop> intermediateStops, Vehicle vehicle, String route,
                 String destination) implements Leg {
 
@@ -237,10 +237,9 @@ public record Journey(List<Leg> legs) {
 
         /**
          * A step performed by walking or changing
-         * 
          * * @author Karam Fakhouri (374510)
          */
-        public record Foot(Stop depStop, LocalDateTime depTime, Stop arrStop,
+        record Foot(Stop depStop, LocalDateTime depTime, Stop arrStop,
                            LocalDateTime arrTime) implements Leg {
 
             /**
@@ -283,10 +282,7 @@ public record Journey(List<Leg> legs) {
              * @return true if the Foot is a change and not a walking stage
              */
             public boolean isTransfer() {
-                if ((depStop.name()).equals(arrStop.name())) {
-                    return true;
-                }
-                return false;
+                return (depStop.name()).equals(arrStop.name());
             }
 
         }

@@ -9,7 +9,19 @@ import ch.epfl.rechor.timetable.Transfers;
 import java.time.LocalDate;
 import java.util.Arrays;
 
+/**
+ * The router, responsible for creating a profile of all optimal journeys to get from any station
+ * in the network to the given arrival station, on a given day
+ * @param timeTable
+ */
 public record Router(TimeTable timeTable) {
+    /**
+     *
+     * @param date given day
+     * @param destinationId destination station
+     * @return the profile ofall optimal journeys from any station to the destination station, on a
+     * given day
+     */
     public Profile profile(LocalDate date, int destinationId){
             Profile.Builder profile = new Profile.Builder(timeTable, date, destinationId);
             Connections connections = timeTable.connectionsFor(date);
@@ -103,6 +115,14 @@ public record Router(TimeTable timeTable) {
         }
         return profile.build();
     }
+
+    /**
+     * Helper method to calculate the number of intermatiate stops between two connections
+     * @param connections
+     * @param from
+     * @param to
+     * @return
+     */
     private int intermediateStops(Connections connections, int from, int to){
         int numOfStops = 0;
         while(from != to){

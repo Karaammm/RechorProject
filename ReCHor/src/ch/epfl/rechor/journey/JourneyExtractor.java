@@ -11,14 +11,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 /**
- * Extracting Journeys
+ * The journey extractor
  *
  * @author Karam Fakhouri (374510)
  */
 public abstract class JourneyExtractor {
 
     /**
-     * @param profile      given profile
+     * @param profile given profile
      * @param depStationId ID of departure station
      * @return List of Journeys from a given profile and a departure point
      */
@@ -30,10 +30,22 @@ public abstract class JourneyExtractor {
         return journeys;
     }
 
+    /**
+     * Helper method to initialise date
+     * @param date
+     * @param mins
+     * @return
+     */
     private static LocalDateTime initialiseDateTime(LocalDate date, int mins) {
         return date.atStartOfDay().plusMinutes(mins);
     }
 
+    /**
+     * Helper method to create a stop
+     * @param table
+     * @param stopId
+     * @return
+     */
     private static Stop buildStop(TimeTable table, int stopId) {
         int stationId = table.stationId(stopId);
         String platformName = table.platformName(stopId);
@@ -43,6 +55,15 @@ public abstract class JourneyExtractor {
         return new Stop(stationName, platformName, longitude, latitude);
     }
 
+    /**
+     * Helper method to create a foot leg
+     * @param table
+     * @param date
+     * @param depStopId
+     * @param depMins
+     * @param arrStopId
+     * @return
+     */
     private static Journey.Leg.Foot buildFootLeg(TimeTable table, LocalDate date, int depStopId,
                                                  int depMins, int arrStopId) {
         int arrStation = table.stationId(arrStopId);
@@ -56,6 +77,14 @@ public abstract class JourneyExtractor {
         return new Journey.Leg.Foot(depStop, depTime, arrStop, arrTime);
     }
 
+    /**
+     * Helper method to create 1 intermediate stop
+     * @param table
+     * @param date
+     * @param connections
+     * @param connectionId
+     * @return
+     */
     private static Journey.Leg.IntermediateStop buildIntermediateStop(TimeTable table, LocalDate date, Connections connections,
                                                                       int connectionId) {
         int stopId = connections.arrStopId(connectionId);
@@ -70,6 +99,15 @@ public abstract class JourneyExtractor {
         return new Journey.Leg.IntermediateStop(stop, depTime, arrTime);
     }
 
+    /**
+     * Helper method to create a list of intermediate stops
+     * @param table
+     * @param date
+     * @param connections
+     * @param connectionId
+     * @param NumOfStops
+     * @return
+     */
     private static List<Journey.Leg.IntermediateStop> buildIntermediateStops(
         TimeTable table, LocalDate date, Connections connections, int connectionId, int NumOfStops) {
         List<Journey.Leg.IntermediateStop> stops = new ArrayList<>();
@@ -80,6 +118,13 @@ public abstract class JourneyExtractor {
         return stops;
     }
 
+    /**
+     * Helper method to calculate the final connection index
+     * @param connections
+     * @param connectionid
+     * @param numOfStops
+     * @return
+     */
     private static int finalConnectionId(Connections connections, int connectionid,
                                          int numOfStops) {
         for (int i = 0; i < numOfStops; i++) {
@@ -88,6 +133,16 @@ public abstract class JourneyExtractor {
         return connectionid;
     }
 
+    /**
+     * Helper method to create a transport leg
+     * @param table
+     * @param date
+     * @param connections
+     * @param trips
+     * @param connectionId
+     * @param numOfStops
+     * @return
+     */
     private static Journey.Leg.Transport buildTransport(TimeTable table, LocalDate date,
                                                         Connections connections, Trips trips,
                                                         int connectionId, int numOfStops) {
@@ -107,6 +162,13 @@ public abstract class JourneyExtractor {
                                          table.routes().name(routeId), trips.destination(tripId));
     }
 
+    /**
+     * Helper method to build a journey
+     * @param profile
+     * @param criteria
+     * @param depStationId
+     * @return
+     */
     private static Journey buildJourney(Profile profile, Long criteria,
                                         int depStationId) {
         List<Journey.Leg> legs = new ArrayList<>();

@@ -4,7 +4,15 @@ import ch.epfl.rechor.Json;
 
 import java.util.*;
 
+/**
+ * Class that provides a method to convert a trip into a GeoJSON document representing its journey
+ */
 public abstract class JourneyGeoJsonConverter {
+    /**
+     * Main method to converting to GeoJson document
+     * @param journey journey to convert
+     * @return GeoJSON document
+     */
     public static Json.JObject toGeoJson(Journey journey) {
         List<Json.JArray> coordinates = new ArrayList<>();
 
@@ -29,6 +37,11 @@ public abstract class JourneyGeoJsonConverter {
         return new Json.JObject(map);
     }
 
+    /**
+     * Helper method to convert a stop into a JArray
+     * @param stop to convert
+     * @return JArray of the stop
+     */
     private static Json.JArray stopToJArray(Stop stop){
         Json[] latAndLong = new Json[2];
         latAndLong[0] = new Json.JNumber(stop.longitude());
@@ -36,6 +49,11 @@ public abstract class JourneyGeoJsonConverter {
         return new Json.JArray(latAndLong);
     }
 
+    /**
+     * Helper method that adds a stop to the list if it differs from the last stop
+     * @param list list to append the stop to
+     * @param stop stop to add
+     */
     private static void addStopIfNew(List<Json.JArray> list, Stop stop) {
         Json.JArray stopJson = stopToJArray(stop);
         if (list.isEmpty() || !list.getLast().toString().equals(stopJson.toString())) {

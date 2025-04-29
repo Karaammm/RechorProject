@@ -8,6 +8,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * A searchable index of stop names, which is immutable
+ */
 public final class StopIndex {
     private final List<String> stopNames;
     private final Map<String, String> altNames;
@@ -28,11 +31,22 @@ public final class StopIndex {
         Map.entry('N', "[NÑ]")
     );
 
+    /**
+     * StopIndex constructor
+     * @param stopNames list of stop Names
+     * @param altNames map of station alias names
+     */
     public StopIndex(List<String> stopNames, Map<String,String> altNames){
         this.stopNames = List.copyOf(stopNames);
         this.altNames = Map.copyOf(altNames);
     }
 
+    /**
+     * @param query the searchq query
+     * @param maxResults maximum number of results to return
+     * @return the list of stop names matching the query, sorted by decreasing relevance and without
+     * duplicates
+     */
     public List<String> stopsMatching(String query, int maxResults){
         int flags = query.chars().anyMatch(Character::isUpperCase)
             ? Pattern.UNICODE_CASE
@@ -52,16 +66,30 @@ public final class StopIndex {
                 Map.Entry::getValue,
                 entry -> relevanceScore(entry.getKey(),subREs),
                 Math::max))
-            .entrySet().stream()
+            .entrySet()
+            .stream()
             .sorted((Map.Entry.<String, Integer>comparingByValue().reversed()))
-            .limit(maxResults).map(Map.Entry::getKey)
+            .limit(maxResults)
+            .map(Map.Entry::getKey)
             .toList();
     }
 
+    /**
+     * Helper method
+     * @param name
+     * @param subREs
+     * @return boolean to check if the stop name matches all the subqueries
+     */
     private boolean  matchesAllSubqueries(String name, Pattern[] subREs) {
         return Arrays.stream(subREs).allMatch(re -> re.matcher(name).find());
     }
 
+    /**
+     * Helper method  that converts an array of subqueries into an array of RegExs, with the given flags
+     * @param subqueries
+     * @param flags
+     * @return an array of RegExs
+     */
     private Pattern[] toRegEx(String[] subqueries, int flags){
         return Arrays.stream(subqueries)
                      .map(sub -> sub.chars()
@@ -74,6 +102,12 @@ public final class StopIndex {
                      .toArray(Pattern[]::new);
     }
 
+    /**
+     * Helper method to calculate the relevance score of each stop
+     * @param name the stop name
+     * @param subREs
+     * @return the relevance score of the given stop
+     */
     private int relevanceScore(String name, Pattern[] subREs){
         int score = 0;
         for(Pattern subquery: subREs){

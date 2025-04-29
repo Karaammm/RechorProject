@@ -12,12 +12,12 @@ import java.util.List;
 /**
  * @author Karam Fakhouri (374510)
  * 
- *         A profile
+ * A profile
  */
 public record Profile(TimeTable timeTable, LocalDate date, int arrStationId,
                       List<ParetoFront> stationFront) {
     /**
-     * Ensures immutability
+     * Constructor that ensures immutability
      * 
      * @param timeTable of public transport
      * @param date of the connections
@@ -54,9 +54,9 @@ public record Profile(TimeTable timeTable, LocalDate date, int arrStationId,
     }
 
     /**
-     * @author Ibrahim Khokher (361860)
-     * 
-     * 
+     * @author Karam Fakhouri (374510)
+     *
+     * Helper class to build a profile
      */
     public static final class Builder {
 
@@ -71,7 +71,12 @@ public record Profile(TimeTable timeTable, LocalDate date, int arrStationId,
         private final boolean[] tripSet;
 
 
-
+        /**
+         * Constructor of the builder
+         * @param timeTable given schedule
+         * @param date given date
+         * @param arrStationId destination station
+         */
         public Builder(TimeTable timeTable, LocalDate date, int arrStationId) {
             this.timeTable = timeTable;
             this.date = date;
@@ -84,28 +89,56 @@ public record Profile(TimeTable timeTable, LocalDate date, int arrStationId,
             this.tripSet = new boolean[tripNum];
         }
 
+        /**
+         * @param stationId station index
+         * @return returns the pareto frontier builder for the given station index, which can be null if
+         *         no call to setForStation has been made previously for the same station
+         * @throws IndexOutOfBoundsException for an invalid index
+         */
         public ParetoFront.Builder forStation(int stationId) {
             Preconditions.checkIndex(stationBuilders.length, stationId);
             return stationSet[stationId] ? stationBuilders[stationId] : null;
         }
 
+        /**
+         * associates the given pareto frontier builder with the given index station
+         * @param stationId station index
+         * @param builder pareto frontier builder
+         * @throws IndexOutOfBoundsException for an invalid index
+         */
         public void setForStation(int stationId, ParetoFront.Builder builder) {
             Preconditions.checkIndex(stationBuilders.length, stationId);
             stationBuilders[stationId] = builder;
             stationSet[stationId] = true;
         }
 
+        /**
+         * @param tripId trip index
+         * @return returns the pareto frontier builder for the given trip index, which can be null if
+         *         no call to setForTrip has been made previously for the same trip
+         * @throws IndexOutOfBoundsException for an invalid index
+         */
         public ParetoFront.Builder forTrip(int tripId) {
             Preconditions.checkIndex(tripBuilders.length, tripId);
             return tripSet[tripId] ? tripBuilders[tripId] : null;
         }
 
+        /**
+         * associates the given pareto frontier builder with the given index trip
+         * @param tripId trip index
+         * @param builder pareto frontier builder
+         * @throws IndexOutOfBoundsException for an invalid index
+         */
         public void setForTrip(int tripId, ParetoFront.Builder builder) {
             Preconditions.checkIndex(tripBuilders.length, tripId);
             tripBuilders[tripId] = builder;
             tripSet[tripId] = true;
         }
 
+        /**
+         * Builds the profile
+         * @return the built profile
+         */
         public Profile build() {
             List<ParetoFront> stationFrontiers = Arrays.stream(stationBuilders)
                     .map(builder -> builder != null ? builder.build()
