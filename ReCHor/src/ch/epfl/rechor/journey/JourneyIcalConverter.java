@@ -25,15 +25,15 @@ public abstract class JourneyIcalConverter {
      */
     public static String toIcalendar(Journey journey) {
         IcalBuilder builder = new IcalBuilder();
-        builder.begin(Component.VCALENDAR);
-        builder.add(Name.VERSION, "2.0");
-        builder.add(Name.PRODID, "ReCHor");
-        builder.begin(Component.VEVENT);
-        builder.add(Name.UID, UUID.randomUUID().toString());
-        builder.add(Name.DTSTAMP, LocalDateTime.now());
-        builder.add(Name.DTSTART, journey.depTime());
-        builder.add(Name.DTEND, journey.arrTime());
-        builder.add(Name.SUMMARY, journey.depStop().name() + " → " + journey.arrStop().name());
+        builder.begin(Component.VCALENDAR)
+               .add(Name.VERSION, "2.0")
+               .add(Name.PRODID, "ReCHor")
+               .begin(Component.VEVENT)
+               .add(Name.UID, UUID.randomUUID().toString())
+               .add(Name.DTSTAMP, LocalDateTime.now())
+               .add(Name.DTSTART, journey.depTime())
+               .add(Name.DTEND, journey.arrTime())
+               .add(Name.SUMMARY, journey.depStop().name() + " → " + journey.arrStop().name());
         StringJoiner desc = new StringJoiner("\\n");
         for (Leg leg : journey.legs()) {
             switch (leg) {
@@ -43,9 +43,9 @@ public abstract class JourneyIcalConverter {
                     desc.add(FormatterFr.formatLeg(t));
             }
         }
-        builder.add(Name.DESCRIPTION, desc.toString());
-        builder.end();
-        builder.end();
+        builder.add(Name.DESCRIPTION, desc.toString())
+               .end()
+               .end();
 
         return builder.build();
     }

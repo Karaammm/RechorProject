@@ -1,13 +1,13 @@
 package ch.epfl.rechor;
 
+import ch.epfl.rechor.journey.Journey;
+import ch.epfl.rechor.journey.Stop;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
-
-import ch.epfl.rechor.journey.Journey;
-import ch.epfl.rechor.journey.Stop;
 
 /**
  * Formatter for representing different types of data
@@ -93,16 +93,14 @@ public final class FormatterFr {
     public static String formatLeg(Journey.Leg.Transport Leg) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(formatTime(Leg.depTime()) + " ")
-                .append(Leg.depStop().name() + " ");
+        sb.append(formatTime(Leg.depTime())).append(" ").append(Leg.depStop().name()).append(" ");
         if (Leg.depStop().platformName() != null) {
             sb.append("(")
                     .append(formatPlatformName(Leg.depStop()))
                     .append(") ");
         }
-        sb.append("\u2192 ");
-        sb.append(Leg.arrStop().name() + " ")
-                .append("(arr. " + formatTime(Leg.arrTime()));
+        sb.append("\u2192 ").append(Leg.arrStop().name()).append(" ").append("(arr. ")
+          .append(formatTime(Leg.arrTime()));
         if (Leg.arrStop().platformName() != null) {
             sb.append(" ").append(formatPlatformName(Leg.arrStop()));
         }

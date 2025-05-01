@@ -30,8 +30,8 @@ public class JourneyGeoJsonConverterTest {
             TimeTable timeTable = new CachedTimeTable(FileTimeTable.in(Path.of("timetable-16")));
             Stations stations = timeTable.stations();
             LocalDate date = LocalDate.of(2025, Month.APRIL, 16);
-            int depStationId = stationId(stations, "Ecublens VD, EPFL");
-            int arrStationId = stationId(stations, "Renens VD, gare");
+            int depStationId = stationId(stations, "Lausanne, Bourdonnette");
+            int arrStationId = stationId(stations, "Zürich HB");
             Router router = new Router(timeTable);
             Profile profile = router.profile(date, arrStationId);
             List<Journey> journeys = JourneyExtractor.journeys(profile, depStationId);

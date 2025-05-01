@@ -48,7 +48,7 @@ public class RouterTest {
     }
 
     @Test
-    void routerWorks(){
+    void routerWorksAndAverageTime(){
         try {
             double sum = 0L;
             for (int i = 0;i < 100; i++) {

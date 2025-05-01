@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.List;
 
 public class DetailUITest extends Application {
     static int stationId(Stations stations, String stationName) {
@@ -31,6 +32,7 @@ public class DetailUITest extends Application {
         return -1;
     }
     @Override public void start (Stage primaryStage) throws Exception {
+        long tStart = System.nanoTime();
         TimeTable timeTable = new CachedTimeTable(
             FileTimeTable.in(Path.of("timetable-16" )));
         Stations stations = timeTable.stations();
@@ -39,9 +41,9 @@ public class DetailUITest extends Application {
         int arrStationId = stationId(stations, "Gruyères" );
         Router router = new Router (timeTable);
         Profile profile = router.profile(date, arrStationId);
-        Journey journey = JourneyExtractor
-            .journeys(profile, depStationId)
-            .get( 32 );
+        List<Journey> journeys = JourneyExtractor.journeys(profile, depStationId);
+//        Journey journey = null;
+        Journey journey = journeys.get(32);
         ObservableValue<Journey> journeyO = new SimpleObjectProperty<>(journey);
         DetailUI detailUI = DetailUI.create(journeyO);
         Pane root = new BorderPane(detailUI.rootNode());
@@ -49,5 +51,7 @@ public class DetailUITest extends Application {
         primaryStage.setMinWidth( 400 );
         primaryStage.setMinHeight( 600 );
         primaryStage.show();
+        double elapsed = (System.nanoTime() - tStart) * 1e-9;
+        System.out.printf("Temps écoulé : %.3f s%n", elapsed);
     }
 }
