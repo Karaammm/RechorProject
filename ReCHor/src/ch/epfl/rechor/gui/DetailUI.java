@@ -56,8 +56,7 @@ public record DetailUI(Node rootNode){
 
 
         // update the display and bind it to the observer
-        updateJourneyDisplay(journey, noJourneyBox, legsPane);
-        journeyObs.addListener((obs, oldJourney, newJourney) ->
+        journeyObs.subscribe(newJourney ->
                                    updateJourneyDisplay(newJourney, noJourneyBox, legsPane));
 
         StackPane tripPane = new StackPane(linePane,legsPane);
@@ -157,7 +156,6 @@ public record DetailUI(Node rootNode){
                     GridPane.setConstraints(arrPlatform, 3, rowIndex);
                     legsPane.addCirclePair(new javafx.util.Pair<>(depCircle, arrCircle));
                     legsPane.getChildren().addAll(arrTime, arrCircle, arrStation, arrPlatform);
-                    //legsPane.setGridLinesVisible(true);
 
                 }
             }
@@ -213,9 +211,6 @@ public record DetailUI(Node rootNode){
             pairs.add(pair);
         }
 
-//        private List<Pair<Bounds, Bounds>> getBounds(){
-//            return bounds;
-//        }
         @Override
         protected void layoutChildren(){
             super.layoutChildren();

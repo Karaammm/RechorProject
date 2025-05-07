@@ -52,11 +52,12 @@ public class StopIndexTest {
             List<String> stopNames = generateStopNames(stations);
             Map<String, String> altNames = generateAltNames(stations,altStations);
             StopIndex stopIndex = new StopIndex(stopNames,altNames);
-            List<String> results =  stopIndex.stopsMatching("lo", 12);
+            List<String> results =  stopIndex.stopsMatching("Renens Gare", 12);
             for(String str : results) {
                 System.out.println(str);
             }
         } catch (IOException e) {
+            System.out.println(1);
             throw new RuntimeException(e);
         }
     }

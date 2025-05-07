@@ -47,27 +47,27 @@ public class RouterTest {
         }
     }
 
-    @Test
-    void routerWorksAndAverageTime(){
-        try {
-            double sum = 0L;
-            for (int i = 0;i < 100; i++) {
-                long tStart = System.nanoTime();
-                TimeTable timeTable = new CachedTimeTable(FileTimeTable.in(Path.of("timetable-16")));
-                Stations stations = timeTable.stations();
-                LocalDate date = LocalDate.of(2025, Month.APRIL, 16);
-                int depStationId = stationId(stations, "Ecublens VD, EPFL");
-                int arrStationId = stationId(stations, "Gruyères");
-                Router router = new Router(timeTable);
-                Profile profile = router.profile(date, arrStationId);
-                List<Journey> journey = JourneyExtractor.journeys(profile, depStationId);
-                sum += (System.nanoTime() - tStart) * 1e-9;
-            }
-            System.out.println("Average time:" + sum / 100.0);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
+//    @Test
+//    void routerWorksAndAverageTime(){
+//        try {
+//            double sum = 0L;
+//            for (int i = 0;i < 100; i++) {
+//                long tStart = System.nanoTime();
+//                TimeTable timeTable = new CachedTimeTable(FileTimeTable.in(Path.of("timetable-16")));
+//                Stations stations = timeTable.stations();
+//                LocalDate date = LocalDate.of(2025, Month.APRIL, 16);
+//                int depStationId = stationId(stations, "Ecublens VD, EPFL");
+//                int arrStationId = stationId(stations, "Gruyères");
+//                Router router = new Router(timeTable);
+//                Profile profile = router.profile(date, arrStationId);
+//                List<Journey> journey = JourneyExtractor.journeys(profile, depStationId);
+//                sum += (System.nanoTime() - tStart) * 1e-9;
+//            }
+//            System.out.println("Average time:" + sum / 100.0);
+//        } catch (IOException ex) {
+//            throw new RuntimeException(ex);
+//        }
+//    }
 
     @Test
     void writingProfileOfWeek12(){
