@@ -1,11 +1,15 @@
 package ch.epfl.rechor.gui_debug;
 
 import ch.epfl.rechor.gui.SummaryUI;
-import ch.epfl.rechor.journey.*;
+import ch.epfl.rechor.journey.Journey;
+import ch.epfl.rechor.journey.JourneyExtractor;
+import ch.epfl.rechor.journey.Profile;
+import ch.epfl.rechor.journey.Router;
 import ch.epfl.rechor.timetable.CachedTimeTable;
 import ch.epfl.rechor.timetable.Stations;
 import ch.epfl.rechor.timetable.TimeTable;
 import ch.epfl.rechor.timetable.mapped.FileTimeTable;
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
@@ -13,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.nio.file.Path;
 import java.time.LocalDate;
@@ -43,9 +48,12 @@ public final class SummaryUITest extends Application {
 
         List<Journey> journeys = JourneyExtractor
             .journeys(profile, depStationId);
-        System.out.println(journeys.size());
-        System.out.println(JourneyIcalConverter.toIcalendar(journeys.getLast()));
-        ObservableValue<List<Journey>> journeysO =
+
+        int depStationId2 = stationId(stations,"Zürich HB");
+        List<Journey> journeys2 = JourneyExtractor
+            .journeys(profile, depStationId2);
+
+         SimpleObjectProperty<List<Journey>> journeysO =
             new SimpleObjectProperty<>(journeys);
         ObservableValue<LocalTime> depTimeO =
             new SimpleObjectProperty<>(LocalTime.of(0, 0));
@@ -55,5 +63,9 @@ public final class SummaryUITest extends Application {
         primaryStage.setMinWidth( 400 );
         primaryStage.setMinHeight( 600 );
         primaryStage.show();
+        PauseTransition delay = new PauseTransition(Duration.seconds(2));
+        delay.setOnFinished( e -> journeysO.set(journeys2));
+        delay.play();
+
     }
 }

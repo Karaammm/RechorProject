@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 
 /**
  * A searchable index of stop names, which is immutable
+ * @author Karam Fakhouri (374510)
  */
 public final class StopIndex {
     private final List<String> stopNames;
@@ -31,6 +32,7 @@ public final class StopIndex {
         Map.entry('N', "[NÑ]")
     );
 
+
     /**
      * StopIndex constructor
      * @param stopNames list of stop Names
@@ -42,7 +44,7 @@ public final class StopIndex {
     }
 
     /**
-     * @param query the searchq query
+     * @param query the search query
      * @param maxResults maximum number of results to return
      * @return the list of stop names matching the query, sorted by decreasing relevance and without
      * duplicates
@@ -85,22 +87,25 @@ public final class StopIndex {
     }
 
     /**
-     * Helper method  that converts an array of subqueries into an array of RegExs, with the given flags
+     * Helper method  that converts an array of subqueries into an array of RegExs,
+     * with the given flags
      * @param subqueries
      * @param flags
      * @return an array of RegExs
      */
     private Pattern[] toRegEx(String[] subqueries, int flags){
         return Arrays.stream(subqueries)
-                     .map(sub -> sub.chars()
-                                    .mapToObj(c -> {
-                                        char ch = ((flags & Pattern.CASE_INSENSITIVE) == Pattern.CASE_INSENSITIVE) ? Character.toLowerCase((char)c) : (char)c;
-                                        return ACCENT_EQUIV.getOrDefault(ch, Pattern.quote(Character.toString(ch)));
-                                    })
+                     .map(sub -> sub.chars().mapToObj(c -> {
+                         char ch = ((flags & Pattern.CASE_INSENSITIVE) == Pattern.CASE_INSENSITIVE)
+                             ? Character.toLowerCase((char)c)
+                             : (char)c;
+                         return ACCENT_EQUIV.getOrDefault(ch,Pattern.quote(Character.toString(ch)));
+                     })
                                     .collect(Collectors.joining()))
                      .map(regex -> Pattern.compile(regex, flags))
                      .toArray(Pattern[]::new);
     }
+
 
     /**
      * Helper method to calculate the relevance score of each stop

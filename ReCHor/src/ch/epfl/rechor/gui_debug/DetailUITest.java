@@ -9,12 +9,14 @@ import ch.epfl.rechor.timetable.CachedTimeTable;
 import ch.epfl.rechor.timetable.Stations;
 import ch.epfl.rechor.timetable.TimeTable;
 import ch.epfl.rechor.timetable.mapped.FileTimeTable;
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.nio.file.Path;
 import java.time.LocalDate;
@@ -50,7 +52,9 @@ public final class DetailUITest extends Application {
         primaryStage.setMinWidth( 400 );
         primaryStage.setMinHeight( 600 );
         primaryStage.show();
-        journeyO.set(null);
+        PauseTransition delay = new PauseTransition(Duration.seconds(2));
+        delay.setOnFinished( e -> journeyO.set(null));
+        delay.play();
         double elapsed = (System.nanoTime() - tStart) * 1e-9;
         System.out.printf("Temps écoulé : %.3f s%n", elapsed);
     }
