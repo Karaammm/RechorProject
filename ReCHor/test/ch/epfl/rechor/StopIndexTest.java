@@ -46,16 +46,22 @@ public class StopIndexTest {
     @Test
     void largeTest(){
         try {
+
             TimeTable table = new CachedTimeTable(FileTimeTable.in(Path.of("timetable-16")));
             Stations stations = table.stations();
             StationAliases altStations = table.stationAliases();
             List<String> stopNames = generateStopNames(stations);
             Map<String, String> altNames = generateAltNames(stations,altStations);
+            long tStart = System.nanoTime();
             StopIndex stopIndex = new StopIndex(stopNames,altNames);
-            List<String> results =  stopIndex.stopsMatching("Renens Gare", 12);
+            List<String> results =  stopIndex.stopsMatching("Renens gare", 12);
             for(String str : results) {
                 System.out.println(str);
+//            }
             }
+
+            double elapsed = (System.nanoTime() - tStart) * 1e-9;
+            System.out.printf("Temps écoulé : %.3f s%n", elapsed);
         } catch (IOException e) {
             System.out.println(1);
             throw new RuntimeException(e);

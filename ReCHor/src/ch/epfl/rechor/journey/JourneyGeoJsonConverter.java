@@ -16,18 +16,20 @@ public abstract class JourneyGeoJsonConverter {
     public static Json.JObject toGeoJson(Journey journey) {
         List<Json.JArray> coordinates = new ArrayList<>();
 
-        for (Journey.Leg leg : journey.legs()) {
-            switch (leg) {
-                case Journey.Leg.Foot f -> {
-                    addStopIfNew(coordinates, f.depStop());
-                    addStopIfNew(coordinates, f.arrStop());
-                }
-                case Journey.Leg.Transport t -> {
-                    addStopIfNew(coordinates, t.depStop());
-                    for (Journey.Leg.IntermediateStop is : t.intermediateStops()) {
-                        addStopIfNew(coordinates, is.stop());
+        if(journey != null) {
+            for (Journey.Leg leg : journey.legs()) {
+                switch (leg) {
+                    case Journey.Leg.Foot f -> {
+                        addStopIfNew(coordinates, f.depStop());
+                        addStopIfNew(coordinates, f.arrStop());
                     }
-                    addStopIfNew(coordinates, t.arrStop());
+                    case Journey.Leg.Transport t -> {
+                        addStopIfNew(coordinates, t.depStop());
+                        for (Journey.Leg.IntermediateStop is : t.intermediateStops()) {
+                            addStopIfNew(coordinates, is.stop());
+                        }
+                        addStopIfNew(coordinates, t.arrStop());
+                    }
                 }
             }
         }

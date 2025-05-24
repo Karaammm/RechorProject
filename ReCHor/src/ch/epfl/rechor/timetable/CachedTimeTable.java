@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 /**
  * Represents a timetable stored in cache
+ * @author Karam Fakhouri (374510)
  */
 public class CachedTimeTable implements TimeTable{
 

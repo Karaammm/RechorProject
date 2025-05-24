@@ -5,6 +5,7 @@ import java.util.StringJoiner;
 
 /**
  * Represents JSON data types
+ * @author Karam Fakhouri (374510)
  */
 public sealed interface Json {
     /**

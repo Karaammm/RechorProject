@@ -130,4 +130,5 @@ class JourneyIcalConverterTest {
         }
         assertEquals(Set.of(), requiredNames);
     }
+
 }
