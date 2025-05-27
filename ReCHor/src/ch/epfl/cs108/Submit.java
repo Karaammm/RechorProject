@@ -32,7 +32,7 @@ public final class Submit {
     // Jeton du premier membre du groupe (Karam)
     private static final String TOKEN_1 = "Ooyeu7oo";
     // Jeton du second membre (identique au premier pour les personnes travaillant
-    // seules) (Ibrahim)
+    // seules) (Karam)
     private static final String TOKEN_2 = "Ooyeu7oo";
     // Noms des éventuels fichiers Java additionnels à inclure (p.ex.
     // "MyClass.java")

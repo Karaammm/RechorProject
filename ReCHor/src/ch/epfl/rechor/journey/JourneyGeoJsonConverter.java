@@ -46,8 +46,10 @@ public abstract class JourneyGeoJsonConverter {
      */
     private static Json.JArray stopToJArray(Stop stop){
         Json[] latAndLong = new Json[2];
-        latAndLong[0] = new Json.JNumber(stop.longitude());
-        latAndLong[1] = new Json.JNumber(stop.latitude());
+        double roundedLon = Math.round(stop.longitude() * 1e5) / 1e5;
+        double roundedLat = Math.round(stop.latitude() * 1e5) / 1e5;
+        latAndLong[0] = new Json.JNumber(roundedLon);
+        latAndLong[1] = new Json.JNumber(roundedLat);
         return new Json.JArray(latAndLong);
     }
 

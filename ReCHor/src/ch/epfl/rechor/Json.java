@@ -15,9 +15,7 @@ public sealed interface Json {
     public record JArray (Json[] jsons) implements Json{
         @Override
         public String toString(){
-            StringJoiner str = jsons.length > 0 &&
-                jsons[0] instanceof JArray ? new StringJoiner(",\n", "[", "]") :
-                new StringJoiner(",", "[", "]");
+            StringJoiner str = new StringJoiner(",", "[", "]");
             for (Json json : jsons) {
                 str.add(json.toString());
             }
@@ -32,7 +30,7 @@ public sealed interface Json {
     public record JObject(Map<Json.JString, Json> table) implements Json{
         @Override
         public String toString(){
-            StringJoiner str = new StringJoiner(",\n","{\n","\n}");
+            StringJoiner str = new StringJoiner(",","{","}");
             for(Json.JString key : table.keySet()){
                 str.add(key +
                             ":" + table.get(key));

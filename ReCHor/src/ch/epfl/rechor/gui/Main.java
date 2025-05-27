@@ -61,7 +61,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Path timetablePath = Path.of("timetable-19");
+        Path timetablePath = Path.of("timetable");
         TimeTable timetable = new CachedTimeTable(FileTimeTable.in(timetablePath));
         Stations stations = timetable.stations();
         StationAliases stationAliases = timetable.stationAliases();

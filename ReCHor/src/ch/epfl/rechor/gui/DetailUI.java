@@ -5,6 +5,8 @@ import ch.epfl.rechor.journey.Journey;
 import ch.epfl.rechor.journey.JourneyGeoJsonConverter;
 import ch.epfl.rechor.journey.JourneyIcalConverter;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
@@ -182,84 +184,120 @@ public record DetailUI(Node rootNode) {
         int rowIndex = -1;
         for (Journey.Leg leg : journey.legs()) {
             switch (leg) {
-            case Journey.Leg.Foot f -> {
-                rowIndex++;
-                Text footText = new Text(FormatterFr.formatLeg(f));
-                GridPane.setConstraints(footText, 2, rowIndex, 2, 1);
-                legsPane.getChildren().add(footText);
-
-            }
-
-            case Journey.Leg.Transport t -> {
-                List<Journey.Leg.IntermediateStop> intermediateStops = t.intermediateStops();
-
-                // First row: departure
-                rowIndex++;
-                Text depTime = new Text(FormatterFr.formatTime(t.depTime()));
-                Circle depCircle = new Circle(3d);
-                Text depStation = new Text(t.depStop().name());
-                Text depPlatform = new Text(FormatterFr.formatPlatformName(t.depStop()));
-                depTime.getStyleClass().add("departure");
-                depPlatform.getStyleClass().add("departure");
-                GridPane.setConstraints(depTime, 0, rowIndex);
-                GridPane.setConstraints(depCircle, 1, rowIndex);
-                GridPane.setConstraints(depStation, 2, rowIndex);
-                GridPane.setConstraints(depPlatform, 3, rowIndex);
-                legsPane.getChildren().addAll(depTime, depCircle, depStation, depPlatform);
-
-                // Second row: icon and destination
-                rowIndex++;
-                int iconRowSpan = intermediateStops.isEmpty() ? 1 : 2;
-                ImageView vehicleIcon = new ImageView(VehicleIcons.iconFor(t.vehicle()));
-                vehicleIcon.setFitWidth(31);
-                vehicleIcon.setFitHeight(31);
-                Text destination = new Text(FormatterFr.formatRouteDestination(t));
-                GridPane.setConstraints(vehicleIcon, 0, rowIndex, 1, iconRowSpan);
-                GridPane.setConstraints(destination, 2, rowIndex, 2, 1);
-                legsPane.getChildren().addAll(vehicleIcon, destination);
-
-                // Third row: intermediate stops (if any)
-                if (!intermediateStops.isEmpty()) {
+                case Journey.Leg.Foot f -> {
                     rowIndex++;
-                    GridPane stopsGrid = new GridPane();
-                    stopsGrid.getStyleClass().add("intermediate-stops");
-                    int stopRow = 0;
-                    for (Journey.Leg.IntermediateStop s : intermediateStops) {
-                        Text arrTime = new Text(FormatterFr.formatTime(s.arrTime()));
-                        Text depStopTime = new Text(FormatterFr.formatTime(s.depTime()));
-                        Text stopName = new Text(s.stop().name());
-
-                        GridPane.setConstraints(arrTime, 0, stopRow);
-                        GridPane.setConstraints(depStopTime, 1, stopRow);
-                        GridPane.setConstraints(stopName, 2, stopRow);
-                        stopsGrid.getChildren().addAll(arrTime, depStopTime, stopName);
-                        stopRow++;
-                    }
-                    String titledText = intermediateStops.size() + " arrêts, "
-                            + FormatterFr.formatDuration(t.duration());
-                    TitledPane titledPane = new TitledPane(titledText, stopsGrid);
-                    Accordion accordion = new Accordion(titledPane);
-                    GridPane.setConstraints(accordion, 2, rowIndex, 2, 1);
-                    legsPane.getChildren().add(accordion);
+                    Text footText = new Text(FormatterFr.formatLeg(f));
+                    GridPane.setConstraints(footText, 2, rowIndex, 2, 1);
+                    GridPane.setValignment(footText, VPos.CENTER);
+                    legsPane.getChildren().add(footText);
                 }
 
-                // Fourth row: arrival
-                rowIndex++;
-                Text arrTime = new Text(FormatterFr.formatTime(t.arrTime()));
-                Circle arrCircle = new Circle(3d);
-                Text arrStation = new Text(t.arrStop().name());
-                Text arrPlatform = new Text(FormatterFr.formatPlatformName(t.arrStop()));
-                GridPane.setConstraints(arrTime, 0, rowIndex);
-                GridPane.setConstraints(arrCircle, 1, rowIndex);
-                GridPane.setConstraints(arrStation, 2, rowIndex);
-                GridPane.setConstraints(arrPlatform, 3, rowIndex);
-                legsPane.addCirclePair(new javafx.util.Pair<>(depCircle, arrCircle));
-                legsPane.getChildren().addAll(arrTime, arrCircle, arrStation, arrPlatform);
+                case Journey.Leg.Transport t -> {
+                    List<Journey.Leg.IntermediateStop> intermediateStops = t.intermediateStops();
 
-            }
+                    // First row: departure
+                    rowIndex++;
+                    Text depTime = new Text(FormatterFr.formatTime(t.depTime()));
+                    Circle depCircle = new Circle(3d);
+                    Text depStation = new Text(t.depStop().name());
+                    Text depPlatform = new Text(FormatterFr.formatPlatformName(t.depStop()));
+                    depTime.getStyleClass().add("departure");
+                    depPlatform.getStyleClass().add("departure");
+
+                    GridPane.setConstraints(depTime, 0, rowIndex);
+                    GridPane.setHalignment(depTime, HPos.RIGHT);
+
+                    GridPane.setConstraints(depCircle, 1, rowIndex);
+                    GridPane.setValignment(depCircle, VPos.CENTER);
+
+                    GridPane.setConstraints(depStation, 2, rowIndex);
+                    GridPane.setValignment(depStation, VPos.CENTER);
+
+                    GridPane.setConstraints(depPlatform, 3, rowIndex);
+                    GridPane.setHalignment(depPlatform, HPos.LEFT);
+                    GridPane.setValignment(depPlatform, VPos.CENTER);
+
+                    legsPane.getChildren().addAll(depTime, depCircle, depStation, depPlatform);
+
+                    // Second row: icon and destination
+                    rowIndex++;
+                    int iconRowSpan = intermediateStops.isEmpty() ? 1 : 2;
+                    ImageView vehicleIcon = new ImageView(VehicleIcons.iconFor(t.vehicle()));
+                    vehicleIcon.setFitWidth(31);
+                    vehicleIcon.setFitHeight(31);
+                    Text destination = new Text(FormatterFr.formatRouteDestination(t));
+
+                    GridPane.setConstraints(vehicleIcon, 0, rowIndex, 1, iconRowSpan);
+                    GridPane.setHalignment(vehicleIcon, HPos.CENTER);
+                    GridPane.setValignment(vehicleIcon, VPos.CENTER);
+
+                    GridPane.setConstraints(destination, 2, rowIndex, 2, 1);
+                    GridPane.setValignment(destination, VPos.CENTER);
+
+                    legsPane.getChildren().addAll(vehicleIcon, destination);
+
+                    // Third row: intermediate stops if any
+                    if (!intermediateStops.isEmpty()) {
+                        rowIndex++;
+                        GridPane stopsGrid = new GridPane();
+                        stopsGrid.getStyleClass().add("intermediate-stops");
+
+                        int stopRow = 0;
+                        for (Journey.Leg.IntermediateStop s : intermediateStops) {
+                            Text arrTime = new Text(FormatterFr.formatTime(s.arrTime()));
+                            Text depStopTime = new Text(FormatterFr.formatTime(s.depTime()));
+                            Text stopName = new Text(s.stop().name());
+
+                            GridPane.setConstraints(arrTime, 0, stopRow);
+                            GridPane.setHalignment(arrTime, HPos.RIGHT);
+
+                            GridPane.setConstraints(depStopTime, 1, stopRow);
+                            GridPane.setHalignment(depStopTime, HPos.RIGHT);
+
+                            GridPane.setConstraints(stopName, 2, stopRow);
+                            GridPane.setValignment(stopName, VPos.CENTER);
+
+                            stopsGrid.getChildren().addAll(arrTime, depStopTime, stopName);
+                            stopRow++;
+                        }
+
+                        String titledText = intermediateStops.size() + " arrêts, "
+                            + FormatterFr.formatDuration(t.duration());
+                        TitledPane titledPane = new TitledPane(titledText, stopsGrid);
+                        Accordion accordion = new Accordion(titledPane);
+
+                        GridPane.setConstraints(accordion, 2, rowIndex, 2, 1);
+                        GridPane.setValignment(accordion, VPos.CENTER);
+
+                        legsPane.getChildren().add(accordion);
+                    }
+
+                    // Fourth row: arrival
+                    rowIndex++;
+                    Text arrTime = new Text(FormatterFr.formatTime(t.arrTime()));
+                    Circle arrCircle = new Circle(3d);
+                    Text arrStation = new Text(t.arrStop().name());
+                    Text arrPlatform = new Text(FormatterFr.formatPlatformName(t.arrStop()));
+
+                    GridPane.setConstraints(arrTime, 0, rowIndex);
+                    GridPane.setHalignment(arrTime, HPos.RIGHT);
+
+                    GridPane.setConstraints(arrCircle, 1, rowIndex);
+                    GridPane.setValignment(arrCircle, VPos.CENTER);
+
+                    GridPane.setConstraints(arrStation, 2, rowIndex);
+                    GridPane.setValignment(arrStation, VPos.CENTER);
+
+                    GridPane.setConstraints(arrPlatform, 3, rowIndex);
+                    GridPane.setValignment(arrPlatform, VPos.CENTER);
+
+                    legsPane.addCirclePair(new javafx.util.Pair<>(depCircle, arrCircle));
+                    legsPane.getChildren().addAll(arrTime, arrCircle, arrStation, arrPlatform);
+                }
             }
         }
     }
+
 
     /**
      * A private subclass of {@code GridPane} designed specifically to manage and
