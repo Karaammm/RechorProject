@@ -1,0 +1,104 @@
+2026.10.14 10:08:22 INFO  Started: Metals version 1.6.9 in folders '/Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject' for client Visual Studio Code 1.141.1.[0m
+2026.10.14 10:08:22 INFO  Memory monitor started[0m
+2026.10.14 10:08:23 WARN  Using H2 2.5.250 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.[0m
+2026.10.14 10:08:23 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/cs108/Submit.java. Using fallback presentation compiler.[0m
+Oct 14, 2026 10:08:24 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 2
+2026.10.14 10:08:23 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/cs108/Submit.java. Using fallback presentation compiler.[0m
+2026.10.14 10:08:23 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/cs108/Submit.java. Using fallback presentation compiler.[0m
+2026.10.14 10:08:24 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/cs108/Submit.java. Using fallback presentation compiler.[0m
+2026.10.14 10:08:24 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/cs108/Submit.java. Using fallback presentation compiler.[0m
+2026.10.14 10:08:25 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/cs108/Submit.java. Using fallback presentation compiler.[0m
+2026.10.14 10:08:24 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/cs108/Submit.java. Using fallback presentation compiler.[0m
+2026.10.14 10:08:27 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/cs108/Submit.java. Using fallback presentation compiler.[0m
+2026.10.14 10:08:28 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/cs108/Submit.java. Using fallback presentation compiler.[0m
+2026.10.14 10:08:29 WARN  no build target for: /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/cs108/Submit.java[0m
+2026.10.14 10:08:33 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/cs108/Submit.java. Using fallback presentation compiler.[0m
+2026.10.14 10:08:49 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/cs108/Submit.java. Using fallback presentation compiler.[0m
+2026.10.14 10:09:41 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/cs108/Submit.java. Using fallback presentation compiler.[0m
+2026.10.14 10:09:41 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/gui/Main.java. Using fallback presentation compiler.[0m
+2026.10.14 10:09:41 WARN  no build target for: /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/gui/Main.java[0m
+Oct 14, 2026 10:09:41 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 25
+2026.10.14 10:09:41 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/gui/Main.java. Using fallback presentation compiler.[0m
+2026.10.14 10:09:41 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/gui/Main.java. Using fallback presentation compiler.[0m
+2026.10.14 10:09:41 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/gui/Main.java. Using fallback presentation compiler.[0m
+2026.10.14 10:09:41 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/gui/Main.java. Using fallback presentation compiler.[0m
+2026.10.14 10:09:42 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/gui/Main.java. Using fallback presentation compiler.[0m
+2026.10.14 10:09:42 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/gui/Main.java. Using fallback presentation compiler.[0m
+2026.10.14 10:09:43 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/gui/Main.java. Using fallback presentation compiler.[0m
+2026.10.14 10:09:45 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/gui/Main.java. Using fallback presentation compiler.[0m
+2026.10.14 10:09:45 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/gui/Main.java. Using fallback presentation compiler.[0m
+2026.10.14 10:09:46 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/gui/Main.java. Using fallback presentation compiler.[0m
+2026.10.14 10:09:46 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/gui/Main.java. Using fallback presentation compiler.[0m
+2026.10.14 10:10:34 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/gui/Main.java. Using fallback presentation compiler.[0m
+2026.10.14 10:16:22 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:16:22 WARN  no build target for: /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java[0m
+2026.10.14 10:16:22 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:16:22 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:16:22 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:16:23 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:16:23 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:16:25 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:16:25 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:16:25 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:16:25 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:16:26 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:16:26 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:16:26 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:16:27 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:16:27 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:16:27 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:16:28 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:16:28 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:16:28 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:16:28 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:16:29 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:16:29 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:20:29 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:21:03 WARN  no build target for: /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java[0m
+2026.10.14 10:21:03 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:21:04 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:21:03 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:21:03 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:21:04 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:21:05 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:21:05 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:21:06 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:21:06 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:21:07 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:21:14 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/test/ch/epfl/rechor/timetable/demo/DemoTimeTableTest.java. Using fallback presentation compiler.[0m
+2026.10.14 10:21:14 WARN  no build target for: /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/timetable/demo/DemoTimeTable.java[0m
+2026.10.14 10:21:14 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/timetable/demo/DemoTimeTable.java. Using fallback presentation compiler.[0m
+2026.10.14 10:21:14 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/timetable/demo/DemoTimeTable.java. Using fallback presentation compiler.[0m
+Oct 14, 2026 10:21:14 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 87
+2026.10.14 10:21:14 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/timetable/demo/DemoTimeTable.java. Using fallback presentation compiler.[0m
+2026.10.14 10:21:14 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/timetable/demo/DemoTimeTable.java. Using fallback presentation compiler.[0m
+2026.10.14 10:21:37 INFO  Shutting down server[0m
+2026.10.14 10:21:37 INFO  Memory monitor stopped[0m
+2026.10.14 10:21:37 INFO  shutting down Metals[0m
+2026.10.14 10:21:37 INFO  Exiting server[0m
+2026.10.14 10:24:15 INFO  Started: Metals version 1.6.9 in folders '/Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject' for client Visual Studio Code 1.141.1.[0m
+2026.10.14 10:24:15 INFO  Memory monitor started[0m
+2026.10.14 10:24:15 WARN  Using H2 2.5.250 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.[0m
+2026.10.14 10:24:15 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/timetable/demo/DemoTimeTable.java. Using fallback presentation compiler.[0m
+Oct 14, 2026 10:24:17 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 2
+2026.10.14 10:24:17 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/timetable/demo/DemoTimeTable.java. Using fallback presentation compiler.[0m
+2026.10.14 10:24:17 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/timetable/demo/DemoTimeTable.java. Using fallback presentation compiler.[0m
+2026.10.14 10:24:17 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/timetable/demo/DemoTimeTable.java. Using fallback presentation compiler.[0m
+Oct 14, 2026 10:24:17 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 7
+2026.10.14 10:24:17 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/timetable/demo/DemoTimeTable.java. Using fallback presentation compiler.[0m
+Oct 14, 2026 10:24:17 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 10
+2026.10.14 10:24:17 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/timetable/demo/DemoTimeTable.java. Using fallback presentation compiler.[0m
+Oct 14, 2026 10:24:18 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 11
+2026.10.14 10:24:18 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/timetable/demo/DemoTimeTable.java. Using fallback presentation compiler.[0m
+2026.10.14 10:24:18 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/timetable/demo/DemoTimeTable.java. Using fallback presentation compiler.[0m
+2026.10.14 10:24:18 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/timetable/demo/DemoTimeTable.java. Using fallback presentation compiler.[0m
+2026.10.14 10:24:18 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/timetable/demo/DemoTimeTable.java. Using fallback presentation compiler.[0m
+2026.10.14 10:24:20 WARN  no build target for: /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/timetable/demo/DemoTimeTable.java[0m
+2026.10.14 10:24:20 INFO  no build target found for /Users/karam/Work/University/BA2/PracticeOfOOP/Project/RechorProject/ReCHor/src/ch/epfl/rechor/timetable/demo/DemoTimeTable.java. Using fallback presentation compiler.[0m

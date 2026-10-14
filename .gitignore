@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Local dependency copies (Maven resolves these from Maven Central)
+/lib/
+ReCHor/lib/
+
+# VS Code workspace state
+.vscode/*.log
+ReCHor/.vscode/
+
+# Maven and Java build output
+ReCHor/target/
+ReCHor/out/
+*.class
+
+# Local profiling and submission artifacts
+ReCHor/profile*_output.txt
+ReCHor/profile*-output.txt
+
+# Timetable binaries are large, local runtime data and are not stored in Git.
+ReCHor/timetable-*/
