@@ -9,6 +9,7 @@ import ch.epfl.rechor.timetable.CachedTimeTable;
 import ch.epfl.rechor.timetable.StationAliases;
 import ch.epfl.rechor.timetable.Stations;
 import ch.epfl.rechor.timetable.TimeTable;
+import ch.epfl.rechor.timetable.demo.DemoTimeTable;
 import ch.epfl.rechor.timetable.mapped.FileTimeTable;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -61,8 +62,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Path timetablePath = Path.of("timetable-18");
-        TimeTable timetable = new CachedTimeTable(FileTimeTable.in(timetablePath));
+        TimeTable timetable = loadTimeTable(getParameters().getRaw());
         Stations stations = timetable.stations();
         StationAliases stationAliases = timetable.stationAliases();
         List<String> stationNames = generateStationNames(stations);
@@ -104,6 +104,15 @@ public class Main extends Application {
         primaryStage.show();
 
         Platform.runLater(() -> scene.lookup("#depStop").requestFocus());
+    }
+
+    private TimeTable loadTimeTable(List<String> parameters) throws Exception {
+        for (int i = 0; i < parameters.size() - 1; i++) {
+            if (parameters.get(i).equals("--timetable")) {
+                return new CachedTimeTable(FileTimeTable.in(Path.of(parameters.get(i + 1))));
+            }
+        }
+        return DemoTimeTable.create();
     }
 
     /**
